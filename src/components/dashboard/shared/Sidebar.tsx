@@ -154,11 +154,6 @@ const Sidebar = () => {
           icon: <FaProductHunt className="" />,
           path: '/dashboard/admin/all-products',
         },
-        {
-          text: 'Create Product',
-          icon: <FaProductHunt className="" />,
-          path: '/dashboard/admin/create-product',
-        },
       ],
     },
     {
@@ -256,7 +251,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {vendorMenuItems.map((item, index) => (
+          {adminMenuItems.map((item, index) => (
             <div key={index}>
               {!item.children ? (
                 <NavLink to={item.path}>
@@ -264,7 +259,7 @@ const Sidebar = () => {
                     <ListItem
                       button
                       key={index}
-                      onClick={() => toggleSubMenu()}
+                      onClick={() => toggleSubMenu(item.text)}
                       className={`${
                         isActive
                           ? ' bg-primary-200 text-primary-500'
@@ -368,7 +363,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {vendorMenuItems.map((item, index) => (
+          {adminMenuItems.map((item, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>
@@ -376,7 +371,7 @@ const Sidebar = () => {
                     <ListItem
                       button
                       key={index}
-                      onClick={() => toggleSubMenu()}
+                      onClick={() => toggleSubMenu(item.text)}
                       className={`${
                         isActive
                           ? ' bg-primary-200 text-primary-500'

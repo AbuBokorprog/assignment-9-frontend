@@ -23,6 +23,11 @@ import VendorAllShop from '../pages/dashboard/vendor/VendorAllShop';
 import VendorAllProducts from '../pages/dashboard/vendor/VendorAllProducts';
 import VendorOrderHistory from '../pages/dashboard/vendor/VendorOrderHistory';
 import VendorReviews from '../pages/dashboard/vendor/VendorReviews';
+import AdminDashboard from '../pages/dashboard/admin/AdminDashboard';
+import AdminAllUsers from '../pages/dashboard/admin/AdminAllUsers';
+import AdminAllShop from '../pages/dashboard/admin/AdminAllShop';
+import AdminAllCategories from '../pages/dashboard/admin/AdminAllCategories';
+import AdminAllProducts from '../pages/dashboard/admin/AdminAllProducts';
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +82,32 @@ export const router = createBrowserRouter([
     element: <Dashboard />,
     errorElement: <Error />,
     children: [
+      // Admin dashboard route
+      {
+        path: 'admin-dashboard',
+        element: <AdminDashboard />,
+      },
+      {
+        path: 'admin/all-users',
+        element: <AdminAllUsers />,
+      },
+      {
+        path: 'admin/all-shops',
+        element: <AdminAllShop />,
+      },
+      {
+        path: 'admin/all-categories',
+        element: <AdminAllCategories />,
+      },
+      {
+        path: 'admin/all-products',
+        element: <AdminAllProducts />,
+      },
+      {
+        path: 'admin/all-orders',
+        element: <AdminAllCategories />,
+      },
+      // User dashboard route
       {
         path: 'user-dashboard',
         element: <CustomerDashboardHome />,
@@ -101,6 +132,7 @@ export const router = createBrowserRouter([
         path: 'followed-shops',
         element: <CustomerFollowShop />,
       },
+      // vendor dashboard
       {
         path: 'vendor-dashboard',
         element: <VendorDashboard />,

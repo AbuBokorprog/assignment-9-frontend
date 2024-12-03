@@ -11,12 +11,15 @@ import Checkout from '../pages/Checkout';
 import ViewCart from '../pages/ViewCart';
 import FlashSale from '../pages/FlashSale';
 import About from '../pages/inner-pages/About';
+import CustomerDashboardHome from '../pages/dashboard/customer/CustomerDashboardHome';
+import Error from '../pages/Error';
+import Profile from '../pages/dashboard/common/Profile';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Main />,
-    errorElement: <div>Error</div>,
+    errorElement: <Error />,
     children: [
       {
         path: '/',
@@ -63,7 +66,16 @@ export const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Dashboard />,
-    errorElement: <div>error</div>,
-    children: [{}],
+    errorElement: <Error />,
+    children: [
+      {
+        path: 'user-dashboard',
+        element: <CustomerDashboardHome />,
+      },
+      {
+        path: 'my-profile',
+        element: <Profile />,
+      },
+    ],
   },
 ]);

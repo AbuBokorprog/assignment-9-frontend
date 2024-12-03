@@ -514,7 +514,7 @@ const VendorRegistration: React.FC = () => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-primary-600 hover:bg-primary-700"
                   >
                     Submit Registration
                   </Button>
@@ -522,7 +522,7 @@ const VendorRegistration: React.FC = () => {
                   <Button
                     variant="contained"
                     onClick={handleNext}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-primary-600 hover:bg-primary-700"
                   >
                     Next
                   </Button>
@@ -535,7 +535,10 @@ const VendorRegistration: React.FC = () => {
         <div className="text-center mt-4">
           <Typography className="text-sm text-gray-600">
             Already have a vendor account?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-500">
+            <Link
+              to="/login"
+              className="text-primary-600 hover:text-primary-500"
+            >
               Sign in
             </Link>
           </Typography>

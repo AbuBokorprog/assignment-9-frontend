@@ -28,7 +28,7 @@ const dummyCartProducts: CartProduct[] = [
     },
     price: 599,
     qty: 2,
-    color: 'Blue',
+    color: 'primary',
     size: 'L',
   },
   {

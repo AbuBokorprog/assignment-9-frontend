@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </Badge>
         )}
         {isFeatured && (
-          <Badge className="bg-blue-500 text-white px-2 py-1 text-xs rounded">
+          <Badge className="bg-primary-500 text-white px-2 py-1 text-xs rounded">
             Featured
           </Badge>
         )}

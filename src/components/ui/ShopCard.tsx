@@ -80,7 +80,7 @@ const ShopCard: React.FC<ShopCardProps> = ({
         {shop.verified && (
           <Tooltip title="Verified Seller">
             <Chip
-              icon={<Verified className="text-blue-500" />}
+              icon={<Verified className="text-primary-500" />}
               label="Verified"
               size="small"
               className="absolute top-2 left-2 bg-white"
@@ -120,7 +120,7 @@ const ShopCard: React.FC<ShopCardProps> = ({
               key={index}
               label={cat}
               size="small"
-              className="bg-blue-50 text-blue-600"
+              className="bg-primary-50 text-primary-600"
             />
           ))}
         </div>

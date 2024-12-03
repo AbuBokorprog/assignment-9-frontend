@@ -52,8 +52,8 @@ export const productsData: Product[] = [
   },
   {
     id: 3,
-    name: 'Wireless Bluetooth Earbuds',
-    slug: 'wireless-bluetooth-earbuds',
+    name: 'Wireless primarytooth Earbuds',
+    slug: 'wireless-primarytooth-earbuds',
     price: 1299,
     originalPrice: 1599,
     imageUrl:

@@ -193,7 +193,7 @@ const UserRegistration: React.FC = () => {
                       I agree to the{' '}
                       <Link
                         to="/terms"
-                        className="text-blue-600 hover:text-blue-500"
+                        className="text-primary-600 hover:text-primary-500"
                       >
                         Terms and Conditions
                       </Link>
@@ -212,7 +212,7 @@ const UserRegistration: React.FC = () => {
               type="submit"
               fullWidth
               variant="contained"
-              className="bg-blue-600 hover:bg-blue-700 py-3"
+              className="bg-primary-600 hover:bg-primary-700 py-3"
             >
               Sign Up
             </Button>
@@ -252,7 +252,10 @@ const UserRegistration: React.FC = () => {
         <div className="text-center mt-4">
           <Typography className="text-sm text-gray-600">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-500">
+            <Link
+              to="/login"
+              className="text-primary-600 hover:text-primary-500"
+            >
               Sign in
             </Link>
           </Typography>

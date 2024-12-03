@@ -14,6 +14,9 @@ import About from '../pages/inner-pages/About';
 import CustomerDashboardHome from '../pages/dashboard/customer/CustomerDashboardHome';
 import Error from '../pages/Error';
 import Profile from '../pages/dashboard/common/Profile';
+import CustomerOrders from '../pages/dashboard/customer/CustomerOrders';
+import CustomerWishlist from '../pages/dashboard/customer/CustomerWishlist';
+import CustomerReview from '../pages/dashboard/customer/CustomerReview';
 
 export const router = createBrowserRouter([
   {
@@ -75,6 +78,18 @@ export const router = createBrowserRouter([
       {
         path: 'my-profile',
         element: <Profile />,
+      },
+      {
+        path: 'my-orders',
+        element: <CustomerOrders />,
+      },
+      {
+        path: 'my-wishlist',
+        element: <CustomerWishlist />,
+      },
+      {
+        path: 'my-reviews',
+        element: <CustomerReview />,
       },
     ],
   },

@@ -66,7 +66,7 @@ const Sidebar = () => {
     {
       text: 'My Orders',
       icon: <FaShoppingCart className="" />,
-      path: '/user/my-orders', // List of all past orders with details
+      path: 'my-orders', // List of all past orders with details
     },
     // {
     //   text: 'My Cart',
@@ -76,22 +76,22 @@ const Sidebar = () => {
     {
       text: 'My Wishlist',
       icon: <FaHeart className="" />,
-      path: '/user/my-wishlist', // Saved products for future purchases
+      path: 'my-wishlist', // Saved products for future purchases
     },
     {
       text: 'Followed Shops',
       icon: <FaStore className="" />,
-      path: '/user/followed-shops', // List of shops the user is following
+      path: 'followed-shops', // List of shops the user is following
     },
     {
       text: 'My Reviews',
       icon: <FaStar className="" />,
-      path: '/user/my-reviews', // Reviews left by the user
+      path: 'my-reviews', // Reviews left by the user
     },
     {
       text: 'Comparison History',
       icon: <FaExchangeAlt className="" />,
-      path: '/user/comparison-history', // Previously compared products
+      path: 'comparison-history', // Previously compared products
     },
 
     // {

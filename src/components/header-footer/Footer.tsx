@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
   return (
     // <!-- footer Section -->
     <footer className="text-black">
-      <div className="mx-auto w-full max-w-screen-2xl bg-white px-2">
+      <div className="mx-auto w-full max-w-screen-2xl bg-white px-2 lg:px-0">
         <div className="grid grid-cols-1 gap-12 py-6 lg:py-8 md:grid-cols-4 items-start">
           <div>
             <Link to="/">

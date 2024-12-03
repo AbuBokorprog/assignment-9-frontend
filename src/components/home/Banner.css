@@ -1,0 +1,11 @@
+.swiper-button-next,
+.swiper-button-prev {
+  right: 10px;
+  padding: 30px;
+  color: #f43f5e !important;
+  fill: #f43f5e !important;
+  stroke: #f43f5e !important;
+}
+.swiper-pagination-bullet-active {
+  background-color: #f43f5e !important;
+}

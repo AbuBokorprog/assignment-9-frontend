@@ -9,7 +9,7 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PaymentIcon from '@mui/icons-material/Payment';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Card } from '@mui/material';
-
+import './Banner.css';
 // Banner images data
 const bannerImages = [
   {
@@ -62,11 +62,11 @@ const trustFeatures = [
   },
 ];
 
-const Banner = () => {
+const Banner: React.FC = () => {
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto pt-6">
       {/* Main Banner Slider */}
-      <div className="mb-8">
+      <div className="mb-5 lg:mb-10">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={0}
@@ -103,7 +103,7 @@ const Banner = () => {
       </div>
 
       {/* Trust Features Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4">
         {trustFeatures.map((feature, index) => (
           <Card
             key={index}

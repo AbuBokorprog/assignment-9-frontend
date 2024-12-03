@@ -39,10 +39,10 @@ const Header: React.FC = () => {
 
   const menuItems = [
     { title: 'Home', path: '/' },
+    { title: 'All Products', path: '/all-products' },
     { title: 'Shop', path: '/shop' },
-    { title: 'New Arrivals', path: '/new-arrivals' },
-    { title: 'Best Sellers', path: '/best-sellers' },
-    { title: 'Deals', path: '/deals' },
+    { title: 'Flash Sale', path: '/flash-sale' },
+    { title: 'About', path: '/about' },
   ];
 
   const searchHandler = (e: any) => {

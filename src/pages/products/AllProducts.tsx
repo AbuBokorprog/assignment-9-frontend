@@ -33,7 +33,7 @@ const AllProducts: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto px-2 lg:px-0 ">
+    <div className="container mx-auto px-2  ">
       <Typography
         variant="h4"
         className="text-center my-5 lg:my-10"

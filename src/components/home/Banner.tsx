@@ -64,7 +64,7 @@ const trustFeatures = [
 
 const Banner: React.FC = () => {
   return (
-    <div className="container mx-auto pt-6">
+    <div className="container mx-auto">
       {/* Main Banner Slider */}
       <div className="mb-5 lg:mb-10">
         <Swiper
@@ -77,7 +77,7 @@ const Banner: React.FC = () => {
             delay: 3000,
             disableOnInteraction: false,
           }}
-          className="rounded-lg overflow-hidden h-[400px] md:h-[500px]"
+          className=" overflow-hidden h-[300px] md:h-[500px]"
         >
           {bannerImages.map((banner) => (
             <SwiperSlide key={banner.id}>
@@ -103,7 +103,7 @@ const Banner: React.FC = () => {
       </div>
 
       {/* Trust Features Section */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block px-2">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4 ">
           {trustFeatures.map((feature, index) => (
             <Card

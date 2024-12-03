@@ -79,7 +79,7 @@ const Shop: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="container mx-auto px-4 sm:px-6 ">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <Typography variant="h3" className="font-bold mb-4">

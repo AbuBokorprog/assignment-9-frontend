@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import {
   TextField,
   Button,
@@ -11,6 +14,7 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  FormHelperText,
 } from '@mui/material';
 import {
   Visibility,
@@ -22,46 +26,50 @@ import {
   Facebook,
 } from '@mui/icons-material';
 
+// Validation schema
+const userSchema = z
+  .object({
+    firstName: z.string().min(2, 'First name is required'),
+    lastName: z.string().min(2, 'Last name is required'),
+    email: z.string().email('Invalid email address'),
+    phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number'),
+    confirmPassword: z.string(),
+    acceptTerms: z.boolean().refine((val) => val === true, {
+      message: 'You must accept the terms and conditions',
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
+
+type UserFormData = z.infer<typeof userSchema>;
+
 const UserRegistration: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-    acceptTerms: false,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      acceptTerms: false,
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'acceptTerms' ? checked : value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    // Basic validation
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (!formData.acceptTerms) {
-      setError('Please accept the terms and conditions');
-      return;
-    }
-
+  const onSubmit = async (data: UserFormData) => {
     try {
       // Add your registration logic here
-      console.log('Registration data:', formData);
+      console.log('Registration data:', data);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Registration failed. Please try again.');
@@ -70,20 +78,7 @@ const UserRegistration: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-lg mx-auto">
-        <div className="text-center mb-8">
-          <Typography
-            variant="h4"
-            component="h1"
-            className="font-bold text-gray-900"
-          >
-            Create an Account
-          </Typography>
-          <Typography className="mt-2 text-gray-600">
-            Join our community and start shopping
-          </Typography>
-        </div>
-
+      <div className="max-w-2xl mx-auto">
         <Paper className="p-8">
           {error && (
             <Alert severity="error" className="mb-6">
@@ -91,16 +86,15 @@ const UserRegistration: React.FC = () => {
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="First Name"
-                  name="firstName"
-                  required
-                  value={formData.firstName}
-                  onChange={handleChange}
+                  {...register('firstName')}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -114,10 +108,9 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Last Name"
-                  name="lastName"
-                  required
-                  value={formData.lastName}
-                  onChange={handleChange}
+                  {...register('lastName')}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
                 />
               </Grid>
 
@@ -125,11 +118,10 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Email Address"
-                  name="email"
                   type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
+                  {...register('email')}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -144,10 +136,9 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Phone Number"
-                  name="phone"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
+                  {...register('phone')}
+                  error={!!errors.phone}
+                  helperText={errors.phone?.message}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -162,11 +153,10 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Password"
-                  name="password"
                   type={showPassword ? 'text' : 'password'}
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
+                  {...register('password')}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -186,23 +176,17 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Confirm Password"
-                  name="confirmPassword"
                   type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
+                  {...register('confirmPassword')}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword?.message}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox
-                      name="acceptTerms"
-                      checked={formData.acceptTerms}
-                      onChange={handleChange}
-                      color="primary"
-                    />
+                    <Checkbox {...register('acceptTerms')} color="primary" />
                   }
                   label={
                     <Typography variant="body2">
@@ -216,6 +200,11 @@ const UserRegistration: React.FC = () => {
                     </Typography>
                   }
                 />
+                {errors.acceptTerms && (
+                  <FormHelperText error>
+                    {errors.acceptTerms.message}
+                  </FormHelperText>
+                )}
               </Grid>
             </Grid>
 

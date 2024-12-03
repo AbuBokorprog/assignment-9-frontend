@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import {
   TextField,
   Button,
@@ -17,32 +20,31 @@ import {
   Lock,
 } from '@mui/icons-material';
 
+// Validation schema
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
 const Login: React.FC = () => {
-  //   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError('');
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
       // Add your login logic here
-      console.log('Login data:', formData);
+      console.log('Login data:', data);
       // On successful login, redirect to dashboard or home
-      // navigate('/dashboard');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Invalid email or password');
@@ -74,17 +76,14 @@ const Login: React.FC = () => {
             </Alert>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <TextField
                 fullWidth
                 label="Email address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
+                {...register('email')}
+                error={!!errors.email}
+                helperText={errors.email?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -99,12 +98,10 @@ const Login: React.FC = () => {
               <TextField
                 fullWidth
                 label="Password"
-                name="password"
                 type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                required
-                value={formData.password}
-                onChange={handleChange}
+                {...register('password')}
+                error={!!errors.password}
+                helperText={errors.password?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -151,49 +148,47 @@ const Login: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2"
-              >
-                Sign in
-              </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-2"
+            >
+              Sign in
+            </Button>
+
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Divider className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className="text-gray-700 border-gray-300"
+                  startIcon={<Google />}
+                >
+                  Google
+                </Button>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className="text-gray-700 border-gray-300"
+                  startIcon={<Facebook />}
+                >
+                  Facebook
+                </Button>
+              </div>
             </div>
           </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Divider className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <Button
-                fullWidth
-                variant="outlined"
-                className="text-gray-700 border-gray-300"
-                startIcon={<Google />}
-              >
-                Google
-              </Button>
-              <Button
-                fullWidth
-                variant="outlined"
-                className="text-gray-700 border-gray-300"
-                startIcon={<Facebook />}
-              >
-                Facebook
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

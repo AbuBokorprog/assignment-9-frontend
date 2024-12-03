@@ -1,21 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
         primary: {
-          50: '#f2f7fb',
-          100: '#e7f0f8',
-          200: '#d3e2f2',
-          300: '#b9cfe8',
-          400: '#9cb6dd',
-          500: '#839dd1',
-          600: '#6a7fc1',
-          700: '#6374ae',
-          800: '#4a5989',
-          900: '#414e6e',
-          950: '#262c40',
+          50: '#fff1f3',
+          100: '#ffe4e9',
+          200: '#fecdd5',
+          300: '#fda4b3',
+          400: '#fb7189',
+          500: '#f43f5e',
+          600: '#e11d3f',
+          700: '#be122f',
+          800: '#9f122a',
+          900: '#881327',
+          950: '#4c0511',
         },
         secondary: {
           50: '#f7f8f8',
@@ -34,4 +34,5 @@ export default {
     },
   },
   plugins: [],
+  important: true,
 };

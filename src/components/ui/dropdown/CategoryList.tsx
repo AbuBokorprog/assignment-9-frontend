@@ -45,7 +45,7 @@ const dummyCategories: Category[] = [
   },
 ];
 
-const CategoriesList = () => {
+const CategoriesList: React.FC = () => {
   const [isOpenSubcategory, setIsOpenSubcategory] = useState(false);
   const [subcategory, setSubcategory] = useState<string | null>(null);
 

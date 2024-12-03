@@ -3,10 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Box,
-  IconButton,
   Badge,
-  Menu,
-  MenuItem,
   Button,
   Drawer,
   List,
@@ -15,31 +12,18 @@ import {
   InputBase,
   Divider,
 } from '@mui/material';
-import {
-  Menu as MenuIcon,
-  Search as SearchIcon,
-  ShoppingCart,
-  Person,
-  Store,
-  KeyboardArrowDown,
-  Dashboard,
-  Logout,
-  Settings,
-  Favorite,
-} from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import HomeIcon from '@mui/icons-material/Home';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CategoriesList from '../ui/dropdown/CategoryList';
 import CartDropdown from '../ui/dropdown/CartDropdown';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-import PersonIcon from '@mui/icons-material/Person';
 import UserDropdown from '../ui/dropdown/UserDropdown';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userMenu, setUserMenu] = useState<boolean | HTMLElement>(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -71,8 +55,8 @@ const Header: React.FC = () => {
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
       {/* Large device */}
-      <nav className="border-y hidden md:block bg-secondary-50 text-black">
-        {/* part 1 */}
+      <nav className="border-y hidden lg:block bg-secondary-50 text-black">
+        {/* 1st layer */}
         <div className="flex items-center justify-between mx-auto container px-4 gap-4 py-2">
           <Link to={'/'}>
             <img
@@ -98,7 +82,7 @@ const Header: React.FC = () => {
                   required
                 />
               </div>
-              <button
+              <Button
                 type="submit"
                 className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-primary-500 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
               >
@@ -118,7 +102,7 @@ const Header: React.FC = () => {
                   />
                 </svg>
                 Search
-              </button>
+              </Button>
             </form>
           </div>
           {/* <div className="flex items-center justify-between border rounded-md p-2 gap-4"></div> */}
@@ -128,7 +112,7 @@ const Header: React.FC = () => {
           >
             <button onMouseEnter={() => setIsOpenCart(true)}>
               <Badge badgeContent={2} color="primary">
-                <ShoppingCartIcon color="primary" />
+                <ShoppingCartIcon />
               </Badge>
             </button>
             <div className="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
@@ -136,8 +120,8 @@ const Header: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* part 2 */}
-        <div className="bg-primary-200 py-3">
+        {/* 2nd layer */}
+        <div className="bg-primary-500 py-3">
           <div className="container mx-auto flex items-center justify-between gap-10 px-2">
             {/* categories list dropdown */}
             <div
@@ -148,6 +132,7 @@ const Header: React.FC = () => {
                 onMouseEnter={() => setIsCategoryOpen(true)}
                 variant="contained"
                 type="button"
+                color="secondary"
                 className="space-x-20"
               >
                 <span>Categories</span>
@@ -184,8 +169,8 @@ const Header: React.FC = () => {
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'text-primary-500 bg-white px-4 py-2 rounded-md shadow-md shadow-primary-200'
-                          : 'px-4 py-2 rounded-md shadow-md shadow-primary-200 text-secondary-950'
+                          ? 'text-primary-400 bg-white px-4 py-2 rounded-md shadow-md'
+                          : 'px-4 py-2 rounded-md shadow-md bg-white text-secondary-950'
                       }
                       to={n?.path}
                     >
@@ -209,7 +194,8 @@ const Header: React.FC = () => {
       </nav>
 
       {/*Navbar for small device */}
-      <nav className="block md:hidden text-black">
+      <nav className="block lg:hidden text-black">
+        {/* top navbar */}
         <div className=" bg-white border">
           <div className="w-full flex items-center px-2 py-2 justify-between ">
             <button onClick={() => setMobileMenuOpen(true)}>
@@ -328,7 +314,7 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* fixed */}
+        {/* bottom navbar */}
         <div className="fixed bottom-0 left-0 right-0 mx-auto bg-secondary-50 z-30 p-2 shadow-md border-t-2">
           <div className="flex items-center justify-between">
             <Link to={'/'} className="mx-auto text-center">
@@ -351,6 +337,7 @@ const Header: React.FC = () => {
             </Link>
           </div>
         </div>
+
         {/* Mobile Navigation Drawer */}
         <Drawer
           anchor="left"

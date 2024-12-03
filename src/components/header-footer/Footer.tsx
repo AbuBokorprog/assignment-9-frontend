@@ -2,7 +2,7 @@ import React from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const data = {
     generalData: {
       logo_url: '/images/logo.png',

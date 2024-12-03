@@ -29,8 +29,8 @@ const theme = createTheme({
       800: '#3a4252',
       900: '#343a46',
       //   950: "#23272e",
-      main: '#64748b', // main color for secondary
-      contrastText: '#ffffff', // text color against secondary color
+      main: '#ffffff', // main color for secondary
+      contrastText: '#000000', // text color against secondary color
     },
     warning: {
       main: '#ffa726',

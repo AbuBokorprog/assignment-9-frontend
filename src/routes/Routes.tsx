@@ -4,6 +4,7 @@ import Dashboard from '../layout/dashboard/Dashboard';
 import Home from '../pages/Home';
 import Login from '../pages/auth/Login';
 import Registration from '../pages/auth/Registration';
+import AllShop from '../pages/AllShop';
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/shop',
+        element: <AllShop />,
       },
       {
         path: '/login',

@@ -17,6 +17,7 @@ import Profile from '../pages/dashboard/common/Profile';
 import CustomerOrders from '../pages/dashboard/customer/CustomerOrders';
 import CustomerWishlist from '../pages/dashboard/customer/CustomerWishlist';
 import CustomerReview from '../pages/dashboard/customer/CustomerReview';
+import CustomerFollowShop from '../pages/dashboard/customer/CustomerFollowShop';
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path: 'my-reviews',
         element: <CustomerReview />,
+      },
+      {
+        path: 'followed-shops',
+        element: <CustomerFollowShop />,
       },
     ],
   },

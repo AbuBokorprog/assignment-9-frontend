@@ -18,6 +18,11 @@ import CustomerOrders from '../pages/dashboard/customer/CustomerOrders';
 import CustomerWishlist from '../pages/dashboard/customer/CustomerWishlist';
 import CustomerReview from '../pages/dashboard/customer/CustomerReview';
 import CustomerFollowShop from '../pages/dashboard/customer/CustomerFollowShop';
+import VendorDashboard from '../pages/dashboard/vendor/VendorDashboard';
+import VendorAllShop from '../pages/dashboard/vendor/VendorAllShop';
+import VendorAllProducts from '../pages/dashboard/vendor/VendorAllProducts';
+import VendorOrderHistory from '../pages/dashboard/vendor/VendorOrderHistory';
+import VendorReviews from '../pages/dashboard/vendor/VendorReviews';
 
 export const router = createBrowserRouter([
   {
@@ -95,6 +100,34 @@ export const router = createBrowserRouter([
       {
         path: 'followed-shops',
         element: <CustomerFollowShop />,
+      },
+      {
+        path: 'vendor-dashboard',
+        element: <VendorDashboard />,
+      },
+      {
+        path: 'vendor/all-shop',
+        element: <VendorAllShop />,
+      },
+      {
+        path: 'vendor/add-shop',
+        element: <VendorAllShop />,
+      },
+      {
+        path: 'vendor/all-products',
+        element: <VendorAllProducts />,
+      },
+      {
+        path: 'vendor/add-products',
+        element: <VendorAllProducts />,
+      },
+      {
+        path: 'vendor/order-history',
+        element: <VendorOrderHistory />,
+      },
+      {
+        path: 'vendor/review-management',
+        element: <VendorReviews />,
       },
     ],
   },

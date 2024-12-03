@@ -61,12 +61,12 @@ const Sidebar = () => {
     {
       text: 'My Profile',
       icon: <FaUserCircle className="" />,
-      path: 'my-profile',
+      path: '/dashboard/my-profile',
     },
     {
       text: 'My Orders',
       icon: <FaShoppingCart className="" />,
-      path: 'my-orders', // List of all past orders with details
+      path: '/dashboard/my-orders', // List of all past orders with details
     },
     // {
     //   text: 'My Cart',
@@ -76,23 +76,23 @@ const Sidebar = () => {
     {
       text: 'My Wishlist',
       icon: <FaHeart className="" />,
-      path: 'my-wishlist', // Saved products for future purchases
+      path: '/dashboard/my-wishlist', // Saved products for future purchases
     },
     {
       text: 'Followed Shops',
       icon: <FaStore className="" />,
-      path: 'followed-shops', // List of shops the user is following
+      path: '/dashboard/followed-shops', // List of shops the user is following
     },
     {
       text: 'My Reviews',
       icon: <FaStar className="" />,
-      path: 'my-reviews', // Reviews left by the user
+      path: '/dashboard/my-reviews', // Reviews left by the user
     },
-    {
-      text: 'Comparison History',
-      icon: <FaExchangeAlt className="" />,
-      path: 'comparison-history', // Previously compared products
-    },
+    // {
+    //   text: 'Comparison History',
+    //   icon: <FaExchangeAlt className="" />,
+    //   path: 'comparison-history', // Previously compared products
+    // },
 
     // {
     //   text: 'Recent Products',
@@ -110,7 +110,7 @@ const Sidebar = () => {
     {
       text: 'Dashboard',
       icon: <DashboardIcon className="" />,
-      path: '/admin-dashboard',
+      path: '/dashboard/admin-dashboard',
     },
     {
       text: 'User Management',
@@ -119,7 +119,7 @@ const Sidebar = () => {
         {
           text: 'All Users',
           icon: <PeopleIcon className="" />,
-          path: '/admin/all-users',
+          path: '/dashboard/admin/all-users',
         },
       ],
     },
@@ -130,7 +130,7 @@ const Sidebar = () => {
         {
           text: 'All Shops',
           icon: <HomeIcon className="" />,
-          path: '/admin/all-shops',
+          path: '/dashboard/admin/all-shops',
         },
       ],
     },
@@ -141,7 +141,7 @@ const Sidebar = () => {
         {
           text: 'All Categories',
           icon: <PeopleIcon className="" />,
-          path: '/admin/all-categories',
+          path: '/dashboard/admin/all-categories',
         },
       ],
     },
@@ -152,12 +152,12 @@ const Sidebar = () => {
         {
           text: 'All Products',
           icon: <FaProductHunt className="" />,
-          path: '/admin/all-products',
+          path: '/dashboard/admin/all-products',
         },
         {
           text: 'Create Product',
           icon: <FaProductHunt className="" />,
-          path: '/admin/create-product',
+          path: '/dashboard/admin/create-product',
         },
       ],
     },
@@ -168,7 +168,7 @@ const Sidebar = () => {
         {
           text: 'All Orders',
           icon: <PeopleIcon className="" />,
-          path: '/admin/all-orders',
+          path: '/dashboard/admin/all-orders',
         },
       ],
     },
@@ -178,7 +178,7 @@ const Sidebar = () => {
     {
       text: 'Vendor Dashboard',
       icon: <DashboardIcon className="" />,
-      path: '/vendor/dashboard', // Overview of orders, reviews, and inventory statistics
+      path: '/dashboard/vendor-dashboard', // Overview of orders, reviews, and inventory statistics
     },
     {
       text: 'Shop Management',
@@ -187,7 +187,12 @@ const Sidebar = () => {
         {
           text: 'All Shop',
           icon: <FaEdit className="" />,
-          path: '/vendor/shop-management', // Manage shop info: name, logo, description
+          path: '/dashboard/vendor/all-shop', // Manage shop info: name, logo, description
+        },
+        {
+          text: 'Add Shop',
+          icon: <FaEdit className="" />,
+          path: '/dashboard/vendor/add-shop', // Manage shop info: name, logo, description
         },
       ],
     },
@@ -198,29 +203,24 @@ const Sidebar = () => {
         {
           text: 'All Products',
           icon: <FaListAlt className="" />,
-          path: '/vendor/all-products', // Paginated list of products
+          path: '/dashboard/vendor/all-products', // Paginated list of products
         },
         {
           text: 'Add Product',
           icon: <FaPlusCircle className="" />,
-          path: '/vendor/add-product', // Add new products
+          path: '/dashboard/vendor/add-product', // Add new products
         },
-        // {
-        //   text: 'Edit/Duplicate Product',
-        //   icon: <FaEdit className="" />,
-        //   path: '/vendor/edit-product', // Edit or duplicate products
-        // },
       ],
     },
     {
       text: 'Order History',
       icon: <FaShoppingCart className="" />,
-      path: '/vendor/order-history', // Detailed view of customer orders
+      path: '/dashboard/vendor/order-history', // Detailed view of customer orders
     },
     {
       text: 'Review Management',
       icon: <FaStar className="" />,
-      path: '/vendor/review-management', // Manage and respond to reviews
+      path: '/dashboard/vendor/review-management', // Manage and respond to reviews
     },
   ];
 
@@ -256,7 +256,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {userMenuItems.map((item, index) => (
+          {vendorMenuItems.map((item, index) => (
             <div key={index}>
               {!item.children ? (
                 <NavLink to={item.path}>
@@ -368,7 +368,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {userMenuItems.map((item, index) => (
+          {vendorMenuItems.map((item, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>

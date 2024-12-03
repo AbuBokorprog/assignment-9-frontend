@@ -9,6 +9,8 @@ import AllProducts from '../pages/products/AllProducts';
 import ProductDetails from '../pages/products/ProductDetails';
 import Checkout from '../pages/Checkout';
 import ViewCart from '../pages/ViewCart';
+import FlashSale from '../pages/FlashSale';
+import About from '../pages/inner-pages/About';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: '/shop',
         element: <AllShop />,
+      },
+      {
+        path: '/flash-sale',
+        element: <FlashSale />,
       },
       {
         path: '/all-products',
@@ -47,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         element: <Registration />,
+      },
+      {
+        path: '/about',
+        element: <About />,
       },
     ],
   },

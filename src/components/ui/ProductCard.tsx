@@ -155,7 +155,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           }}
           variant="contained"
         >
-          <ShoppingCartIcon fontSize="small" />
           Order Now
         </Button>
       </CardContent>

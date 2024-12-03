@@ -103,17 +103,19 @@ const Banner: React.FC = () => {
       </div>
 
       {/* Trust Features Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4">
-        {trustFeatures.map((feature, index) => (
-          <Card
-            key={index}
-            className="flex flex-col items-center text-center p-4 transition-transform hover:transform hover:scale-105"
-          >
-            <div className="mb-3">{feature.icon}</div>
-            <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-            <p className="text-gray-600 text-sm">{feature.description}</p>
-          </Card>
-        ))}
+      <div className="hidden lg:block">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4 ">
+          {trustFeatures.map((feature, index) => (
+            <Card
+              key={index}
+              className="flex flex-col items-center text-center p-4 transition-transform hover:transform hover:scale-105"
+            >
+              <div className="mb-3">{feature.icon}</div>
+              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-600 text-sm">{feature.description}</p>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

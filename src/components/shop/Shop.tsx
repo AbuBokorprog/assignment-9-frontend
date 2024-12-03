@@ -82,16 +82,16 @@ const Shop: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-0">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <Typography variant="h3" component="h1" className="font-bold mb-4">
-            Explore Our Marketplace
+          <Typography variant="h3" className="font-bold mb-4">
+            All Shops
           </Typography>
-          <Typography
+          {/* <Typography
             variant="subtitle1"
             color="text.secondary"
             className="mb-8"
           >
             Discover trusted vendors and unique products from around the world
-          </Typography>
+          </Typography> */}
         </div>
 
         {/* Quick Stats */}

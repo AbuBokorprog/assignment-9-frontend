@@ -321,15 +321,23 @@ const Header: React.FC = () => {
               <HomeIcon />
               <p>Home</p>
             </Link>
-            <Link to={'/categories'} className="mx-auto text-center">
+            <Link
+              to={'/all-products'}
+              className="mx-auto text-center"
+              title="All Products"
+            >
               <WidgetsIcon />
-              <p>Categories</p>
+              <p>All Products</p>
             </Link>
-            <Link className="mx-auto text-center" to={'/shop'}>
+            <Link className="mx-auto text-center" to={'/shop'} title="Shops">
               <LocalMallIcon />
               <p>Shops</p>
             </Link>
-            <Link className="mx-auto text-center" to={'/cart'} title="Cart">
+            <Link
+              className="mx-auto text-center"
+              to={'/view-cart'}
+              title="Cart"
+            >
               <Badge badgeContent={2} color="primary">
                 <ShoppingCartIcon />
               </Badge>

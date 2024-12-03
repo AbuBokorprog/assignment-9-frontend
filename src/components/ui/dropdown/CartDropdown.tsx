@@ -132,7 +132,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
               </div>
             ) : (
               <div className="mt-4 flex space-x-2 mx-auto justify-center items-center">
-                <Link to="/cart">
+                <Link to="/view-cart">
                   <button className="w-full bg-secondary-800 text-white py-2 px-4 rounded hover:bg-secondary-700 transition duration-200">
                     View cart
                   </button>

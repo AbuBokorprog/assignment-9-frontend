@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -27,11 +27,22 @@ import {
   Settings,
   Favorite,
 } from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CategoriesList from '../ui/dropdown/CategoryList';
+import CartDropdown from '../ui/dropdown/CartDropdown';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import PersonIcon from '@mui/icons-material/Person';
+import UserDropdown from '../ui/dropdown/UserDropdown';
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [categoryMenu, setCategoryMenu] = useState<null | HTMLElement>(null);
-  const [userMenu, setUserMenu] = useState<null | HTMLElement>(null);
+  const [userMenu, setUserMenu] = useState<boolean | HTMLElement>(false);
+  const [isOpenCart, setIsOpenCart] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const categories = [
     'Electronics',
@@ -50,205 +61,358 @@ const Header: React.FC = () => {
     { title: 'Deals', path: '/deals' },
   ];
 
-  const handleCategoryClick = (event: React.MouseEvent<HTMLElement>) => {
-    setCategoryMenu(event.currentTarget);
-  };
+  const searchHandler = (e: any) => {
+    e.preventDefault();
 
-  const handleCategoryClose = () => {
-    setCategoryMenu(null);
-  };
-
-  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setUserMenu(event.currentTarget);
-  };
-
-  const handleUserMenuClose = () => {
-    setUserMenu(null);
+    const search = e.target.search.value;
+    navigate(`/product-search/${search}`);
   };
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
-      {/* Top Bar */}
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold text-blue-600">
-              EShop
-            </Link>
-          </div>
-
-          {/* Search Bar */}
-          <div className="hidden md:flex items-center flex-1 mx-8">
-            <div className="relative w-full max-w-xl">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="text-gray-400" />
+      {/* Large device */}
+      <nav className="border-y hidden md:block bg-secondary-50 text-black">
+        {/* part 1 */}
+        <div className="flex items-center justify-between mx-auto container px-4 gap-4 py-2">
+          <Link to={'/'}>
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              alt="logo"
+              className=""
+            />
+          </Link>
+          <div className="">
+            <form
+              className="pt-2 flex items-center mx-auto"
+              onSubmit={searchHandler}
+            >
+              <label htmlFor="search" className="sr-only">
+                Search
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="search"
+                  className="xl:w-[600px] lg:w-[400px] bg-secondary-50 border border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5"
+                  placeholder="Search..."
+                  required
+                />
               </div>
-              <InputBase
-                placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
-              />
+              <button
+                type="submit"
+                className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-primary-500 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+              >
+                <svg
+                  className="w-4 h-4 me-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+                Search
+              </button>
+            </form>
+          </div>
+          {/* <div className="flex items-center justify-between border rounded-md p-2 gap-4"></div> */}
+          <div
+            className="relative inline-block text-left"
+            onMouseLeave={() => setIsOpenCart(false)}
+          >
+            <button onMouseEnter={() => setIsOpenCart(true)}>
+              <Badge badgeContent={2} color="primary">
+                <ShoppingCartIcon color="primary" />
+              </Badge>
+            </button>
+            <div className="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
+              <CartDropdown isOpen={isOpenCart} setIsOpen={setIsOpenCart} />
             </div>
           </div>
-
-          {/* Right Icons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="error">
-                <ShoppingCart className="text-gray-700" />
-              </Badge>
-            </IconButton>
-
-            <IconButton color="inherit" onClick={handleUserMenuClick}>
-              <Person className="text-gray-700" />
-            </IconButton>
-
-            {/* User Dropdown Menu */}
-            <Menu
-              anchorEl={userMenu}
-              open={Boolean(userMenu)}
-              onClose={handleUserMenuClose}
-              className="mt-2"
+        </div>
+        {/* part 2 */}
+        <div className="bg-primary-200 py-3">
+          <div className="container mx-auto flex items-center justify-between gap-10 px-2">
+            {/* categories list dropdown */}
+            <div
+              className="relative"
+              onMouseLeave={() => setIsCategoryOpen(false)}
             >
-              <MenuItem onClick={handleUserMenuClose}>
-                <Dashboard className="mr-2" /> Dashboard
-              </MenuItem>
-              <MenuItem onClick={handleUserMenuClose}>
-                <Favorite className="mr-2" /> Wishlist
-              </MenuItem>
-              <MenuItem onClick={handleUserMenuClose}>
-                <Settings className="mr-2" /> Settings
-              </MenuItem>
-              <Divider />
-              <MenuItem onClick={handleUserMenuClose}>
-                <Logout className="mr-2" /> Logout
-              </MenuItem>
-            </Menu>
-          </div>
+              <Button
+                onMouseEnter={() => setIsCategoryOpen(true)}
+                variant="contained"
+                type="button"
+                className="space-x-20"
+              >
+                <span>Categories</span>
+                <svg
+                  className="w-2.5 h-2.5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 4 4 4-4"
+                  />
+                </svg>
+              </Button>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <MenuIcon className="text-gray-700" />
-            </IconButton>
+              <div
+                onMouseLeave={() => setIsCategoryOpen(false)}
+                className="absolute w-full bg-white"
+              >
+                {/* <!-- Dropdown menu --> */}
+                <div>{isCategoryOpen && <CategoriesList />}</div>
+              </div>
+            </div>
+            {/* menu items */}
+            <div>
+              <ul className="flex items-center mx-auto gap-5 font-medium">
+                {menuItems?.map((n) => (
+                  <li key={n?.title}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'text-primary-500 bg-white px-4 py-2 rounded-md shadow-md shadow-primary-200'
+                          : 'px-4 py-2 rounded-md shadow-md shadow-primary-200 text-secondary-950'
+                      }
+                      to={n?.path}
+                    >
+                      {n?.title}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* user dropdown */}
+            <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
+              <div className="">
+                <UserDropdown
+                  isOpen={isUserDropdownOpen}
+                  setIsOpen={setIsUserDropdownOpen}
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Bottom Navigation Bar */}
-      <div className="bg-gray-100 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-8 h-12">
-            {/* Categories Dropdown */}
-            <Button
-              onClick={handleCategoryClick}
-              className="text-gray-700 hover:bg-gray-200"
-              endIcon={<KeyboardArrowDown />}
-            >
-              Categories
-            </Button>
-            <Menu
-              anchorEl={categoryMenu}
-              open={Boolean(categoryMenu)}
-              onClose={handleCategoryClose}
-            >
-              {categories.map((category) => (
-                <MenuItem key={category} onClick={handleCategoryClose}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Menu>
-
-            {/* Menu Items */}
-            {menuItems.map((item) => (
-              <Link
-                key={item.title}
-                to={item.path}
-                className="text-gray-700 hover:text-blue-600 font-medium"
+      {/*Navbar for small device */}
+      <nav className="block md:hidden text-black">
+        <div className=" bg-white border">
+          <div className="w-full flex items-center px-2 py-2 justify-between ">
+            <button onClick={() => setMobileMenuOpen(true)}>
+              <MenuIcon />
+            </button>
+            <Link to={'/'}>
+              <img
+                src="https://super-admin.masemart.com/setting/1727638699.png"
+                alt="logo"
+                className="w-52"
+              />
+            </Link>
+            <div className="px-2 pb-2 hidden sm:block">
+              <form
+                className="flex items-center max-w-sm mx-auto"
+                onSubmit={searchHandler}
               >
-                {item.title}
-              </Link>
-            ))}
-
-            {/* Become a Vendor */}
-            <Link to="/vendor/register" className="ml-auto">
-              <Button
-                startIcon={<Store />}
-                className="text-gray-700 hover:text-blue-600"
+                <label htmlFor="search" className="sr-only">
+                  Search
+                </label>
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="search"
+                    className="bg-secondary-50 border  border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-[300px] mx-auto p-2.5"
+                    placeholder="Search..."
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="p-2.5 ms-2 text-sm font-medium text-white bg-primary-500 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                  <span className="sr-only">Search</span>
+                </button>
+              </form>
+            </div>
+            <div className="flex items-center gap-4 ">
+              <div
+                className="relative inline-block text-left"
+                onMouseLeave={() => setIsOpenCart(false)}
               >
-                Become a Vendor
-              </Button>
+                <button onMouseEnter={() => setIsOpenCart(true)}>
+                  <Badge badgeContent={2} color="primary">
+                    <ShoppingCartIcon />
+                  </Badge>
+                </button>
+                <div className="origin-top-right absolute right-0 w-60 md:w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
+                  <CartDropdown isOpen={isOpenCart} setIsOpen={setIsOpenCart} />
+                </div>
+              </div>
+              <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div className="">
+                  <UserDropdown
+                    isOpen={isUserDropdownOpen}
+                    setIsOpen={setIsUserDropdownOpen}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="px-2 pb-2 block sm:hidden">
+            <form
+              className="flex items-center max-w-sm mx-auto"
+              onSubmit={searchHandler}
+            >
+              <label htmlFor="search" className="sr-only">
+                Search
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="search"
+                  className="bg-secondary-50 border border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full mx-auto p-2.5"
+                  placeholder="Search..."
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="p-2.5 ms-2 text-sm font-medium text-white bg-primary-500 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+              >
+                <svg
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+                <span className="sr-only">Search</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* fixed */}
+        <div className="fixed bottom-0 left-0 right-0 mx-auto bg-secondary-50 z-30 p-2 shadow-md border-t-2">
+          <div className="flex items-center justify-between">
+            <Link to={'/'} className="mx-auto text-center">
+              <HomeIcon />
+              <p>Home</p>
+            </Link>
+            <Link to={'/categories'} className="mx-auto text-center">
+              <WidgetsIcon />
+              <p>Categories</p>
+            </Link>
+            <Link className="mx-auto text-center" to={'/shop'}>
+              <LocalMallIcon />
+              <p>Shops</p>
+            </Link>
+            <Link className="mx-auto text-center" to={'/cart'} title="Cart">
+              <Badge badgeContent={2} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
+              <p>Cart</p>
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Navigation Drawer */}
-      <Drawer
-        anchor="left"
-        open={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-      >
-        <Box className="w-72">
-          <List>
-            <ListItem className="px-4 py-2">
-              <InputBase
-                placeholder="Search products..."
-                className="w-full px-4 py-1 border border-gray-300 rounded-md"
-              />
-            </ListItem>
-
-            <ListItem>
-              <ListItemText primary="Menu" className="font-bold" />
-            </ListItem>
-            {menuItems.map((item) => (
-              <ListItem
-                button
-                key={item.title}
-                component={Link}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <ListItemText primary={item.title} />
+        {/* Mobile Navigation Drawer */}
+        <Drawer
+          anchor="left"
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+        >
+          <Box className="w-72">
+            <List>
+              <ListItem className="px-4 py-2">
+                <InputBase
+                  placeholder="Search products..."
+                  className="w-full px-4 py-1 border border-gray-300 rounded-md"
+                />
               </ListItem>
-            ))}
 
-            <Divider className="my-2" />
-
-            <ListItem>
-              <ListItemText primary="Categories" className="font-bold" />
-            </ListItem>
-            {categories.map((category) => (
-              <ListItem button key={category} className="pl-8">
-                <ListItemText primary={category} />
+              <ListItem>
+                <ListItemText primary="Menu" className="font-bold" />
               </ListItem>
-            ))}
+              {menuItems.map((item) => (
+                <ListItem
+                  button
+                  key={item.title}
+                  component={Link}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <ListItemText primary={item.title} />
+                </ListItem>
+              ))}
 
-            <Divider className="my-2" />
+              <Divider className="my-2" />
 
-            <ListItem button>
-              <ListItemText primary="Become a Vendor" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Wishlist" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Settings" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+              <ListItem>
+                <ListItemText primary="Categories" className="font-bold" />
+              </ListItem>
+              {categories.map((category) => (
+                <ListItem button key={category} className="pl-8">
+                  <ListItemText primary={category} />
+                </ListItem>
+              ))}
+
+              <Divider className="my-2" />
+
+              <ListItem button>
+                <ListItemText primary="Become a Vendor" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Wishlist" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Settings" />
+              </ListItem>
+              <ListItem button>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            </List>
+          </Box>
+        </Drawer>
+      </nav>
     </AppBar>
   );
 };

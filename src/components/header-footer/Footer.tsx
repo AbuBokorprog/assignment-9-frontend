@@ -1,105 +1,169 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+const Footer = () => {
+  const data = {
+    generalData: {
+      logo_url: '/images/logo.png',
+      facebook: 'https://www.facebook.com/masemart',
+      twitter: 'https://www.twitter.com/masemart',
+      instagram: 'https://www.instagram.com/masemart',
+      youtube: 'https://www.youtube.com/masemart',
+      address: '123 Main St, Anytown, USA',
+      phone: '+1 (123) 456-7890',
+      email: 'info@masemart.com',
+    },
+  };
+
   return (
-    <section className=" w-full">
-      <footer className="footer bg-white text-lg grid grid-cols-1 lg:grid-cols-4 items-start py-5">
-        <div>
-          <Link to={'/'}>
-            <img src=" /images/logo.webp" alt="" className="me-auto" />
-          </Link>
-          <nav className="mx-auto">
-            <ul>
-              <p className="text-secondary-500 text-sm">
-                House 3, Road 9/B <br />
-                Nikunja 1, Khilkhet <br />
-                Dhaka 1229, Bangladesh <br />
-                Contact : support@sindabad.com <br />
-                Trade Licence No.: TRAD/DNCC/028947/2022 <br />
-              </p>
-            </ul>
-          </nav>
-        </div>
-        <nav>
-          <h6 className="text-xl text-secondary-600">Company</h6>
-          <ul>
-            <li>
-              <Link className="hover:underline text-secondary-500" to="/about">
-                About us
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="hover:underline text-secondary-500"
-                to="/contact"
-              >
-                Contact us
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <nav>
-          <h6 className="text-xl text-secondary-600">Policy</h6>
-          <ul>
-            <li>
-              <Link
-                className="hover:underline text-secondary-500"
-                to="/privacy"
-              >
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link className="hover:underline text-secondary-500" to="/refund">
-                Refund Policy
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="hover:underline text-secondary-500"
-                to="/payment"
-              >
-                Payment
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="hover:underline text-secondary-500"
-                to="/terms-condition"
-              >
-                Terms & Condition
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <nav>
-          <h6 className="text-xl text-secondary-600 mb-2">Payment Method</h6>
-          <div className="flex flex-wrap items-center gap-2">
-            <img src=" /images/nagad.png" alt="" className="w-20 bg-white" />
-            <img
-              src=" /images/visa-card.png"
-              alt=""
-              className="w-20 bg-white"
-            />
-            <img
-              src=" /images/master-card.webp"
-              alt=""
-              className="w-16 bg-white"
-            />
-            <img src=" /images/ssl-thumb.jpg" alt="" className="w-20" />
+    // <!-- footer Section -->
+    <footer className="text-black">
+      <div className="mx-auto w-full max-w-screen-2xl bg-white px-2">
+        <div className="grid grid-cols-1 gap-12 py-6 lg:py-8 md:grid-cols-4 items-start">
+          <div>
+            <Link to="/">
+              <img
+                src={data?.generalData?.logo_url}
+                alt="Logo"
+                className=" w-1/2 lg:w-full"
+              />
+            </Link>
+            <div>
+              <h2 className="mt-4 text-lg md:text-xl font-semibold text-primary uppercase">
+                Follow Us
+              </h2>
+              <div>
+                <ul className="flex gap-4 mt-1 items-center">
+                  <li className="">
+                    <a
+                      href={data?.generalData?.facebook}
+                      aria-label="Facebook"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaFacebook className="w-8 h-8" />
+                    </a>
+                  </li>
+                  <li className="my-2">
+                    <a
+                      href={data?.generalData?.twitter}
+                      aria-label="Twitter"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaTwitter className="w-8 h-8" />
+                    </a>
+                  </li>
+                  <li className="my-2">
+                    <a
+                      href={data?.generalData?.instagram}
+                      aria-label="Instagram"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaInstagram className="w-8 h-8" />
+                    </a>
+                  </li>
+                  <li className="my-2">
+                    <a
+                      href={data?.generalData?.youtube}
+                      aria-label="Youtube"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FaYoutube className="w-8 h-8" />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </nav>
-      </footer>
-      <footer className="footer footer-center p-4 bg-base-300 text-lg rounded-md">
-        <div>
-          <p className="text-center">
-            Copyright © 2024 - All right reserved by Sindabad
-          </p>
+          <div className="h-60">
+            <h2 className="mt-4 md:mt-0 text-lg md:text-xl font-semibold text-primary uppercase">
+              CONTACTS
+            </h2>
+            <h2 className="mt-2 text-sm font-semibold text-primary">Address</h2>
+            <p>{data?.generalData?.address}</p>
+            <h2 className="mt-2 text-sm font-semibold text-primary">Phone</h2>
+            <p>{data?.generalData?.phone}</p>
+            <h2 className="mt-2 text-sm font-semibold text-primary">Email</h2>
+            <p>{data?.generalData?.email}</p>
+          </div>
+
+          <div className="">
+            <h2 className="mt-4 md:mt-0 text-lg md:text-xl font-semibold text-primary uppercase">
+              Company
+            </h2>
+            <ul className="text-black">
+              <li className="mt-4">
+                <Link to="/about-us" className="hover:underline">
+                  About us
+                </Link>
+              </li>
+              <li className="my-2">
+                <Link to="/contact-us" className="hover:underline">
+                  Contact us
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="h-60">
+            <h2 className="mt-4 md:mt-0 text-lg md:text-xl font-semibold text-primary uppercase">
+              Legals
+            </h2>
+            <ul className="text-black">
+              <li className="my-2">
+                <Link to="/privacy" className="hover:underline">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li className="my-2">
+                <Link to="/terms-condition" className="hover:underline">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li className="my-2">
+                <Link to="/refund" className="hover:underline">
+                  Refund Policy
+                </Link>
+              </li>
+              <li className="my-2">
+                <Link to="/payment" className="hover:underline">
+                  Payment Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </footer>
-    </section>
+        <hr className="border-black border" />
+        <div className="py-6 text-center md:flex justify-between items-center">
+          <div>
+            <p>
+              © 2024 <Link to="/">Masemart™</Link>. All Rights Reserved.
+            </p>
+          </div>
+          <div className="md:flex items-center gap-3 mb-16 md:mb-0">
+            <p>Payment Methods</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <img src="/images/bkash.png" alt="" className="w-20 bg-white" />
+              <img src="/images/nagad.png" alt="" className="w-20 bg-white" />
+              <img
+                src="/images/visa-card.png"
+                alt=""
+                className="w-20 bg-white"
+              />
+              <img
+                src="/images/master-card.webp"
+                alt=""
+                className="w-16 bg-white"
+              />
+              <img src="/images/ssl-thumb.jpg" alt="" className="w-20" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 

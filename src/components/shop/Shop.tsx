@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import {
   Card,
   CardContent,
-  CardMedia,
   Typography,
-  Rating,
-  Chip,
   TextField,
   InputAdornment,
   Grid,
@@ -14,19 +11,10 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Box,
-  IconButton,
-  Tooltip,
-  Avatar,
-  Badge,
 } from '@mui/material';
 import {
   Search,
   FilterList,
-  LocationOn,
-  Verified,
-  Favorite,
-  FavoriteBorder,
   Star,
   LocalShipping,
   Storefront,
@@ -34,6 +22,7 @@ import {
   NewReleases,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import ShopCard from '../ui/ShopCard';
 
 // Mock data for shops with more vendor-specific information
 const shops = [
@@ -90,7 +79,7 @@ const Shop: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-0">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <Typography variant="h3" component="h1" className="font-bold mb-4">
@@ -228,7 +217,7 @@ const Shop: React.FC = () => {
             {shops
               .filter((shop) => shop.topSeller)
               .map((shop) => (
-                <Grid item key={shop.id} xs={12} sm={6} md={4}>
+                <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
                   <ShopCard
                     shop={shop}
                     onFavorite={toggleFavorite}
@@ -261,7 +250,7 @@ const Shop: React.FC = () => {
                   new Date().getFullYear() - parseInt(shop.joinedDate) < 1
               )
               .map((shop) => (
-                <Grid item key={shop.id} xs={12} sm={6} md={4}>
+                <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
                   <ShopCard
                     shop={shop}
                     onFavorite={toggleFavorite}
@@ -279,7 +268,7 @@ const Shop: React.FC = () => {
           </Typography>
           <Grid container spacing={4}>
             {shops.map((shop) => (
-              <Grid item key={shop.id} xs={12} sm={6} md={4}>
+              <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
                 <ShopCard
                   shop={shop}
                   onFavorite={toggleFavorite}
@@ -293,111 +282,5 @@ const Shop: React.FC = () => {
     </div>
   );
 };
-
-// Separate ShopCard component for better organization
-interface ShopCardProps {
-  shop: (typeof shops)[0];
-  onFavorite: (id: number) => void;
-  isFavorite: boolean;
-}
-
-const ShopCard: React.FC<ShopCardProps> = ({
-  shop,
-  onFavorite,
-  isFavorite,
-}) => (
-  <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-    <Box className="relative">
-      <CardMedia
-        component="img"
-        height="200"
-        image={shop.image}
-        alt={shop.name}
-        className="h-48 object-cover"
-      />
-      <IconButton
-        className="absolute top-2 right-2 bg-white hover:bg-gray-100"
-        onClick={() => onFavorite(shop.id)}
-      >
-        {isFavorite ? (
-          <Favorite className="text-red-500" />
-        ) : (
-          <FavoriteBorder />
-        )}
-      </IconButton>
-      {shop.verified && (
-        <Tooltip title="Verified Seller">
-          <Chip
-            icon={<Verified className="text-blue-500" />}
-            label="Verified"
-            size="small"
-            className="absolute top-2 left-2 bg-white"
-          />
-        </Tooltip>
-      )}
-    </Box>
-    <CardContent>
-      <div className="flex items-center mb-3">
-        <Avatar src={shop.vendorAvatar} className="mr-2" />
-        <div>
-          <Link to={`/shop/${shop.id}`}>
-            <Typography variant="h6" className="font-bold">
-              {shop.name}
-            </Typography>
-          </Link>
-          <Typography variant="body2" color="text.secondary">
-            by {shop.vendorName}
-          </Typography>
-        </div>
-      </div>
-
-      <Typography variant="body2" color="text.secondary" className="mb-2">
-        {shop.description}
-      </Typography>
-
-      <div className="flex items-center mb-2">
-        <Rating value={shop.rating} readOnly precision={0.5} size="small" />
-        <Typography variant="body2" color="text.secondary" className="ml-2">
-          ({shop.reviews} reviews)
-        </Typography>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2 mb-2">
-        {shop.categories.map((cat, index) => (
-          <Chip
-            key={index}
-            label={cat}
-            size="small"
-            className="bg-blue-50 text-blue-600"
-          />
-        ))}
-      </div>
-
-      <div className="flex items-center justify-between mb-2">
-        <Typography variant="body2" className="flex items-center text-gray-600">
-          <LocalShipping className="text-sm mr-1" />
-          {shop.shippingTime}
-        </Typography>
-        <Typography variant="body2" className="flex items-center text-gray-600">
-          <LocationOn className="text-sm mr-1" />
-          {shop.location}
-        </Typography>
-      </div>
-
-      <div className="flex justify-between items-center mt-3">
-        <Chip
-          size="small"
-          label={`${shop.products}+ Products`}
-          className="bg-gray-100"
-        />
-        <Chip
-          size="small"
-          label={`${shop.responseRate}% Response`}
-          className="bg-green-50 text-green-600"
-        />
-      </div>
-    </CardContent>
-  </Card>
-);
 
 export default Shop;

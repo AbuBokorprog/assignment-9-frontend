@@ -35,7 +35,7 @@ const vendorSchema = z
     firstName: z.string().min(2, 'First name is required!'),
     lastName: z.string().min(2, 'Last name is required!'),
     email: z.string().email('Invalid email address!'),
-    phone: z.string().min(11, 'Phone is required!'),
+    contactNumber: z.string().min(11, 'contactNumber is required!'),
     password: z.string().min(8, 'Password must be at least 8 characters'),
     // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
@@ -80,7 +80,7 @@ const VendorRegistration: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    const vendorData = { ...data, name: `${data.firstName} ${data.lastName}` };
   };
 
   const renderPersonalInfo = () => (
@@ -130,10 +130,10 @@ const VendorRegistration: React.FC = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          label="Phone"
-          {...register('phone')}
-          error={!!errors.phone}
-          helperText={errors.phone?.message}
+          label="contactNumber"
+          {...register('contactNumber')}
+          error={!!errors.contactNumber}
+          helperText={errors.contactNumber?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

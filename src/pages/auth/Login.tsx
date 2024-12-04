@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -19,7 +19,10 @@ import {
   Email,
   Lock,
 } from '@mui/icons-material';
-import BForm from '../dashboard/form/BForm';
+import { useLoginMutation } from '../../redux/features/api/auth/auth.api';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/features/auth-slice/AuthSlice';
+import { toast } from 'sonner';
 
 // Validation schema
 const loginSchema = z.object({
@@ -30,19 +33,46 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
+  const [userLogin, { isLoading }] = useLoginMutation();
+
   const onSubmit = async (data: LoginFormData) => {
-    console.log(data);
+    const tokenId = toast.loading('Loading...');
+    try {
+      const res = await userLogin(data).unwrap();
+
+      if (res?.success) {
+        dispatch(
+          login({
+            user: {
+              email: res?.data.email,
+              role: res?.data?.role,
+              name: res?.data.name,
+            },
+            token: res?.token,
+          })
+        );
+        toast.success(res?.message, { id: tokenId, duration: 200 });
+        navigate('/');
+        reset();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, { id: tokenId, duration: 200 });
+    }
   };
 
   return (

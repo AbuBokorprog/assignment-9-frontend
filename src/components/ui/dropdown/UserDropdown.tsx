@@ -8,24 +8,32 @@ import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Button, Drawer, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/features/auth-slice/AuthSlice';
 
 interface UserDropdownProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-// Dummy user data
-const dummyUser = {
-  isLoggedIn: true,
-  name: 'John Doe',
-  email: 'john@example.com',
-  avatar:
-    'https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff',
-};
+type TUser = {
+  email: string;
+  name: string;
+  role: string;
+} | null;
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
+  const user: TUser = useAppSelector(currentUser);
+  const dispatch = useDispatch();
   const toggleDrawer = (newOpen: boolean) => () => {
     setIsOpen(newOpen);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    setIsOpen(false);
   };
 
   return (
@@ -60,21 +68,19 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto">
-            {dummyUser.isLoggedIn ? (
+            {user?.role === 'CUSTOMER' && (
               <>
                 {/* User Profile Section */}
                 <div className="p-4 bg-gray-50">
                   <div className="flex items-center space-x-3">
                     <img
-                      src={dummyUser.avatar}
-                      alt={dummyUser.name}
+                      src={user.email}
+                      alt={user.name}
                       className="w-12 h-12 rounded-full"
                     />
                     <div>
-                      <p className="font-medium text-gray-900">
-                        {dummyUser.name}
-                      </p>
-                      <p className="text-sm text-gray-500">{dummyUser.email}</p>
+                      <p className="font-medium text-gray-900">{user.name}</p>
+                      <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
                   </div>
                 </div>
@@ -82,16 +88,16 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                 {/* Menu Items */}
                 <div className="p-2">
                   <Link
-                    to="/profile"
+                    to="/dashboard/my-profile"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    onClick={() => setIsOpen(false)}
+                    // onClick={() => setIsOpen(false)}
                   >
                     <PersonIcon className="mr-3 h-5 w-5 text-gray-500" />
                     <span>My Profile</span>
                   </Link>
 
                   <Link
-                    to="/orders"
+                    to="/dashboard/my-orders"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
@@ -100,7 +106,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                   </Link>
 
                   <Link
-                    to="/wishlist"
+                    to="dashboard/my-wishlist"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
@@ -118,38 +124,15 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                   </Link>
                 </div>
               </>
-            ) : (
-              <div className="p-2">
-                <Link
-                  to="/login"
-                  className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <LoginIcon className="mr-3 h-5 w-5 text-gray-500" />
-                  <span>Login</span>
-                </Link>
-
-                <Link
-                  to="/register"
-                  className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <PersonIcon className="mr-3 h-5 w-5 text-gray-500" />
-                  <span>Register</span>
-                </Link>
-              </div>
             )}
           </div>
 
           {/* Footer */}
-          {dummyUser.isLoggedIn && (
+          {user?.email && (
             <div className="border-t p-4">
               <button
                 className="flex w-full items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                onClick={() => {
-                  // Handle logout logic here
-                  setIsOpen(false);
-                }}
+                onClick={() => logoutHandler()}
               >
                 <LogoutIcon className="mr-3 h-5 w-5" />
                 <span>Logout</span>

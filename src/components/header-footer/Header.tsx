@@ -20,8 +20,18 @@ import CategoriesList from '../ui/dropdown/CategoryList';
 import CartDropdown from '../ui/dropdown/CartDropdown';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import UserDropdown from '../ui/dropdown/UserDropdown';
+import { currentUser } from '../../redux/store';
+import { useAppSelector } from '../../redux/hooks/hooks';
+
+type TUser = {
+  email: string;
+  name: string;
+  role: string;
+} | null;
 
 const Header: React.FC = () => {
+  const user: TUser = useAppSelector(currentUser);
+
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
@@ -184,14 +194,22 @@ const Header: React.FC = () => {
               </ul>
             </div>
             {/* user dropdown */}
-            <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
-              <div className="">
-                <UserDropdown
-                  isOpen={isUserDropdownOpen}
-                  setIsOpen={setIsUserDropdownOpen}
-                />
+            {user?.email ? (
+              <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
+                <div className="">
+                  <UserDropdown
+                    isOpen={isUserDropdownOpen}
+                    setIsOpen={setIsUserDropdownOpen}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <Link to={'/login'}>
+                <Button variant="contained" color="secondary">
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </nav>

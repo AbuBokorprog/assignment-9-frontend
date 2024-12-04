@@ -25,6 +25,8 @@ import {
   Google,
   Facebook,
 } from '@mui/icons-material';
+import { useCreateUserMutation } from '../../redux/features/api/auth/auth.api';
+import { toast } from 'sonner';
 
 // Validation schema
 const userSchema = z
@@ -32,7 +34,9 @@ const userSchema = z
     firstName: z.string().min(2, 'First name is required'),
     lastName: z.string().min(2, 'Last name is required'),
     email: z.string().email('Invalid email address'),
-    phone: z.string().min(11, 'Phone number must be at least 10 digits'),
+    contactNumber: z
+      .string()
+      .min(11, 'Phone number must be at least 10 digits'),
     password: z.string().min(8, 'Password must be at least 8 characters'),
     // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
@@ -56,6 +60,7 @@ const UserRegistration: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
@@ -64,8 +69,20 @@ const UserRegistration: React.FC = () => {
     },
   });
 
+  const [createUser, { isLoading }] = useCreateUserMutation();
+
   const onSubmit = async (data: UserFormData) => {
-    console.log(data);
+    const userData = { ...data, name: `${data.firstName} ${data.lastName}` };
+
+    try {
+      const res = await createUser(userData).unwrap();
+      if (res?.success) {
+        toast.success('Created account successfully!');
+        reset();
+      }
+    } catch (error) {
+      toast.success(error.message);
+    }
   };
 
   return (
@@ -128,9 +145,9 @@ const UserRegistration: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Phone Number"
-                  {...register('phone')}
-                  error={!!errors.phone}
-                  helperText={errors.phone?.message}
+                  {...register('contactNumber')}
+                  error={!!errors.contactNumber}
+                  helperText={errors.contactNumber?.message}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">

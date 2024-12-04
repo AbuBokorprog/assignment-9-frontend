@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// type IAuth = {
+//   user:
+// }
+
 const initialState = {
   user: null,
   token: null,
@@ -12,6 +16,8 @@ export const AuthSlice = createSlice({
     login: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+
+      console.log(action.payload.user);
     },
     logout: (state) => {
       state.user = null;

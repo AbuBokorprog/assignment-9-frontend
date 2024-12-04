@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -12,7 +13,7 @@ import { login, logout } from '../auth-slice/AuthSlice';
 // Define a service using a base URL and expected endpoints
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://pokeapi.co/api/v2/',
+  baseUrl: 'http://localhost:3000/api',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -32,23 +33,23 @@ const customBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   let result: any = baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 500) {
-    const res = await fetch('http://localhost:5000/auth/refresh-token', {
-      method: 'POST',
-      credentials: 'include',
-    });
+  // if (result?.error?.status === 500) {
+  //   const res = await fetch('http://localhost:3000/api', {
+  //     method: 'POST',
+  //     credentials: 'include',
+  //   });
 
-    const data = await res.json();
-    if (data?.data?.accessToken) {
-      const user = (api.getState() as RootState).auth.user;
+  //   const data = await res.json();
+  //   if (data?.data?.accessToken) {
+  //     const user = (api.getState() as RootState).auth.user;
 
-      api.dispatch(login({ user: user, token: data.data?.accessToken }));
+  //     api.dispatch(login({ user: user, token: data.data?.accessToken }));
 
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      api.dispatch(logout());
-    }
-  }
+  //     result = await baseQuery(args, api, extraOptions);
+  //   } else {
+  //     api.dispatch(logout());
+  //   }
+  // }
 
   return result;
 };

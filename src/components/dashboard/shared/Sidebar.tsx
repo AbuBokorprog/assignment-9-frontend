@@ -262,9 +262,9 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {adminMenuItems.map((item, index) => (
+          {userMenuItems.map((item: any, index) => (
             <div key={index}>
-              {!item.children ? (
+              {!item?.children ? (
                 <NavLink to={item.path}>
                   {({ isActive }) => (
                     <ListItem
@@ -305,7 +305,7 @@ const Sidebar = () => {
                     unmountOnExit
                   >
                     <div className="pl-4">
-                      {item.children.map((subItem, index) => (
+                      {item.children.map((subItem: any, index: number) => (
                         <NavLink to={subItem.path} key={index}>
                           {({ isActive }) => (
                             <ListItem
@@ -374,7 +374,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {adminMenuItems.map((item, index) => (
+          {userMenuItems.map((item: any, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>
@@ -417,7 +417,7 @@ const Sidebar = () => {
                     unmountOnExit
                   >
                     <div className="pl-4">
-                      {item.children.map((subItem, index) => (
+                      {item.children.map((subItem: any, index: number) => (
                         <NavLink to={subItem.path} key={index}>
                           {({ isActive }) => (
                             <ListItem

@@ -15,6 +15,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormHelperText,
 } from '@mui/material';
 import {
   Visibility,
@@ -55,6 +56,8 @@ const vendorSchema = z
   });
 
 const VendorRegistration: React.FC = () => {
+  type TVendorSchema = z.infer<typeof vendorSchema>;
+
   const [activeStep, setActiveStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -62,7 +65,7 @@ const VendorRegistration: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<TVendorSchema>({
     resolver: zodResolver(vendorSchema),
   });
 
@@ -214,17 +217,14 @@ const VendorRegistration: React.FC = () => {
       <Grid item xs={12}>
         <FormControl fullWidth required>
           <InputLabel>Store Category</InputLabel>
-          <Select
-            {...register('storeCategory')}
-            error={!!errors.storeCategory}
-            helperText={errors.storeCategory?.message}
-          >
+          <Select {...register('storeCategory')} error={!!errors.storeCategory}>
             <MenuItem value="electronics">Electronics</MenuItem>
             <MenuItem value="fashion">Fashion</MenuItem>
             <MenuItem value="home">Home & Living</MenuItem>
             <MenuItem value="beauty">Beauty & Personal Care</MenuItem>
             <MenuItem value="food">Food & Beverages</MenuItem>
           </Select>
+          <FormHelperText>{errors.storeCategory?.message}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>

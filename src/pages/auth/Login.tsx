@@ -19,6 +19,7 @@ import {
   Email,
   Lock,
 } from '@mui/icons-material';
+import BForm from '../dashboard/form/BForm';
 
 // Validation schema
 const loginSchema = z.object({
@@ -69,7 +70,7 @@ const Login: React.FC = () => {
             </Alert>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <TextField
                 fullWidth

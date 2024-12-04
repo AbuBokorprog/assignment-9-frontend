@@ -84,7 +84,8 @@ const Header: React.FC = () => {
               </div>
               <Button
                 type="submit"
-                className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-primary-500 rounded-lg border border-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+                variant="outlined"
+                className="inline-flex items-center py-2 px-3 ms-2"
               >
                 <svg
                   className="w-4 h-4 me-2"
@@ -105,7 +106,9 @@ const Header: React.FC = () => {
               </Button>
             </form>
           </div>
-          {/* <div className="flex items-center justify-between border rounded-md p-2 gap-4"></div> */}
+          <Link to={'/become-vendor'} className="">
+            <Button variant="contained">Become a vendor</Button>
+          </Link>
           <div
             className="relative inline-block text-left"
             onMouseLeave={() => setIsOpenCart(false)}

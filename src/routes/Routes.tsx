@@ -34,6 +34,7 @@ import AdminAllCoupon from '../pages/dashboard/admin/AdminAllCoupon';
 import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
 import MyRecentProducts from '../pages/products/MyRecentProducts';
 import MyCompareProducts from '../pages/products/MyCompareProducts';
+import BecomeVendor from '../pages/BecomeVendor';
 
 export const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         element: <Registration />,
+      },
+      {
+        path: '/become-vendor',
+        element: <BecomeVendor />,
       },
       {
         path: '/about',

@@ -25,6 +25,7 @@ import {
   FaEdit,
   FaExchangeAlt,
   FaHeart,
+  FaHistory,
   FaListAlt,
   FaPlusCircle,
   FaShoppingCart,
@@ -68,11 +69,6 @@ const Sidebar = () => {
       icon: <FaShoppingCart className="" />,
       path: '/dashboard/my-orders', // List of all past orders with details
     },
-    // {
-    //   text: 'My Cart',
-    //   icon: <FaShoppingBasket className="" />,
-    //   path: '/user/my-cart', // Displays current cart details
-    // },
     {
       text: 'My Wishlist',
       icon: <FaHeart className="" />,
@@ -88,17 +84,6 @@ const Sidebar = () => {
       icon: <FaStar className="" />,
       path: '/dashboard/my-reviews', // Reviews left by the user
     },
-    // {
-    //   text: 'Comparison History',
-    //   icon: <FaExchangeAlt className="" />,
-    //   path: 'comparison-history', // Previously compared products
-    // },
-
-    // {
-    //   text: 'Recent Products',
-    //   icon: <FaHistory className="" />,
-    //   path: '/user/recent-products', // List of last 10 products viewed
-    // },
     // {
     //   text: 'Notifications',
     //   icon: <FaBell className="" />,
@@ -143,6 +128,11 @@ const Sidebar = () => {
           icon: <PeopleIcon className="" />,
           path: '/dashboard/admin/all-categories',
         },
+        {
+          text: 'Add Category',
+          icon: <PeopleIcon className="" />,
+          path: '/dashboard/admin/add-category',
+        },
       ],
     },
     {
@@ -166,6 +156,27 @@ const Sidebar = () => {
           path: '/dashboard/admin/all-orders',
         },
       ],
+    },
+    {
+      text: 'Coupon Management',
+      icon: <PeopleIcon className="" />,
+      children: [
+        {
+          text: 'All Coupon',
+          icon: <PeopleIcon className="" />,
+          path: '/dashboard/admin/all-coupons',
+        },
+        {
+          text: 'Add Coupon',
+          icon: <PeopleIcon className="" />,
+          path: '/dashboard/admin/add-coupon',
+        },
+      ],
+    },
+    {
+      text: 'Review Monitoring',
+      icon: <PeopleIcon className="" />,
+      path: '/dashboard/admin/all-reviews',
     },
   ];
 

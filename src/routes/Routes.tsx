@@ -28,6 +28,12 @@ import AdminAllUsers from '../pages/dashboard/admin/AdminAllUsers';
 import AdminAllShop from '../pages/dashboard/admin/AdminAllShop';
 import AdminAllCategories from '../pages/dashboard/admin/AdminAllCategories';
 import AdminAllProducts from '../pages/dashboard/admin/AdminAllProducts';
+import AdminAddCategory from '../pages/dashboard/admin/AdminAddCategory';
+import AdminAddCoupon from '../pages/dashboard/admin/AdminAddCoupon';
+import AdminAllCoupon from '../pages/dashboard/admin/AdminAllCoupon';
+import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
+import MyRecentProducts from '../pages/products/MyRecentProducts';
+import MyCompareProducts from '../pages/products/MyCompareProducts';
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +68,14 @@ export const router = createBrowserRouter([
       {
         path: '/checkout',
         element: <Checkout />,
+      },
+      {
+        path: 'my-recent-products',
+        element: <MyRecentProducts />,
+      },
+      {
+        path: 'my-comparison-products',
+        element: <MyCompareProducts />,
       },
       {
         path: '/login',
@@ -100,12 +114,28 @@ export const router = createBrowserRouter([
         element: <AdminAllCategories />,
       },
       {
+        path: 'admin/add-category',
+        element: <AdminAddCategory />,
+      },
+      {
         path: 'admin/all-products',
         element: <AdminAllProducts />,
       },
       {
+        path: 'admin/add-coupon',
+        element: <AdminAddCoupon />,
+      },
+      {
+        path: 'admin/all-coupons',
+        element: <AdminAllCoupon />,
+      },
+      {
         path: 'admin/all-orders',
         element: <AdminAllCategories />,
+      },
+      {
+        path: 'admin/all-reviews',
+        element: <AdminAllReviews />,
       },
       // User dashboard route
       {

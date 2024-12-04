@@ -41,14 +41,7 @@ const Login: React.FC = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      // Add your login logic here
-      console.log('Login data:', data);
-      // On successful login, redirect to dashboard or home
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError('Invalid email or password');
-    }
+    console.log(data);
   };
 
   return (

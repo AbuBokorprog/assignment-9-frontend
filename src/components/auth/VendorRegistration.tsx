@@ -5,7 +5,6 @@ import {
   Button,
   IconButton,
   InputAdornment,
-  Alert,
   Stepper,
   Step,
   StepLabel,
@@ -16,7 +15,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
 } from '@mui/material';
 import {
   Visibility,
@@ -25,71 +23,50 @@ import {
   Person,
   Email,
   Phone,
-  Business,
   Description,
 } from '@mui/icons-material';
+import { z } from 'zod';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const vendorSchema = z
+  .object({
+    firstName: z.string().min(2, 'First name is required!'),
+    lastName: z.string().min(2, 'Last name is required!'),
+    email: z.string().email('Invalid email address!'),
+    phone: z.string().min(11, 'Phone is required!'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    // .regex(/[0-9]/, 'Password must contain at least one number'),
+    confirmPassword: z.string(),
+    storeName: z.string().min(2, 'Store name is required!'),
+    storeDescription: z.string().optional(),
+    storeCategory: z.string().min(1, 'Category is required!'),
+    registrationNumber: z.string().min(2, 'Registration Number is required!'),
+    storeAddress: z.string().min(2, 'Address is required!'),
+    city: z.string().min(2, 'City is required!'),
+    state: z.string().min(2, 'State is required!'),
+    zipCode: z.string().min(4, 'Category is required!'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Password do not match!',
+    path: ['confirmPassword'],
+  });
 
 const VendorRegistration: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
-  const [formData, setFormData] = useState({
-    // Personal Information
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-
-    // Business Information
-    businessName: '',
-    businessType: '',
-    registrationNumber: '',
-    taxId: '',
-
-    // Store Information
-    storeName: '',
-    storeDescription: '',
-    storeCategory: '',
-    storeAddress: '',
-    city: '',
-    state: '',
-    zipCode: '',
-
-    // Documents
-    businessLicense: null as File | null,
-    taxCertificate: null as File | null,
-    identityProof: null as File | null,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(vendorSchema),
   });
 
-  const steps = [
-    'Personal Information',
-    'Business Details',
-    'Store Information',
-    'Documents',
-  ];
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldName: string
-  ) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: e.target.files![0],
-      }));
-    }
-  };
+  const steps = ['Personal Information', 'Store Information'];
 
   const handleNext = () => {
     setActiveStep((prev) => prev + 1);
@@ -99,17 +76,8 @@ const VendorRegistration: React.FC = () => {
     setActiveStep((prev) => prev - 1);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    try {
-      // Add your registration logic here
-      console.log('Registration data:', formData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError('Registration failed. Please try again.');
-    }
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
   };
 
   const renderPersonalInfo = () => (
@@ -118,10 +86,9 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="First Name"
-          name="firstName"
-          required
-          value={formData.firstName}
-          onChange={handleChange}
+          {...register('firstName')}
+          error={!!errors.firstName}
+          helperText={errors.firstName?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -135,21 +102,19 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Last Name"
-          name="lastName"
-          required
-          value={formData.lastName}
-          onChange={handleChange}
+          {...register('lastName')}
+          error={!!errors.lastName}
+          helperText={errors.lastName?.message}
         />
       </Grid>
       <Grid item xs={12}>
         <TextField
           fullWidth
           label="Email"
-          name="email"
           type="email"
-          required
-          value={formData.email}
-          onChange={handleChange}
+          {...register('email')}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -163,10 +128,9 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Phone"
-          name="phone"
-          required
-          value={formData.phone}
-          onChange={handleChange}
+          {...register('phone')}
+          error={!!errors.phone}
+          helperText={errors.phone?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -180,11 +144,10 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Password"
-          name="password"
           type={showPassword ? 'text' : 'password'}
-          required
-          value={formData.password}
-          onChange={handleChange}
+          {...register('password')}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -203,68 +166,10 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Confirm Password"
-          name="confirmPassword"
           type="password"
-          required
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-      </Grid>
-    </Grid>
-  );
-
-  const renderBusinessDetails = () => (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          label="Business Name"
-          name="businessName"
-          required
-          value={formData.businessName}
-          onChange={handleChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Business className="text-gray-400" />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth required>
-          <InputLabel>Business Type</InputLabel>
-          <Select
-            name="businessType"
-            value={formData.businessType}
-            onChange={handleChange as any}
-          >
-            <MenuItem value="sole-proprietorship">Sole Proprietorship</MenuItem>
-            <MenuItem value="partnership">Partnership</MenuItem>
-            <MenuItem value="corporation">Corporation</MenuItem>
-            <MenuItem value="llc">LLC</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          label="Registration Number"
-          name="registrationNumber"
-          required
-          value={formData.registrationNumber}
-          onChange={handleChange}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          label="Tax ID"
-          name="taxId"
-          required
-          value={formData.taxId}
-          onChange={handleChange}
+          {...register('confirmPassword')}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
         />
       </Grid>
     </Grid>
@@ -276,10 +181,9 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Store Name"
-          name="storeName"
-          required
-          value={formData.storeName}
-          onChange={handleChange}
+          {...register('storeName')}
+          error={!!errors.storeName}
+          helperText={errors.storeName?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -293,11 +197,11 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Store Description"
-          name="storeDescription"
           multiline
           rows={4}
-          value={formData.storeDescription}
-          onChange={handleChange}
+          {...register('storeDescription')}
+          error={!!errors.storeDescription}
+          helperText={errors.storeDescription?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -311,9 +215,9 @@ const VendorRegistration: React.FC = () => {
         <FormControl fullWidth required>
           <InputLabel>Store Category</InputLabel>
           <Select
-            name="storeCategory"
-            value={formData.storeCategory}
-            onChange={handleChange as any}
+            {...register('storeCategory')}
+            error={!!errors.storeCategory}
+            helperText={errors.storeCategory?.message}
           >
             <MenuItem value="electronics">Electronics</MenuItem>
             <MenuItem value="fashion">Fashion</MenuItem>
@@ -326,128 +230,48 @@ const VendorRegistration: React.FC = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
+          type="text"
+          label="Register Number"
+          {...register('registrationNumber')}
+          error={!!errors.registrationNumber}
+          helperText={errors.registrationNumber?.message}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
           label="Store Address"
-          name="storeAddress"
-          required
-          value={formData.storeAddress}
-          onChange={handleChange}
+          {...register('storeAddress')}
+          error={!!errors.storeAddress}
+          helperText={errors.storeAddress?.message}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField
           fullWidth
           label="City"
-          name="city"
-          required
-          value={formData.city}
-          onChange={handleChange}
+          {...register('city')}
+          error={!!errors.city}
+          helperText={errors.city?.message}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField
           fullWidth
           label="State"
-          name="state"
-          required
-          value={formData.state}
-          onChange={handleChange}
+          {...register('state')}
+          error={!!errors.state}
+          helperText={errors.state?.message}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField
           fullWidth
           label="ZIP Code"
-          name="zipCode"
-          required
-          value={formData.zipCode}
-          onChange={handleChange}
+          {...register('zipCode')}
+          error={!!errors.zipCode}
+          helperText={errors.zipCode?.message}
         />
-      </Grid>
-    </Grid>
-  );
-
-  const renderDocuments = () => (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <input
-          accept="image/*,.pdf"
-          style={{ display: 'none' }}
-          id="business-license"
-          type="file"
-          onChange={(e) => handleFileChange(e, 'businessLicense')}
-        />
-        <label htmlFor="business-license">
-          <Button
-            variant="outlined"
-            component="span"
-            fullWidth
-            className="py-5"
-          >
-            Upload Business License
-            {formData.businessLicense && (
-              <span className="ml-2 text-green-600">
-                ✓ {formData.businessLicense.name}
-              </span>
-            )}
-          </Button>
-        </label>
-        <FormHelperText>
-          Upload a valid business license (PDF or Image)
-        </FormHelperText>
-      </Grid>
-
-      <Grid item xs={12}>
-        <input
-          accept="image/*,.pdf"
-          style={{ display: 'none' }}
-          id="tax-certificate"
-          type="file"
-          onChange={(e) => handleFileChange(e, 'taxCertificate')}
-        />
-        <label htmlFor="tax-certificate">
-          <Button
-            variant="outlined"
-            component="span"
-            fullWidth
-            className="py-5"
-          >
-            Upload Tax Certificate
-            {formData.taxCertificate && (
-              <span className="ml-2 text-green-600">
-                ✓ {formData.taxCertificate.name}
-              </span>
-            )}
-          </Button>
-        </label>
-        <FormHelperText>
-          Upload your tax certificate (PDF or Image)
-        </FormHelperText>
-      </Grid>
-
-      <Grid item xs={12}>
-        <input
-          accept="image/*,.pdf"
-          style={{ display: 'none' }}
-          id="identity-proof"
-          type="file"
-          onChange={(e) => handleFileChange(e, 'identityProof')}
-        />
-        <label htmlFor="identity-proof">
-          <Button
-            variant="outlined"
-            component="span"
-            fullWidth
-            className="py-5"
-          >
-            Upload Identity Proof
-            {formData.identityProof && (
-              <span className="ml-2 text-green-600">
-                ✓ {formData.identityProof.name}
-              </span>
-            )}
-          </Button>
-        </label>
-        <FormHelperText>Upload a valid ID proof (PDF or Image)</FormHelperText>
       </Grid>
     </Grid>
   );
@@ -457,11 +281,7 @@ const VendorRegistration: React.FC = () => {
       case 0:
         return renderPersonalInfo();
       case 1:
-        return renderBusinessDetails();
-      case 2:
         return renderStoreInfo();
-      case 3:
-        return renderDocuments();
       default:
         return 'Unknown step';
     }
@@ -484,12 +304,6 @@ const VendorRegistration: React.FC = () => {
         </div>
 
         <Paper className="p-8">
-          {error && (
-            <Alert severity="error" className="mb-6">
-              {error}
-            </Alert>
-          )}
-
           <Stepper activeStep={activeStep} className="mb-8">
             {steps.map((label) => (
               <Step key={label}>
@@ -498,7 +312,7 @@ const VendorRegistration: React.FC = () => {
             ))}
           </Stepper>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {getStepContent(activeStep)}
 
             <div className="mt-8 flex justify-between">

@@ -32,13 +32,11 @@ const userSchema = z
     firstName: z.string().min(2, 'First name is required'),
     lastName: z.string().min(2, 'Last name is required'),
     email: z.string().email('Invalid email address'),
-    phone: z.string().min(10, 'Phone number must be at least 10 digits'),
-    password: z
-      .string()
-      .min(8, 'Password must be at least 8 characters')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number'),
+    phone: z.string().min(11, 'Phone number must be at least 10 digits'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    // .regex(/[0-9]/, 'Password must contain at least one number'),
     confirmPassword: z.string(),
     acceptTerms: z.boolean().refine((val) => val === true, {
       message: 'You must accept the terms and conditions',
@@ -67,13 +65,7 @@ const UserRegistration: React.FC = () => {
   });
 
   const onSubmit = async (data: UserFormData) => {
-    try {
-      // Add your registration logic here
-      console.log('Registration data:', data);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError('Registration failed. Please try again.');
-    }
+    console.log(data);
   };
 
   return (

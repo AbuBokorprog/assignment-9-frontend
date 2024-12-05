@@ -36,6 +36,7 @@ import MyRecentProducts from '../pages/products/MyRecentProducts';
 import MyCompareProducts from '../pages/products/MyCompareProducts';
 import BecomeVendor from '../pages/BecomeVendor';
 import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
+import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 
 export const router = createBrowserRouter([
   {
@@ -179,7 +180,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'vendor/add-shop',
-        element: <VendorAllShop />,
+        element: <VendorAddShop />,
       },
       {
         path: 'vendor/all-products',

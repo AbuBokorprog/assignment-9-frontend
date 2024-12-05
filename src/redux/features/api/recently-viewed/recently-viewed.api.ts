@@ -1,27 +1,27 @@
 import { baseApi } from '../BaseApi';
 
-export const reportsApi = baseApi.injectEndpoints({
+export const recentViewedApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAdminReports: builder.query({
       query: () => ({
-        url: '/dashboard-reports/admin/my-reports',
+        url: '/recent-viewed',
         method: 'GET',
       }),
-      providesTags: ['reports'],
+      providesTags: ['recent-products'],
     }),
     getVendorReports: builder.query({
       query: () => ({
-        url: '/dashboard-reports/vendor/my-reports',
+        url: '/recent-viewed',
         method: 'GET',
       }),
-      providesTags: ['reports'],
+      providesTags: ['recent-products'],
     }),
     getUserReports: builder.query({
       query: () => ({
-        url: '/dashboard-reports/users/my-reports',
+        url: '/recent-viewed',
         method: 'GET',
       }),
-      providesTags: ['reports'],
+      providesTags: ['recent-products'],
     }),
   }),
 });
@@ -30,4 +30,4 @@ export const {
   useGetAdminReportsQuery,
   useGetVendorReportsQuery,
   useGetUserReportsQuery,
-} = reportsApi;
+} = recentViewedApi;

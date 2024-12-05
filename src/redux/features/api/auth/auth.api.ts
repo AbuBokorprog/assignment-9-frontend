@@ -15,6 +15,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['users'],
     }),
     createVendor: builder.mutation({
       query: (data) => ({
@@ -22,6 +23,15 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['users'],
+    }),
+    createAdmin: builder.mutation({
+      query: (data) => ({
+        url: '/users/create-admin',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['users'],
     }),
   }),
 });
@@ -30,4 +40,5 @@ export const {
   useLoginMutation,
   useCreateUserMutation,
   useCreateVendorMutation,
+  useCreateAdminMutation,
 } = authApi;

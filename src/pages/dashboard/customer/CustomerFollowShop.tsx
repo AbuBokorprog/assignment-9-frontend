@@ -23,8 +23,8 @@ import {
 interface Shop {
   id: string;
   name: string;
-  logo: string;
-  coverImage: string;
+  shopLogo: string;
+  shopCover: string;
   rating: number;
   totalProducts: number;
   totalReviews: number;
@@ -44,8 +44,8 @@ const CustomerFollowShop: React.FC = () => {
     {
       id: '1',
       name: 'Electronics Hub',
-      logo: 'https://placehold.co/100x100',
-      coverImage: 'https://placehold.co/600x200',
+      shopLogo: 'https://placehold.co/100x100',
+      shopCover: 'https://placehold.co/600x200',
       rating: 4.5,
       totalProducts: 150,
       totalReviews: 89,
@@ -59,8 +59,8 @@ const CustomerFollowShop: React.FC = () => {
     {
       id: '2',
       name: 'Fashion Trends',
-      logo: 'https://placehold.co/100x100',
-      coverImage: 'https://placehold.co/600x200',
+      shopLogo: 'https://placehold.co/100x100',
+      shopCover: 'https://placehold.co/600x200',
       rating: 4.8,
       totalProducts: 300,
       totalReviews: 156,
@@ -74,8 +74,8 @@ const CustomerFollowShop: React.FC = () => {
     {
       id: '3',
       name: 'Home Decor Plus',
-      logo: 'https://placehold.co/100x100',
-      coverImage: 'https://placehold.co/600x200',
+      shopLogo: 'https://placehold.co/100x100',
+      shopCover: 'https://placehold.co/600x200',
       rating: 4.2,
       totalProducts: 200,
       totalReviews: 67,
@@ -131,11 +131,11 @@ const CustomerFollowShop: React.FC = () => {
               <Card className="hover:shadow-lg transition-shadow">
                 <div
                   className="h-48 bg-cover bg-center relative"
-                  style={{ backgroundImage: `url(${shop.coverImage})` }}
+                  style={{ backgroundImage: `url(${shop.shopCover})` }}
                 >
                   <div className="absolute -bottom-6 left-6">
                     <Avatar
-                      src={shop.logo}
+                      src={shop.shopLogo}
                       alt={shop.name}
                       sx={{ width: 84, height: 84 }}
                       className="border-4 border-white shadow-md"

@@ -35,9 +35,13 @@ import {
 } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/features/auth-slice/AuthSlice';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const user: any = useAppSelector(currentUser);
+
   const [open, setOpen] = useState(false);
   const [parentItem, setParentItem] = useState<string | null>(null);
 
@@ -230,6 +234,28 @@ const Sidebar = () => {
     },
   ];
 
+  type UserRole = 'CUSTOMER' | 'ADMIN' | 'SUPER-ADMIN' | 'VENDOR';
+  type MenuItem = {
+    text: string;
+    icon: React.ReactNode;
+    path?: string;
+    children?: MenuItem[];
+  };
+
+  const getMenuItems = (role: UserRole): MenuItem[] => {
+    switch (role) {
+      case 'CUSTOMER':
+        return userMenuItems;
+      case 'ADMIN':
+      case 'SUPER-ADMIN':
+        return adminMenuItems;
+      case 'VENDOR':
+        return vendorMenuItems;
+      default:
+        return [];
+    }
+  };
+
   return (
     <div>
       {/* Mobile View Menu Button */}
@@ -252,17 +278,17 @@ const Sidebar = () => {
       >
         <div>
           <div className="flex items-center justify-between px-4 py-2">
-            <h1 className="text-xl font-bold">Pharmacy Management.</h1>
+            <h1 className="text-xl font-bold">Bazaar Bridge</h1>
             <IconButton onClick={toggleSidebar}>
               <AiOutlineClose />
             </IconButton>
           </div>
           <div className="text-center mx-auto">
-            <h3>Admin</h3>
+            <h3>{user?.role}</h3>
           </div>
         </div>
         <List className="mt-4">
-          {userMenuItems.map((item: any, index) => (
+          {getMenuItems(user?.role)?.map((item: any, index: any) => (
             <div key={index}>
               {!item?.children ? (
                 <NavLink to={item.path}>
@@ -368,13 +394,13 @@ const Sidebar = () => {
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex bg-secondary-100 flex-col w-64 h-screen fixed">
         <div className="px-4 text-center">
-          <h1 className="text-2xl font-bold">Management</h1>
+          <h1 className="text-2xl font-bold">{user?.name}</h1>
           <div className="text-center mx-auto">
-            <h3 className="text-lg">Admin</h3>
+            <h3 className="text-lg">{user?.role}</h3>
           </div>
         </div>
         <List className="mt-4">
-          {userMenuItems.map((item: any, index) => (
+          {vendorMenuItems?.map((item: any, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>

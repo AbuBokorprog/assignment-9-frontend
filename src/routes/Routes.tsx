@@ -35,6 +35,7 @@ import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
 import MyRecentProducts from '../pages/products/MyRecentProducts';
 import MyCompareProducts from '../pages/products/MyCompareProducts';
 import BecomeVendor from '../pages/BecomeVendor';
+import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
 
 export const router = createBrowserRouter([
   {
@@ -185,8 +186,8 @@ export const router = createBrowserRouter([
         element: <VendorAllProducts />,
       },
       {
-        path: 'vendor/add-products',
-        element: <VendorAllProducts />,
+        path: 'vendor/add-product',
+        element: <VendorAddProduct />,
       },
       {
         path: 'vendor/order-history',

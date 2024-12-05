@@ -22,10 +22,10 @@ type TUser = {
   email: string;
   name: string;
   role: string;
-} | null;
+};
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
-  const user: TUser = useAppSelector(currentUser);
+  const user: any = useAppSelector(currentUser);
   const dispatch = useDispatch();
   const toggleDrawer = (newOpen: boolean) => () => {
     setIsOpen(newOpen);

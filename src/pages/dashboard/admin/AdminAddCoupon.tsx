@@ -40,7 +40,7 @@ const AdminAddCoupon: React.FC = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <TextField
               fullWidth
@@ -92,6 +92,7 @@ const AdminAddCoupon: React.FC = () => {
           <div>
             <label htmlFor="expiryDate">Expiration Date</label>
             <TextField
+              fullWidth
               type="datetime-local"
               {...register('expiryDate')}
               error={!!errors.expiryDate}
@@ -105,9 +106,9 @@ const AdminAddCoupon: React.FC = () => {
               }}
             />
           </div>
-          <div>
+          <div className="mx-auto text-center">
             <Button variant="contained" type="submit">
-              Create Category
+              Create Coupon
             </Button>
           </div>
         </form>

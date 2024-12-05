@@ -37,7 +37,7 @@ const AdminAddCategory: React.FC = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <TextField
               fullWidth
@@ -48,7 +48,7 @@ const AdminAddCategory: React.FC = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Person className="text-gray-400" />
+                    <Person className="text-secondary-400" />
                   </InputAdornment>
                 ),
               }}
@@ -59,14 +59,17 @@ const AdminAddCategory: React.FC = () => {
               placeholder="Category description"
               {...register('description')}
               rows={4}
+              className="block p-2.5 w-full text-sm text-secondary-900 bg-secondary-50 rounded-lg border border-secondary-300 focus:ring-primary-500 focus:border-primary-500 "
             />
           </div>
           <div>
             <label htmlFor="image">Image</label>
-            <input name="image" type="file" className="" accept="image/*" />
+            <TextField fullWidth name="image" type="file" />
           </div>
-          <div>
-            <Button>Create Category</Button>
+          <div className="mx-auto text-center">
+            <Button variant="contained" type="submit">
+              Create Category
+            </Button>
           </div>
         </form>
       </div>

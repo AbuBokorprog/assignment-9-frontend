@@ -4,21 +4,21 @@ export const couponsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllCoupons: builder.query({
       query: () => ({
-        url: '/coupons',
+        url: '/coupon',
         method: 'GET',
       }),
       providesTags: ['coupon'],
     }),
     getCouponById: builder.query({
       query: (id) => ({
-        url: `/coupons/${id}`,
+        url: `/coupon/${id}`,
         method: 'GET',
       }),
       providesTags: ['coupon'],
     }),
     createCoupon: builder.mutation({
       query: (data) => ({
-        url: '/coupons',
+        url: '/coupon',
         method: 'POST',
         body: data,
       }),
@@ -26,7 +26,7 @@ export const couponsApi = baseApi.injectEndpoints({
     }),
     updateCoupon: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/coupons/${id}`,
+        url: `/coupon/${id}`,
         method: 'PATCH',
         body: data,
       }),
@@ -34,7 +34,7 @@ export const couponsApi = baseApi.injectEndpoints({
     }),
     deleteCoupon: builder.mutation({
       query: (id) => ({
-        url: `/coupons/${id}`,
+        url: `/coupon/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['coupon'],

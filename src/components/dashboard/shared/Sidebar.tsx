@@ -18,7 +18,7 @@ import {
   People as PeopleIcon,
 } from '@mui/icons-material';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaProductHunt } from 'react-icons/fa6';
 import {
@@ -38,6 +38,7 @@ import { currentUser } from '../../../redux/store';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user: any = useAppSelector(currentUser);
 
   const [open, setOpen] = useState(false);
@@ -53,6 +54,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/');
   };
 
   const userMenuItems = [
@@ -98,6 +100,11 @@ const Sidebar = () => {
       text: 'Dashboard',
       icon: <DashboardIcon className="" />,
       path: '/dashboard/admin-dashboard',
+    },
+    {
+      text: 'My Profile',
+      icon: <FaUserCircle className="" />,
+      path: '/dashboard/my-profile',
     },
     {
       text: 'User Management',
@@ -187,6 +194,11 @@ const Sidebar = () => {
       text: 'Vendor Dashboard',
       icon: <DashboardIcon className="" />,
       path: '/dashboard/vendor-dashboard', // Overview of orders, reviews, and inventory statistics
+    },
+    {
+      text: 'My Profile',
+      icon: <FaUserCircle className="" />,
+      path: '/dashboard/my-profile',
     },
     {
       text: 'Shop Management',

@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Person } from '@mui/icons-material';
 import { Button, InputAdornment, TextField } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaStore } from 'react-icons/fa';
 import { z } from 'zod';
+import { useCreateCategoryMutation } from '../../../redux/features/api/categories/catgeories.api';
+import { toast } from 'sonner';
 
 const categorySchema = z.object({
   name: z.string().min(2, 'Name is required!'),
@@ -14,6 +16,7 @@ const categorySchema = z.object({
 type TCategorySchema = z.infer<typeof categorySchema>;
 
 const AdminAddCategory: React.FC = () => {
+  const [image, setImage] = useState<any>(null);
   const {
     register,
     reset,
@@ -23,8 +26,38 @@ const AdminAddCategory: React.FC = () => {
     resolver: zodResolver(categorySchema),
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const handleImage = (e: any) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
+  const [createCategory, { isLoading }] = useCreateCategoryMutation();
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data: any) => {
+    if (!image) {
+      alert('Please upload an image.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', image); // Image file
+    formData.append('data', JSON.stringify(data)); // JSON stringified data
+    const toastId = toast.loading('Loading...');
+    try {
+      const response = await createCategory(formData).unwrap();
+      if (response.success) {
+        toast.success('Category created successfully!', {
+          id: toastId,
+          duration: 200,
+        });
+        reset();
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error.message, { id: toastId, duration: 200 });
+    }
   };
 
   return (
@@ -32,7 +65,7 @@ const AdminAddCategory: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold">All Categories</h2>
+            <h2 className="text-3xl font-bold">Add Category</h2>
             <FaStore className="text-2xl text-primary-500" />
           </div>
         </div>
@@ -64,7 +97,13 @@ const AdminAddCategory: React.FC = () => {
           </div>
           <div>
             <label htmlFor="image">Image</label>
-            <TextField fullWidth name="image" type="file" />
+            <TextField
+              fullWidth
+              name="image"
+              type="file"
+              required
+              onChange={handleImage}
+            />
           </div>
           <div className="mx-auto text-center">
             <Button variant="contained" type="submit">

@@ -4,21 +4,21 @@ export const shopsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllShops: builder.query({
       query: () => ({
-        url: '/shops',
+        url: '/shop',
         method: 'GET',
       }),
       providesTags: ['shops'],
     }),
     getShopById: builder.query({
       query: (id) => ({
-        url: `/shops/${id}`,
+        url: `/shop/${id}`,
         method: 'GET',
       }),
       providesTags: ['shops'],
     }),
     createShop: builder.mutation({
       query: (data) => ({
-        url: '/shops',
+        url: '/shop',
         method: 'POST',
         body: data,
       }),
@@ -26,7 +26,7 @@ export const shopsApi = baseApi.injectEndpoints({
     }),
     updateShop: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/shops/${id}`,
+        url: `/shop/${id}`,
         method: 'PATCH',
         body: data,
       }),
@@ -34,7 +34,7 @@ export const shopsApi = baseApi.injectEndpoints({
     }),
     deleteShop: builder.mutation({
       query: (id) => ({
-        url: `/shops/${id}`,
+        url: `/shop/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['shops'],

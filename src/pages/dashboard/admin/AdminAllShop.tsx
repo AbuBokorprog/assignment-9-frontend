@@ -30,6 +30,7 @@ import {
   FaPause,
   FaPlay,
 } from 'react-icons/fa';
+import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
 
 interface Shop {
   id: string;
@@ -134,13 +135,15 @@ const AdminAllShop: React.FC = () => {
     };
     return colors[status];
   };
-
+  const { data, isLoading } = useGetAllShopsQuery({});
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold">My Shops</h2>
+            <h2 className="text-3xl font-bold">
+              My Shops ({data?.data?.length})
+            </h2>
             <FaStore className="text-2xl text-primary-500" />
           </div>
           <div className="flex gap-4">

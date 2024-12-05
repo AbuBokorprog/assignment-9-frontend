@@ -1,14 +1,18 @@
 import { InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
+import { useGetAllProductsQuery } from '../../../redux/features/api/products/products.api';
 
-const AdminAllProducts = () => {
+const AdminAllProducts: React.FC = () => {
+  const { data, isLoading } = useGetAllProductsQuery({});
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold">All Products</h2>
+            <h2 className="text-3xl font-bold">
+              All Products ({data?.data?.length})
+            </h2>
             <FaStore className="text-2xl text-primary-500" />
           </div>
           <div className="flex gap-4">

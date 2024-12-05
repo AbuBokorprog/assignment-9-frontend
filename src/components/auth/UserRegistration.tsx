@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -54,6 +54,7 @@ const userSchema = z
 type UserFormData = z.infer<typeof userSchema>;
 
 const UserRegistration: React.FC = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
@@ -78,9 +79,10 @@ const UserRegistration: React.FC = () => {
       const res = await createUser(userData).unwrap();
       if (res?.success) {
         toast.success('Created account successfully!');
+        navigate('/login');
         reset();
       }
-    } catch (error) {
+    } catch (error: any) {
       toast.success(error.message);
     }
   };

@@ -36,7 +36,6 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
   const {
     register,
@@ -69,9 +68,9 @@ const Login: React.FC = () => {
         navigate('/');
         reset();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error(error.message, { id: tokenId, duration: 200 });
+      toast.error(error.message as string, { id: tokenId, duration: 200 });
     }
   };
 
@@ -94,12 +93,6 @@ const Login: React.FC = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          {error && (
-            <Alert severity="error" className="mb-4">
-              {error}
-            </Alert>
-          )}
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <TextField

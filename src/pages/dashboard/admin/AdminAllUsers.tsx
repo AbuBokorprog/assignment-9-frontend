@@ -13,12 +13,14 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useGetAllUsersQuery } from '../../../redux/features/api/users/user.api';
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
+
+  const { data, isLoading } = useGetAllUsersQuery({});
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -66,18 +68,6 @@ const AdminAllUsers = () => {
       align: 'center',
       format: (row) => (
         <div className="space-x-4">
-          <Link to={`/admin/user-details/${row?.id}`}>
-            <Button variant="contained" color="primary">
-              View
-            </Button>
-          </Link>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => deleteUserHandler(row.id)}
-          >
-            Delete
-          </Button>
           <Button
             variant="contained"
             color="warning"
@@ -101,59 +91,6 @@ const AdminAllUsers = () => {
           </Button>
         </div>
       ),
-    },
-  ];
-
-  const fakeUserData = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'janesmith@example.com',
-    },
-    {
-      id: 3,
-      name: 'Michael Brown',
-      email: 'michaelbrown@example.com',
-    },
-    {
-      id: 4,
-      name: 'Emily Davis',
-      email: 'emilydavis@example.com',
-    },
-    {
-      id: 5,
-      name: 'Chris Wilson',
-      email: null, // To test the "No Email" fallback
-    },
-    {
-      id: 6,
-      name: 'Sarah Taylor',
-      email: 'sarahtaylor@example.com',
-    },
-    {
-      id: 7,
-      name: 'David Martinez',
-      email: 'davidmartinez@example.com',
-    },
-    {
-      id: 8,
-      name: 'Sophia Anderson',
-      email: 'sophiaanderson@example.com',
-    },
-    {
-      id: 9,
-      name: 'Daniel Lee',
-      email: 'daniellee@example.com',
-    },
-    {
-      id: 10,
-      name: 'Laura Thompson',
-      email: null, // To test the "No Email" fallback
     },
   ];
 
@@ -200,7 +137,7 @@ const AdminAllUsers = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {fakeUserData
+                  {data?.data
                     ?.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage
@@ -236,7 +173,7 @@ const AdminAllUsers = () => {
             <TablePagination
               rowsPerPageOptions={[25, 100]}
               component="div"
-              count={fakeUserData.length}
+              count={data?.data?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

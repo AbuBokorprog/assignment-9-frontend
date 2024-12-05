@@ -31,7 +31,7 @@ const customBaseQuery: BaseQueryFn<
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
-  let result: any = baseQuery(args, api, extraOptions);
+  const result: any = baseQuery(args, api, extraOptions);
 
   // if (result?.error?.status === 500) {
   //   const res = await fetch('http://localhost:3000/api', {

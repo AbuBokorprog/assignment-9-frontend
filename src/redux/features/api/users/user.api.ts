@@ -9,6 +9,13 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ['users'],
     }),
+    myProfile: builder.query({
+      query: () => ({
+        url: '/users/my-profile',
+        method: 'GET',
+      }),
+      providesTags: ['users'],
+    }),
     getUserById: builder.query({
       query: () => ({
         url: '/users',
@@ -42,6 +49,7 @@ export const userApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllUsersQuery,
+  useMyProfileQuery,
   useGetUserByIdQuery,
   //   useLoginMutation,
   //   useCreateUserMutation,

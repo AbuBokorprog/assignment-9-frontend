@@ -29,6 +29,8 @@ import {
 import { z } from 'zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
+import { useCreateVendorMutation } from '../../redux/features/api/auth/auth.api';
 
 const vendorSchema = z
   .object({
@@ -46,28 +48,40 @@ const vendorSchema = z
     storeCategory: z.string().min(1, 'Category is required!'),
     registrationNumber: z.string().min(2, 'Registration Number is required!'),
     storeAddress: z.string().min(2, 'Address is required!'),
-    city: z.string().min(2, 'City is required!'),
-    state: z.string().min(2, 'State is required!'),
-    zipCode: z.string().min(4, 'Category is required!'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Password do not match!',
     path: ['confirmPassword'],
   });
-
+type TVendorSchema = z.infer<typeof vendorSchema>;
 const VendorRegistration: React.FC = () => {
-  type TVendorSchema = z.infer<typeof vendorSchema>;
+  const [logo, setLogo] = useState<any>();
+  const [cover, setCover] = useState<any>();
 
   const [activeStep, setActiveStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<TVendorSchema>({
     resolver: zodResolver(vendorSchema),
   });
+
+  const handleLogo = (e: any) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    setLogo(file);
+  };
+  const handleCover = (e: any) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    setCover(file);
+  };
 
   const steps = ['Personal Information', 'Store Information'];
 
@@ -79,8 +93,30 @@ const VendorRegistration: React.FC = () => {
     setActiveStep((prev) => prev - 1);
   };
 
+  const [createVendor, { isLoading }] = useCreateVendorMutation();
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const vendorData = { ...data, name: `${data.firstName} ${data.lastName}` };
+
+    const formData = new FormData();
+    formData.append('logo', logo);
+    formData.append('cover', cover);
+    formData.append('data', JSON.stringify(vendorData));
+
+    const toastId = toast.loading('Loading...');
+    try {
+      const response = await createVendor(formData).unwrap();
+      if (response.success) {
+        toast.success('Category created successfully!', {
+          id: toastId,
+          duration: 200,
+        });
+        reset();
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error.message, { id: toastId, duration: 200 });
+    }
   };
 
   const renderPersonalInfo = () => (
@@ -246,32 +282,29 @@ const VendorRegistration: React.FC = () => {
           helperText={errors.storeAddress?.message}
         />
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          label="City"
-          {...register('city')}
-          error={!!errors.city}
-          helperText={errors.city?.message}
-        />
+      <Grid item xs={2}>
+        <div>
+          <label htmlFor="image">Image</label>
+          <TextField
+            fullWidth
+            name="image"
+            type="file"
+            required
+            onChange={handleLogo}
+          />
+        </div>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          label="State"
-          {...register('state')}
-          error={!!errors.state}
-          helperText={errors.state?.message}
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          label="ZIP Code"
-          {...register('zipCode')}
-          error={!!errors.zipCode}
-          helperText={errors.zipCode?.message}
-        />
+      <Grid item xs={2}>
+        <div>
+          <label htmlFor="image">Image</label>
+          <TextField
+            fullWidth
+            name="image"
+            type="file"
+            required
+            onChange={handleCover}
+          />
+        </div>
       </Grid>
     </Grid>
   );

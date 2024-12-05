@@ -6,11 +6,13 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaStore } from 'react-icons/fa';
 import { FcCalendar } from 'react-icons/fc';
 import { z } from 'zod';
+import { useCreateCouponMutation } from '../../../redux/features/api/coupon/coupon.api';
+import { toast } from 'sonner';
 
 const couponSchema = z.object({
   name: z.string().min(2, 'Name is required!'),
   code: z.string().min(4, 'Code is required!'),
-  discount: z.number().min(1, 'Discount is required!'),
+  discount: z.string().min(1, 'Discount is required!'),
   expiryDate: z.string().min(2, 'Expiry date is required!'),
 });
 
@@ -25,9 +27,19 @@ const AdminAddCoupon: React.FC = () => {
   } = useForm<TCategorySchema>({
     resolver: zodResolver(couponSchema),
   });
+  const [createCoupon, { isLoading }] = useCreateCouponMutation();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Loading...');
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    try {
+      const res = await createCoupon(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+        reset();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

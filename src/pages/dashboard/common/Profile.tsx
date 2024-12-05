@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
+import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
 
 interface UserProfile {
   firstName: string;
@@ -21,6 +22,9 @@ const Profile: React.FC = () => {
     address: '123 Main St, City, Country',
     avatar: '',
   });
+
+  const { data } = useMyProfileQuery({});
+  console.log(data);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

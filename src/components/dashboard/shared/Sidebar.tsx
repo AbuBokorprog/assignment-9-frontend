@@ -23,9 +23,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaProductHunt } from 'react-icons/fa6';
 import {
   FaEdit,
-  FaExchangeAlt,
   FaHeart,
-  FaHistory,
   FaListAlt,
   FaPlusCircle,
   FaShoppingCart,
@@ -400,7 +398,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {vendorMenuItems?.map((item: any, index) => (
+          {getMenuItems(user.role)?.map((item: any, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>

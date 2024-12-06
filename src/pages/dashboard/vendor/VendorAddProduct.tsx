@@ -36,7 +36,7 @@ const VendorAddProduct: React.FC = () => {
   const [shop, setShop] = React.useState('');
   const {
     register,
-    // reset,
+    reset,
     handleSubmit,
     control,
     formState: { errors },
@@ -102,6 +102,7 @@ const VendorAddProduct: React.FC = () => {
           id: toastId,
           duration: 200,
         });
+        reset();
       }
     } catch (error: any) {
       console.log(error);

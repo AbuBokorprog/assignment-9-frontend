@@ -1,10 +1,12 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
 import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
 
 interface UserProfile {
-  firstName: string;
+  name: string;
   lastName: string;
   email: string;
   phone: string;
@@ -13,27 +15,19 @@ interface UserProfile {
 }
 
 const Profile: React.FC = () => {
+  const { email } = useAppSelector(currentUser);
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 234 567 8900',
-    address: '123 Main St, City, Country',
-    avatar: '',
-  });
 
-  const { data } = useMyProfileQuery({});
-  console.log(data);
+  const { data, error, refetch } = useMyProfileQuery({});
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setProfile((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    // setProfile((prev) => ({
+    //   ...prev,
+    //   [name]: value,
+    // }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,10 +35,10 @@ const Profile: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfile((prev) => ({
-          ...prev,
-          avatar: reader.result as string,
-        }));
+        // setProfile((prev) => ({
+        //   ...prev,
+        //   avatar: reader.result as string,
+        // }));
       };
       reader.readAsDataURL(file);
     }
@@ -52,10 +46,14 @@ const Profile: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the updated profile to your backend
-    console.log('Updated Profile:', profile);
+    // Here you would typically send the updated data?.data to your backend
+    // console.log('Updated Profile:', data?.data);
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [email]);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
@@ -67,9 +65,9 @@ const Profile: React.FC = () => {
             {/* Profile Picture Section */}
             <div className="flex flex-col items-center mb-8">
               <div className="relative">
-                {profile.avatar ? (
+                {data?.data.profilePhoto ? (
                   <img
-                    src={profile.avatar}
+                    src={data?.data.profilePhoto}
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover"
                   />
@@ -77,13 +75,13 @@ const Profile: React.FC = () => {
                   <FaUserCircle className="w-32 h-32 text-gray-400" />
                 )}
                 <label
-                  htmlFor="avatar-upload"
+                  htmlFor="profilePhoto"
                   className="absolute bottom-0 right-0 bg-primary-500 p-2 rounded-full cursor-pointer hover:bg-primary-600 transition-colors"
                 >
                   <FaCamera className="text-white" />
                   <input
                     type="file"
-                    id="avatar-upload"
+                    id="profilePhoto"
                     className="hidden"
                     accept="image/*"
                     onChange={handleImageUpload}
@@ -96,26 +94,18 @@ const Profile: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  First Name
+                  Name
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={profile.firstName}
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={profile.lastName}
+                  name="name"
+                  value={
+                    data?.data.vendor
+                      ? data?.data?.vendor?.name
+                      : data?.data?.admin
+                      ? data?.data?.admin?.name
+                      : data?.data?.customer?.name
+                  }
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
@@ -130,7 +120,7 @@ const Profile: React.FC = () => {
                   <input
                     type="email"
                     name="email"
-                    value={profile.email}
+                    value={data?.data.email}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
@@ -146,25 +136,15 @@ const Profile: React.FC = () => {
                   <input
                     type="tel"
                     name="phone"
-                    value={profile.phone}
+                    value={
+                      data?.data.vendor
+                        ? data?.data?.vendor?.contactNumber
+                        : data?.data?.admin
+                        ? data?.data?.admin?.contactNumber
+                        : data?.data?.customer?.contactNumber
+                    }
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
-                  />
-                </div>
-              </div>
-
-              <div className="md:col-span-2 flex items-start">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Address
-                  </label>
-                  <textarea
-                    name="address"
-                    value={profile.address}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                    rows={3}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
                   />
                 </div>

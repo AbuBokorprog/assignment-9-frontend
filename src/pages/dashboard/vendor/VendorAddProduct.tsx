@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Person } from '@mui/icons-material';
+import { Description, Person } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -24,6 +24,10 @@ import {
 import { FaStore } from 'react-icons/fa';
 import { z } from 'zod';
 import { productSchema } from '../../../schema/products';
+import { useGetAllShopsByVendorQuery } from '../../../redux/features/api/shops/shops.api';
+import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
+import { useCreateProductMutation } from '../../../redux/features/api/products/products.api';
+import { toast } from 'sonner';
 
 type TCategorySchema = z.infer<typeof productSchema>;
 
@@ -69,8 +73,43 @@ const VendorAddProduct: React.FC = () => {
     name: 'productSize',
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const { data, isLoading } = useGetAllShopsByVendorQuery({});
+  const { data: categories } = useGetAllCategoriesQuery({});
+
+  const shopOptions = data?.data?.map((s: any) => ({
+    label: s.shopName,
+    value: s.id,
+  }));
+  const categoriesOptions = categories?.data?.map((c: any) => ({
+    label: c.name,
+    value: c.id,
+  }));
+
+  const [createProduct] = useCreateProductMutation();
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Loading...');
+
+    const formData = new FormData();
+
+    data.images.forEach((file: any) => {
+      formData.append('files[]', file.file);
+    });
+    formData.append('data', JSON.stringify(data));
+    try {
+      const res = await createProduct(formData).unwrap();
+      if (res?.success) {
+        toast.success('Product created successfully!', {
+          id: toastId,
+          duration: 200,
+        });
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message, {
+        id: toastId,
+        duration: 200,
+      });
+    }
   };
 
   const handleCategory = (event: SelectChangeEvent) => {
@@ -320,9 +359,11 @@ const VendorAddProduct: React.FC = () => {
                   {...register('categoryId')}
                   onChange={handleCategory}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {categoriesOptions?.map((c: any, index: number) => (
+                    <MenuItem key={index} value={c.value}>
+                      {c.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -337,9 +378,11 @@ const VendorAddProduct: React.FC = () => {
                   {...register('shopId')}
                   onChange={handleShop}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {shopOptions?.map((s: any, index: number) => (
+                    <MenuItem key={index} value={s.value}>
+                      {s.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -396,6 +439,24 @@ const VendorAddProduct: React.FC = () => {
           >
             Add Image
           </Button>
+          <div>
+            <TextField
+              fullWidth
+              label="Store Description"
+              multiline
+              rows={4}
+              {...register('description')}
+              error={!!errors.description}
+              helperText={errors.description?.message}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Description className="text-gray-400" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
           <div className="mx-auto text-center">
             <Button variant="contained" type="submit">
               Create Product

@@ -8,7 +8,6 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../store';
-import { login, logout } from '../auth-slice/AuthSlice';
 
 // Define a service using a base URL and expected endpoints
 
@@ -19,7 +18,7 @@ const baseQuery = fetchBaseQuery({
     const token = (getState() as RootState).auth.token;
 
     if (token) {
-      headers.set('authorization', token);
+      headers.set('authorization', `Bearer ${token}`);
     }
 
     return headers;

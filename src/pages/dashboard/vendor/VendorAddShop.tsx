@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Controller,
   FieldValues,
@@ -23,12 +23,17 @@ import {
 import { FaStore } from 'react-icons/fa';
 import { z } from 'zod';
 import { shopSchema } from '../../../schema/shop';
+import { toast } from 'sonner';
+import { useCreateShopMutation } from '../../../redux/features/api/shops/shops.api';
 
 type TCategorySchema = z.infer<typeof shopSchema>;
 
 const VendorAddShop: React.FC = () => {
   const [category, setCategory] = React.useState('');
   const [shop, setShop] = React.useState('');
+  const [logo, setLogo] = useState<any>();
+  const [cover, setCover] = useState<any>();
+
   const {
     register,
     // reset,
@@ -40,8 +45,47 @@ const VendorAddShop: React.FC = () => {
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const handleLogo = (e: any) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    setLogo(file);
+  };
+
+  const handleCover = (e: any) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    setCover(file);
+  };
+
+  const [createShop, { isLoading }] = useCreateShopMutation();
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const vendorData = {
+      ...data,
+      name: `${data.firstName} ${data.lastName},`,
+      categoryId: category,
+    };
+
+    const formData = new FormData();
+    formData.append('logo', logo);
+    formData.append('cover', cover);
+    formData.append('data', JSON.stringify(vendorData));
+
+    const toastId = toast.loading('Loading...');
+    try {
+      const response = await createShop(formData).unwrap();
+      if (response.success) {
+        toast.success('Category created successfully!', {
+          id: toastId,
+          duration: 200,
+        });
+      }
+    } catch (error: any) {
+      console.error('Error creating category:', error);
+      toast.error(error.message, { id: toastId, duration: 200 });
+    }
   };
 
   const handleCategory = (event: SelectChangeEvent) => {
@@ -64,9 +108,9 @@ const VendorAddShop: React.FC = () => {
               <TextField
                 fullWidth
                 label="Shop Name"
-                {...register('name')}
-                error={!!errors.name}
-                helperText={errors.name?.message}
+                {...register('shopName')}
+                error={!!errors.shopName}
+                helperText={errors.shopName?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -134,51 +178,25 @@ const VendorAddShop: React.FC = () => {
           </Grid>
 
           <Box display="flex" flexDirection="column" gap={3}>
-            <Typography variant="h6" component="h6">
+            <Typography variant="body1" component="p">
               Upload logo
             </Typography>
-            <Controller
-              name={'shopLogo.file'} // Field name for the image file
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  type="file"
-                  InputProps={{
-                    inputProps: { accept: 'image/*' },
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  onChange={(event) => {
-                    const target = event.target as HTMLInputElement; // Ensure it's an HTMLInputElement
-                    field.onChange(target.files?.[0] || null); // Update the field value with the selected file or null
-                  }}
-                  error={!!errors.shopLogo}
-                  helperText={errors.shopLogo?.file?.message}
-                />
-              )}
+            <TextField
+              fullWidth
+              name="image"
+              type="file"
+              required
+              onChange={handleLogo}
             />
-            <Typography variant="h6" component="h6">
+            <Typography variant="body1" component="p">
               Upload Cover Image
             </Typography>
-            <Controller
-              name={'shopLogo.file'} // Field name for the image file
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  type="file"
-                  InputProps={{
-                    inputProps: { accept: 'image/*' },
-                  }}
-                  fullWidth
-                  variant="outlined"
-                  onChange={(event) => {
-                    const target = event.target as HTMLInputElement; // Ensure it's an HTMLInputElement
-                    field.onChange(target.files?.[0] || null); // Update the field value with the selected file or null
-                  }}
-                  error={!!errors.shopLogo}
-                  helperText={errors.shopLogo?.file?.message}
-                />
-              )}
+            <TextField
+              fullWidth
+              name="image"
+              type="file"
+              required
+              onChange={handleCover}
             />
           </Box>
 

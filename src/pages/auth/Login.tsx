@@ -61,7 +61,7 @@ const Login: React.FC = () => {
               role: res?.data?.role,
               name: res?.data.name,
             },
-            token: res?.token,
+            token: res?.data?.token,
           })
         );
         toast.success(res?.message, { id: tokenId, duration: 200 });

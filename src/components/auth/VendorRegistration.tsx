@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -16,6 +16,7 @@ import {
   Select,
   MenuItem,
   FormHelperText,
+  SelectChangeEvent,
 } from '@mui/material';
 import {
   Visibility,
@@ -31,6 +32,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { useCreateVendorMutation } from '../../redux/features/api/auth/auth.api';
+import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 
 const vendorSchema = z
   .object({
@@ -43,11 +45,10 @@ const vendorSchema = z
     // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     // .regex(/[0-9]/, 'Password must contain at least one number'),
     confirmPassword: z.string(),
-    storeName: z.string().min(2, 'Store name is required!'),
-    storeDescription: z.string().optional(),
-    storeCategory: z.string().min(1, 'Category is required!'),
+    shopName: z.string().min(2, 'Store name is required!'),
+    description: z.string().optional(),
     registrationNumber: z.string().min(2, 'Registration Number is required!'),
-    storeAddress: z.string().min(2, 'Address is required!'),
+    address: z.string().min(2, 'Address is required!'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Password do not match!',
@@ -55,11 +56,13 @@ const vendorSchema = z
   });
 type TVendorSchema = z.infer<typeof vendorSchema>;
 const VendorRegistration: React.FC = () => {
+  const navigate = useNavigate();
   const [logo, setLogo] = useState<any>();
   const [cover, setCover] = useState<any>();
 
   const [activeStep, setActiveStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [category, setCategory] = React.useState('');
 
   const {
     register,
@@ -76,6 +79,7 @@ const VendorRegistration: React.FC = () => {
     const file = e.target.files[0];
     setLogo(file);
   };
+
   const handleCover = (e: any) => {
     e.preventDefault();
 
@@ -92,11 +96,23 @@ const VendorRegistration: React.FC = () => {
   const handleBack = () => {
     setActiveStep((prev) => prev - 1);
   };
-
+  const { data } = useGetAllCategoriesQuery({});
+  const categoryOptions = data?.data?.map((c: any) => ({
+    label: c?.name,
+    value: c?.id,
+  }));
   const [createVendor, { isLoading }] = useCreateVendorMutation();
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const vendorData = { ...data, name: `${data.firstName} ${data.lastName}` };
+    const vendorData = {
+      ...data,
+      name: `${data.firstName} ${data.lastName},`,
+      categoryId: category,
+    };
 
     const formData = new FormData();
     formData.append('logo', logo);
@@ -107,11 +123,12 @@ const VendorRegistration: React.FC = () => {
     try {
       const response = await createVendor(formData).unwrap();
       if (response.success) {
-        toast.success('Category created successfully!', {
+        toast.success('Vendor registered successfully!', {
           id: toastId,
           duration: 200,
         });
         reset();
+        navigate('/login');
       }
     } catch (error: any) {
       console.error('Error creating category:', error);
@@ -166,7 +183,7 @@ const VendorRegistration: React.FC = () => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          label="contactNumber"
+          label="Number "
           {...register('contactNumber')}
           error={!!errors.contactNumber}
           helperText={errors.contactNumber?.message}
@@ -220,9 +237,9 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Store Name"
-          {...register('storeName')}
-          error={!!errors.storeName}
-          helperText={errors.storeName?.message}
+          {...register('shopName')}
+          error={!!errors.shopName}
+          helperText={errors.shopName?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -238,9 +255,9 @@ const VendorRegistration: React.FC = () => {
           label="Store Description"
           multiline
           rows={4}
-          {...register('storeDescription')}
-          error={!!errors.storeDescription}
-          helperText={errors.storeDescription?.message}
+          {...register('description')}
+          error={!!errors.description}
+          helperText={errors.description?.message}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -251,16 +268,21 @@ const VendorRegistration: React.FC = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <FormControl fullWidth required>
-          <InputLabel>Store Category</InputLabel>
-          <Select {...register('storeCategory')} error={!!errors.storeCategory}>
-            <MenuItem value="electronics">Electronics</MenuItem>
-            <MenuItem value="fashion">Fashion</MenuItem>
-            <MenuItem value="home">Home & Living</MenuItem>
-            <MenuItem value="beauty">Beauty & Personal Care</MenuItem>
-            <MenuItem value="food">Food & Beverages</MenuItem>
+        <FormControl fullWidth>
+          <InputLabel id="categoryId">Store Category</InputLabel>
+          <Select
+            labelId="categoryId"
+            id="storeCategory"
+            label="Store category"
+            onChange={handleChange}
+            value={category}
+          >
+            {categoryOptions?.map((c: any, index: number) => (
+              <MenuItem key={index} value={c?.value}>
+                {c?.label}
+              </MenuItem>
+            ))}
           </Select>
-          <FormHelperText>{errors.storeCategory?.message}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
@@ -277,13 +299,13 @@ const VendorRegistration: React.FC = () => {
         <TextField
           fullWidth
           label="Store Address"
-          {...register('storeAddress')}
-          error={!!errors.storeAddress}
-          helperText={errors.storeAddress?.message}
+          {...register('address')}
+          error={!!errors.address}
+          helperText={errors.address?.message}
         />
       </Grid>
-      <Grid item xs={2}>
-        <div>
+      <Grid item xs={6}>
+        <div className="w-full">
           <label htmlFor="image">Image</label>
           <TextField
             fullWidth
@@ -294,7 +316,7 @@ const VendorRegistration: React.FC = () => {
           />
         </div>
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={6}>
         <div>
           <label htmlFor="image">Image</label>
           <TextField

@@ -9,6 +9,13 @@ export const shopsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['shops'],
     }),
+    getAllShopsByVendor: builder.query({
+      query: () => ({
+        url: '/shop/vendor-shops',
+        method: 'GET',
+      }),
+      providesTags: ['shops'],
+    }),
     getShopById: builder.query({
       query: (id) => ({
         url: `/shop/${id}`,
@@ -48,4 +55,5 @@ export const {
   useCreateShopMutation,
   useUpdateShopMutation,
   useDeleteShopMutation,
+  useGetAllShopsByVendorQuery,
 } = shopsApi;

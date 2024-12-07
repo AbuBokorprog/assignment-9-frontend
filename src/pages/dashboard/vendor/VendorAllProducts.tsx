@@ -57,53 +57,6 @@ const VendorAllProducts: React.FC = () => {
 
   const { data, isLoading } = useGetAllProductsByVendorQuery({});
 
-  // Dummy data - replace with actual API call
-  const products: Product[] = [
-    {
-      id: '1',
-      name: 'Wireless Earbuds',
-      image: 'https://placehold.co/300x300',
-      price: 99.99,
-      discountPrice: 79.99,
-      category: 'Electronics',
-      stock: 50,
-      sold: 150,
-      stockStatus: 'in-stock',
-      shopId: 'shop1',
-      shopName: 'Tech Gadgets Store',
-      createdAt: '2024-01-15',
-      featured: true,
-    },
-    {
-      id: '2',
-      name: 'Smart Watch',
-      image: 'https://placehold.co/300x300',
-      price: 199.99,
-      category: 'Electronics',
-      stock: 5,
-      sold: 95,
-      stockStatus: 'low-stock',
-      shopId: 'shop1',
-      shopName: 'Tech Gadgets Store',
-      createdAt: '2024-02-20',
-      featured: false,
-    },
-    {
-      id: '3',
-      name: 'Bluetooth Speaker',
-      image: 'https://placehold.co/300x300',
-      price: 149.99,
-      category: 'Electronics',
-      stock: 0,
-      sold: 200,
-      stockStatus: 'out-of-stock',
-      shopId: 'shop1',
-      shopName: 'Tech Gadgets Store',
-      createdAt: '2024-03-01',
-      featured: false,
-    },
-  ];
-
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLElement>,
     product: Product
@@ -150,7 +103,7 @@ const VendorAllProducts: React.FC = () => {
     return colors[stockStatus];
   };
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = data?.data?.filter((product: any) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -229,14 +182,14 @@ const VendorAllProducts: React.FC = () => {
             </Select>
           </FormControl>
         </div>
-
+        {/* all products */}
         <Grid container spacing={4}>
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product: any) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <div className="relative">
                   <img
-                    src={product.image}
+                    src={product.images[0]}
                     alt={product.name}
                     className="w-full h-48 object-cover"
                   />
@@ -249,14 +202,15 @@ const VendorAllProducts: React.FC = () => {
                       <FaEllipsisV />
                     </IconButton>
                   </div>
-                  {product.featured && (
-                    <Chip
-                      label="Featured"
-                      color="primary"
-                      size="small"
-                      className="absolute top-4 left-4"
-                    />
-                  )}
+                  {/* <Chip
+                    label={
+                      product?.productStatus !== 'REGULAR' &&
+                      product?.productStatus
+                    }
+                    color="primary"
+                    size="small"
+                    className="absolute top-4 left-4"
+                  /> */}
                 </div>
                 <CardContent>
                   <Typography variant="h6" component="h3" className="mb-2">
@@ -264,21 +218,21 @@ const VendorAllProducts: React.FC = () => {
                   </Typography>
                   <div className="flex justify-between items-center mb-2">
                     <div>
-                      {product.discountPrice ? (
+                      {product.discount_price ? (
                         <div className="flex items-center gap-2">
                           <Typography
                             variant="h6"
                             color="primary"
                             className="font-bold"
                           >
-                            ${product.discountPrice}
+                            ${product.discount_price}
                           </Typography>
                           <Typography
                             variant="body2"
                             color="textSecondary"
                             className="line-through"
                           >
-                            ${product.price}
+                            ${product.regular_price}
                           </Typography>
                         </div>
                       ) : (
@@ -287,13 +241,13 @@ const VendorAllProducts: React.FC = () => {
                           color="primary"
                           className="font-bold"
                         >
-                          ${product.price}
+                          ${product.regular_price}
                         </Typography>
                       )}
                     </div>
                     <Chip
                       label={product.stockStatus.replace('-', ' ')}
-                      color={getStatusColor(product.stockStatus)}
+                      color={getStatusColor(product?.stockStatus)}
                       size="small"
                     />
                   </div>
@@ -303,17 +257,17 @@ const VendorAllProducts: React.FC = () => {
                         In Stock
                       </Typography>
                       <Typography variant="body2" className="font-semibold">
-                        {product.stock} units
+                        {product?.inventory} units
                       </Typography>
                     </div>
-                    <div>
+                    {/* <div>
                       <Typography variant="caption" color="textSecondary">
                         Sold
                       </Typography>
                       <Typography variant="body2" className="font-semibold">
                         {product.sold} units
                       </Typography>
-                    </div>
+                    </div> */}
                   </div>
                   <Typography variant="caption" color="textSecondary">
                     Added on {new Date(product.createdAt).toLocaleDateString()}

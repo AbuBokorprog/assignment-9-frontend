@@ -19,31 +19,8 @@ import {
   StepLabel,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-
-// Using the same cart products from view-cart
-const cartProducts = [
-  {
-    id: 1,
-    name: 'Classic Burger',
-    price: 299,
-    quantity: 2,
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500',
-  },
-  {
-    id: 2,
-    name: 'Chicken Wings',
-    price: 399,
-    quantity: 1,
-    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500',
-  },
-  {
-    id: 3,
-    name: 'Caesar Salad',
-    price: 199,
-    quantity: 1,
-    image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500',
-  },
-];
+import { useGetAllMyCartsQuery } from '../redux/features/api/carts/carts.api';
+import { CartProduct } from '../types/cart.type';
 
 const steps = ['Shipping Details', 'Payment Method', 'Review Order'];
 
@@ -51,8 +28,10 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [paymentMethod, setPaymentMethod] = React.useState('cash');
 
-  const totalPrice = cartProducts.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  const { data } = useGetAllMyCartsQuery({});
+  // Calculate total price
+  const totalPrice = data?.data?.reduce(
+    (sum: number, item: CartProduct) => sum + item.price * item.qty,
     0
   );
 
@@ -182,9 +161,9 @@ const Checkout = () => {
                   <Typography variant="h6" gutterBottom>
                     Order Review
                   </Typography>
-                  {cartProducts.map((product) => (
+                  {data?.data.map((p: CartProduct) => (
                     <Box
-                      key={product.id}
+                      key={p.id}
                       sx={{
                         display: 'flex',
                         gap: 2,
@@ -193,8 +172,8 @@ const Checkout = () => {
                       }}
                     >
                       <img
-                        src={product.image}
-                        alt={product.name}
+                        src={p.product?.images[0]}
+                        alt={p.product?.name}
                         style={{
                           width: '60px',
                           height: '60px',
@@ -203,13 +182,15 @@ const Checkout = () => {
                         }}
                       />
                       <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="body1">{product.name}</Typography>
+                        <Typography variant="body1">
+                          {p.product?.name}
+                        </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {product.quantity} x {product.price} TK
+                          {p.qty} x {p.price} TK
                         </Typography>
                       </Box>
                       <Typography variant="body1">
-                        {product.quantity * product.price} TK
+                        {p.qty * p.price} TK
                       </Typography>
                     </Box>
                   ))}

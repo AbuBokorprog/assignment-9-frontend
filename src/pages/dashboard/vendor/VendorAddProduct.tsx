@@ -34,6 +34,7 @@ type TCategorySchema = z.infer<typeof productSchema>;
 const VendorAddProduct: React.FC = () => {
   const [category, setCategory] = React.useState('');
   const [shop, setShop] = React.useState('');
+  const [status, setStatus] = React.useState('');
   const {
     register,
     reset,
@@ -142,6 +143,9 @@ const VendorAddProduct: React.FC = () => {
 
   const handleShop = (event: SelectChangeEvent) => {
     setShop(event.target.value as string);
+  };
+  const handleStatus = (event: SelectChangeEvent) => {
+    setStatus(event.target.value as string);
   };
 
   return (
@@ -378,10 +382,10 @@ const VendorAddProduct: React.FC = () => {
                 <Select
                   labelId="productStatus"
                   id="productStatus"
-                  value={category}
+                  value={status}
                   label="Product Status"
                   {...register('productStatus')}
-                  onChange={handleCategory}
+                  onChange={handleStatus}
                 >
                   {productStatusOptions?.map((c: any, index: number) => (
                     <MenuItem key={index} value={c.value}>

@@ -17,17 +17,17 @@ export const productSchema = z.object({
   productSize: z
     .array(
       z.object({
-        size: z.string().min(1, 'Size is required'),
-        stock: z.string(),
+        size: z.string().optional(),
+        stock: z.string().optional(),
       })
     )
     .optional(),
   productColors: z
     .array(
       z.object({
-        color: z.string().min(1, 'Color is required'),
-        colorCode: z.string(),
-        colorStock: z.string(),
+        color: z.string().optional(),
+        colorCode: z.string().optional(),
+        colorStock: z.string().optional(),
       })
     )
     .optional(),

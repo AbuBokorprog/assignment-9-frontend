@@ -22,6 +22,7 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import UserDropdown from '../ui/dropdown/UserDropdown';
 import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
+import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api';
 
 type TUser = {
   email: string;
@@ -30,7 +31,7 @@ type TUser = {
 } | null;
 
 const Header: React.FC = () => {
-  const user: TUser = useAppSelector(currentUser);
+  const user: any = useAppSelector(currentUser);
 
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -61,6 +62,8 @@ const Header: React.FC = () => {
     const search = e.target.search.value;
     navigate(`/product-search/${search}`);
   };
+
+  const { data, isLoading } = useGetAllMyCartsQuery({});
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
@@ -116,15 +119,15 @@ const Header: React.FC = () => {
               </Button>
             </form>
           </div>
-          <Link to={'/become-vendor'} className="">
+          {/* <Link to={'/become-vendor'} className="">
             <Button variant="contained">Become a vendor</Button>
-          </Link>
+          </Link> */}
           <div
             className="relative inline-block text-left"
             onMouseLeave={() => setIsOpenCart(false)}
           >
             <button onMouseEnter={() => setIsOpenCart(true)}>
-              <Badge badgeContent={2} color="primary">
+              <Badge badgeContent={data?.data?.length} color="primary">
                 <ShoppingCartIcon />
               </Badge>
             </button>

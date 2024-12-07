@@ -3,63 +3,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useGetAllMyCartsQuery } from '../../../redux/features/api/carts/carts.api';
-
-interface CartProduct {
-  product: {
-    name: string;
-    imageUrl: string;
-  };
-  price: number;
-  qty: number;
-  color?: string;
-  size?: string;
-}
+import { CartProduct } from '../../../types/cart.type';
 
 interface CartDropdownProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-// Dummy data
-const dummyCartProducts: CartProduct[] = [
-  {
-    product: {
-      name: "Men's Cotton T-Shirt",
-      imageUrl: 'https://example.com/tshirt.jpg',
-    },
-    price: 599,
-    qty: 2,
-    color: 'primary',
-    size: 'L',
-  },
-  {
-    product: {
-      name: "Women's Running Shoes",
-      imageUrl: 'https://example.com/shoes.jpg',
-    },
-    price: 2499,
-    qty: 1,
-    color: 'Black',
-    size: '38',
-  },
-  {
-    product: {
-      name: 'Wireless Earbuds',
-      imageUrl: 'https://example.com/earbuds.jpg',
-    },
-    price: 1299,
-    qty: 1,
-  },
-];
-
 const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
   const { data } = useGetAllMyCartsQuery({});
 
   const cartCount = data?.data?.length;
-  // const subTotal = data?data?.reduce(
-  //   (sum: number, item: any) => sum + item.price * item.qty,
-  //   0
-  // );
+
+  const subTotal = data?.data?.reduce(
+    (sum: number, item: CartProduct) => sum + item.price * item.qty,
+    0
+  );
 
   return (
     <div>
@@ -81,7 +40,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
             </div>
             <div className="h-60 overflow-y-scroll">
               {data?.data?.length > 0 ? (
-                data?.data?.map((product: any, index: number) => (
+                data?.data?.map((product: CartProduct, index: number) => (
                   <div className="mt-3 flex" key={index}>
                     <img
                       src={product.product.images[0]}
@@ -93,18 +52,15 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
                         {product.product.name}
                       </p>
                       <p className="text-sm text-primary-600 font-semibold">
-                        ৳{' '}
-                        {product?.product?.discount_price
-                          ? product?.product?.discount_price
-                          : product?.product?.regular_price}
+                        ৳ {product?.price}
                       </p>
                       <p className="text-xs text-secondary-500">
-                        {/* Qty: {product.qty} */}
+                        Qty: {product.qty}
                       </p>
-                      {/* <p className="text-xs text-secondary-500">
+                      <p className="text-xs text-secondary-500">
                         Variant: {product.color ? product.color : 'None'}-
                         {product.size ? product.size : 'None'}
-                      </p> */}
+                      </p>
                     </div>
                   </div>
                 ))
@@ -116,11 +72,11 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
             </div>
             <div className="mt-3">
               <p className="text-sm font-medium text-secondary-900">
-                Subtotal: <span className="font-semibold">৳ 600</span>
+                Subtotal: <span className="font-semibold">৳ {subTotal}</span>
               </p>
             </div>
 
-            {dummyCartProducts.length === 0 ? (
+            {data?.data?.length === 0 ? (
               <div className="mt-4 flex space-x-2 mx-auto justify-center items-center">
                 <Button
                   disabled

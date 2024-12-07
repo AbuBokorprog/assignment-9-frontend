@@ -29,6 +29,7 @@ import {
   FaPlusCircle,
   FaFilter,
 } from 'react-icons/fa';
+import { useGetAllProductsByVendorQuery } from '../../../redux/features/api/products/products.api';
 
 interface Product {
   id: string;
@@ -39,7 +40,7 @@ interface Product {
   category: string;
   stock: number;
   sold: number;
-  status: 'in-stock' | 'low-stock' | 'out-of-stock';
+  stockStatus: 'in-stock' | 'low-stock' | 'out-of-stock';
   shopId: string;
   shopName: string;
   createdAt: string;
@@ -49,10 +50,12 @@ interface Product {
 const VendorAllProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [stockStatusFilter, setStatusFilter] = useState('all');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const { data, isLoading } = useGetAllProductsByVendorQuery({});
 
   // Dummy data - replace with actual API call
   const products: Product[] = [
@@ -65,7 +68,7 @@ const VendorAllProducts: React.FC = () => {
       category: 'Electronics',
       stock: 50,
       sold: 150,
-      status: 'in-stock',
+      stockStatus: 'in-stock',
       shopId: 'shop1',
       shopName: 'Tech Gadgets Store',
       createdAt: '2024-01-15',
@@ -79,7 +82,7 @@ const VendorAllProducts: React.FC = () => {
       category: 'Electronics',
       stock: 5,
       sold: 95,
-      status: 'low-stock',
+      stockStatus: 'low-stock',
       shopId: 'shop1',
       shopName: 'Tech Gadgets Store',
       createdAt: '2024-02-20',
@@ -93,7 +96,7 @@ const VendorAllProducts: React.FC = () => {
       category: 'Electronics',
       stock: 0,
       sold: 200,
-      status: 'out-of-stock',
+      stockStatus: 'out-of-stock',
       shopId: 'shop1',
       shopName: 'Tech Gadgets Store',
       createdAt: '2024-03-01',
@@ -138,13 +141,13 @@ const VendorAllProducts: React.FC = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  const getStatusColor = (status: Product['status']) => {
+  const getStatusColor = (stockStatus: Product['stockStatus']) => {
     const colors = {
       'in-stock': 'success',
       'low-stock': 'warning',
       'out-of-stock': 'error',
     } as const;
-    return colors[status];
+    return colors[stockStatus];
   };
 
   const filteredProducts = products.filter((product) => {
@@ -154,7 +157,7 @@ const VendorAllProducts: React.FC = () => {
     const matchesCategory =
       categoryFilter === 'all' || product.category === categoryFilter;
     const matchesStatus =
-      statusFilter === 'all' || product.status === statusFilter;
+      stockStatusFilter === 'all' || product.stockStatus === stockStatusFilter;
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
@@ -163,7 +166,9 @@ const VendorAllProducts: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold">All Products</h2>
+            <h2 className="text-3xl font-bold">
+              All Products ({data?.data?.length})
+            </h2>
           </div>
           <div className="flex gap-4">
             <Button
@@ -213,7 +218,7 @@ const VendorAllProducts: React.FC = () => {
           <FormControl size="small">
             <InputLabel>Status</InputLabel>
             <Select
-              value={statusFilter}
+              value={stockStatusFilter}
               label="Status"
               onChange={handleStatusChange}
             >
@@ -287,8 +292,8 @@ const VendorAllProducts: React.FC = () => {
                       )}
                     </div>
                     <Chip
-                      label={product.status.replace('-', ' ')}
-                      color={getStatusColor(product.status)}
+                      label={product.stockStatus.replace('-', ' ')}
+                      color={getStatusColor(product.stockStatus)}
                       size="small"
                     />
                   </div>
@@ -325,7 +330,9 @@ const VendorAllProducts: React.FC = () => {
               No products found
             </Typography>
             <Typography color="textSecondary">
-              {searchTerm || categoryFilter !== 'all' || statusFilter !== 'all'
+              {searchTerm ||
+              categoryFilter !== 'all' ||
+              stockStatusFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : "You haven't added any products yet"}
             </Typography>

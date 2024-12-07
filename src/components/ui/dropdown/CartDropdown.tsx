@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useGetAllMyCartsQuery } from '../../../redux/features/api/carts/carts.api';
 
 interface CartProduct {
   product: {
@@ -52,11 +53,13 @@ const dummyCartProducts: CartProduct[] = [
 ];
 
 const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
-  const cartCount = dummyCartProducts.length;
-  const subTotal = dummyCartProducts.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
+  const { data } = useGetAllMyCartsQuery({});
+
+  const cartCount = data?.data?.length;
+  // const subTotal = data?data?.reduce(
+  //   (sum: number, item: any) => sum + item.price * item.qty,
+  //   0
+  // );
 
   return (
     <div>
@@ -77,11 +80,11 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
               </Button>
             </div>
             <div className="h-60 overflow-y-scroll">
-              {dummyCartProducts.length > 0 ? (
-                dummyCartProducts.map((product, index) => (
+              {data?.data?.length > 0 ? (
+                data?.data?.map((product: any, index: number) => (
                   <div className="mt-3 flex" key={index}>
                     <img
-                      src={product.product.imageUrl}
+                      src={product.product.images[0]}
                       alt={product.product.name}
                       className="w-20 object-cover rounded"
                     />
@@ -90,15 +93,18 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
                         {product.product.name}
                       </p>
                       <p className="text-sm text-primary-600 font-semibold">
-                        ৳ {product.price}
+                        ৳{' '}
+                        {product?.product?.discount_price
+                          ? product?.product?.discount_price
+                          : product?.product?.regular_price}
                       </p>
                       <p className="text-xs text-secondary-500">
-                        Qty: {product.qty}
+                        {/* Qty: {product.qty} */}
                       </p>
-                      <p className="text-xs text-secondary-500">
+                      {/* <p className="text-xs text-secondary-500">
                         Variant: {product.color ? product.color : 'None'}-
                         {product.size ? product.size : 'None'}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 ))
@@ -110,7 +116,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
             </div>
             <div className="mt-3">
               <p className="text-sm font-medium text-secondary-900">
-                Subtotal: <span className="font-semibold">৳ {subTotal}</span>
+                Subtotal: <span className="font-semibold">৳ 600</span>
               </p>
             </div>
 

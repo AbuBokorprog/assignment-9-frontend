@@ -9,6 +9,13 @@ export const cartsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['carts'],
     }),
+    getAllMyCarts: builder.query({
+      query: () => ({
+        url: '/carts/my/carts',
+        method: 'GET',
+      }),
+      providesTags: ['carts'],
+    }),
     getCartById: builder.query({
       query: (id) => ({
         url: `/carts/${id}`,
@@ -48,4 +55,5 @@ export const {
   useCreateCartMutation,
   useUpdateCartMutation,
   useDeleteCartMutation,
+  useGetAllMyCartsQuery,
 } = cartsApi;

@@ -85,6 +85,29 @@ const VendorAddProduct: React.FC = () => {
     value: c.id,
   }));
 
+  const productStatusOptions = [
+    {
+      label: 'REGULAR',
+      value: 'REGULAR',
+    },
+    {
+      label: 'FLASH_SALE',
+      value: 'FLASH_SALE',
+    },
+    {
+      label: 'NEW',
+      value: 'NEW',
+    },
+    {
+      label: 'HOT',
+      value: 'HOT',
+    },
+    {
+      label: 'DISCOUNT',
+      value: 'DISCOUNT',
+    },
+  ];
+
   const [createProduct] = useCreateProductMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading('Loading...');
@@ -349,6 +372,25 @@ const VendorAddProduct: React.FC = () => {
           </Box>
 
           <Grid container spacing={4}>
+            <Grid item sm={6} xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="productStatus">Product Status</InputLabel>
+                <Select
+                  labelId="productStatus"
+                  id="productStatus"
+                  value={category}
+                  label="Product Status"
+                  {...register('productStatus')}
+                  onChange={handleCategory}
+                >
+                  {productStatusOptions?.map((c: any, index: number) => (
+                    <MenuItem key={index} value={c.value}>
+                      {c.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid item sm={6} xs={12}>
               <FormControl fullWidth>
                 <InputLabel id="categoryId">Category</InputLabel>

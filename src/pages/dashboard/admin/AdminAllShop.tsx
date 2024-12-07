@@ -29,6 +29,8 @@ import {
   FaTrash,
   FaPause,
   FaPlay,
+  FaCheck,
+  FaTimes,
 } from 'react-icons/fa';
 import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
 
@@ -101,6 +103,8 @@ const AdminAllShop: React.FC = () => {
     };
     return colors[isActive];
   };
+
+  const handleUpdateStatus = (id: string, status) => {};
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
@@ -236,6 +240,42 @@ const AdminAllShop: React.FC = () => {
                         Created on{' '}
                         {new Date(shop.createdAt).toLocaleDateString()}
                       </Typography>
+                    </div>
+                    <div className="flex gap-2">
+                      {/* <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<FaReply />}
+                          onClick={() => handleReplyClick(review)}
+                        >
+                          {review.reply ? 'Edit Reply' : 'Reply'}
+                        </Button> */}
+                      {shop.isActive === 'APPROVED' && (
+                        <>
+                          <Button
+                            variant="contained"
+                            color="success"
+                            size="small"
+                            startIcon={<FaCheck />}
+                            onClick={() =>
+                              handleUpdateStatus(shop.id, 'approved')
+                            }
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            startIcon={<FaTimes />}
+                            onClick={() =>
+                              handleUpdateStatus(shop?.id, 'rejected')
+                            }
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </CardContent>

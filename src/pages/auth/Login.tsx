@@ -65,7 +65,15 @@ const Login: React.FC = () => {
           })
         );
         toast.success(res?.message, { id: tokenId, duration: 200 });
-        navigate('/');
+
+        if (res?.data?.role === 'ADMIN') {
+          navigate('/dashboard/admin-dashboard');
+        } else if (res?.data?.role === 'VENDOR') {
+          navigate('/dashboard/admin-dashboard');
+        } else {
+          navigate('/');
+        }
+
         reset();
       }
     } catch (error: any) {

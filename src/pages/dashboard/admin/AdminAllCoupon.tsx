@@ -1,7 +1,16 @@
-import { InputAdornment, TextField } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllCouponsQuery } from '../../../redux/features/api/coupon/coupon.api';
+import CouponCard from '../../../components/ui/dashboard/CouponCard';
+import { TCoupon } from '../../../types/coupon.type';
 
 const AdminAllCoupon: React.FC = () => {
   const { data, isLoading } = useGetAllCouponsQuery({});
@@ -32,6 +41,14 @@ const AdminAllCoupon: React.FC = () => {
             />
           </div>
         </div>
+
+        <Grid container spacing={3}>
+          {data?.data?.map((coupon: TCoupon, index: number) => (
+            <Grid item sm={4} xs={6} key={index}>
+              <CouponCard coupon={coupon} />
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </div>
   );

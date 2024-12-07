@@ -1,7 +1,9 @@
-import { InputAdornment, TextField } from '@mui/material';
+import { Grid, InputAdornment, TextField } from '@mui/material';
 import React from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
+import CategoriesCard from '../../../components/ui/dashboard/CategoriesCard';
+import { TCategory } from '../../../types/categories.type';
 
 const AdminAllCategories: React.FC = () => {
   const { data, isLoading } = useGetAllCategoriesQuery({});
@@ -32,6 +34,16 @@ const AdminAllCategories: React.FC = () => {
               className="w-64"
             />
           </div>
+        </div>
+
+        <div className="my-5 lg:my-10">
+          <Grid container spacing={3}>
+            {data?.data?.map((c: TCategory, index: number) => (
+              <Grid item sm={4} xs={6} key={index}>
+                <CategoriesCard data={c} />
+              </Grid>
+            ))}
+          </Grid>
         </div>
       </div>
     </div>

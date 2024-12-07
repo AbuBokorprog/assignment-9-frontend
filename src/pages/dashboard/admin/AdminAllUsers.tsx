@@ -17,34 +17,43 @@ import { useGetAllUsersQuery } from '../../../redux/features/api/users/user.api'
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const { data, isLoading } = useGetAllUsersQuery({});
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const deleteUserHandler = (id: string) => {};
-  const blockUserHandler = (id: string) => {};
-  const suspendUserHandler = (id: string) => {};
-  const promoteUserHandler = (id: string) => {};
+  const deleteUserHandler = (id: string) => {
+    console.log('deleted', id);
+  };
+  const blockUserHandler = (id: string) => {
+    console.log('Block', id);
+  };
+  const suspendUserHandler = (id: string) => {
+    console.log('suspend', id);
+  };
+  const promoteUserHandler = (id: string) => {
+    console.log('Promote', id);
+  };
 
-  const columns = [
-    { id: 'id', label: 'User Id', align: 'center' },
+  // column
+  const columns: any = [
     { id: 'name', label: 'Name', minWidth: 100, align: 'center' },
     {
       id: 'phone',
       label: 'Phone',
       minWidth: 170,
       align: 'center',
-      format: (value) => (
+      format: (value: string) => (
         <>
           <p>{value ? value : 'No Phone'}</p>
         </>
@@ -53,21 +62,39 @@ const AdminAllUsers = () => {
     {
       id: 'email',
       label: 'Email',
-      minWidth: 170,
+      minWidth: 100,
       align: 'center',
-      format: (value) => (
+      format: (value: string) => (
         <>
           <p>{value ? value : 'No Email'}</p>
         </>
       ),
     },
     {
+      id: 'status',
+      label: 'Status',
+      minWidth: 100,
+      align: 'center',
+    },
+    {
+      id: 'role',
+      label: 'Role',
+      align: 'center',
+    },
+    {
       id: 'action',
       label: 'Action',
       minWidth: 100,
       align: 'center',
-      format: (row) => (
+      format: (row: any) => (
         <div className="space-x-4">
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => deleteUserHandler(row.id)}
+          >
+            Delete
+          </Button>
           <Button
             variant="contained"
             color="warning"
@@ -121,11 +148,11 @@ const AdminAllUsers = () => {
 
         <div>
           <Paper sx={{ width: '100%', overflow: 'hidden' }} className="my-10">
-            <TableContainer sx={{ maxHeight: 700 }}>
+            <TableContainer sx={{ maxHeight: 1000 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
-                    {columns.map((column) => (
+                    {columns.map((column: any) => (
                       <TableCell
                         key={column.id}
                         align="center"
@@ -150,13 +177,11 @@ const AdminAllUsers = () => {
                           tabIndex={-1}
                           key={row.id}
                         >
-                          {columns.map((column) => {
+                          {columns.map((column: any) => {
                             const value = row[column.id];
                             return (
                               <TableCell key={column.id} align="center">
-                                {column.format && typeof value === 'number'
-                                  ? column.format(value)
-                                  : column.id === 'phone'
+                                {column.id === 'phone'
                                   ? column.format(row.phone)
                                   : column.id === 'action'
                                   ? column.format(row)

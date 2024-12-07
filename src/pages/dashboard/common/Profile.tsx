@@ -11,11 +11,11 @@ interface UserProfile {
   email: string;
   phone: string;
   address: string;
-  avatar?: string;
+  profilePhoto?: string;
 }
 
 const Profile: React.FC = () => {
-  const { email } = useAppSelector(currentUser);
+  const { email }: any = useAppSelector(currentUser);
   const [isEditing, setIsEditing] = useState(false);
 
   const { data, error, refetch } = useMyProfileQuery({});

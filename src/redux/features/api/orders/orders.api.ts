@@ -9,6 +9,13 @@ export const ordersApi = baseApi.injectEndpoints({
       }),
       providesTags: ['orders'],
     }),
+    getAllMyOrders: builder.query({
+      query: () => ({
+        url: '/orders/users/my-orders',
+        method: 'GET',
+      }),
+      providesTags: ['orders'],
+    }),
     getOrderById: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,

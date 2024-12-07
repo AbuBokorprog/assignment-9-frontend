@@ -18,11 +18,12 @@ import ImageGallery from 'react-image-gallery';
 import { useParams, Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import FlashOnIcon from '@mui/icons-material/FlashOn';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ProductCard from '../../components/ui/ProductCard';
 import { productsData } from '../../data/products';
+import QuickOrder from '../../components/products/QuickOrder';
+import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -166,8 +167,7 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState(null);
 
   // Find the current product
-  const product =
-    products.find((p: any) => p.id === parseInt(id as string)) || products[0];
+  const product = products.find((p: any) => p.id === 2) || products[0];
 
   // Find related products (same subcategory, excluding current product)
   const relatedProducts = products.filter(
@@ -176,20 +176,19 @@ const ProductDetails = () => {
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;
-    if (newQuantity >= 1) {
+    if (newQuantity >= 1 && newQuantity <= 10) {
       setQuantity(newQuantity);
     }
   };
 
-  const handleQuickOrder = () => {
+  const [addToCart, { isLoading }] = useCreateCartMutation();
+
+  const addToCartHandler = () => {
     // Add quick order logic here
     // This should add to cart and redirect to checkout
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
+  // images
   const images = [
     {
       original:
@@ -211,6 +210,10 @@ const ProductDetails = () => {
     },
   ];
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Product Main Section */}
@@ -225,10 +228,6 @@ const ProductDetails = () => {
           <Box>
             <Typography variant="h4" gutterBottom>
               {product.name}
-            </Typography>
-
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              SKU: {product.sku}
             </Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -327,25 +326,12 @@ const ProductDetails = () => {
                 variant="contained"
                 size="large"
                 fullWidth
-                onClick={() => {
-                  /* Add to cart logic */
-                }}
+                onClick={() => addToCartHandler()}
               >
                 Add to Cart - {product.price * quantity} TK
               </Button>
 
-              <Button
-                variant="contained"
-                color="secondary"
-                size="large"
-                fullWidth
-                startIcon={<FlashOnIcon />}
-                component={Link}
-                to="/checkout"
-                onClick={handleQuickOrder}
-              >
-                Quick Order
-              </Button>
+              <QuickOrder data={product} />
             </Stack>
 
             <Divider sx={{ my: 3 }} />

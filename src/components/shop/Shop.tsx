@@ -85,37 +85,6 @@ const Shop: React.FC = () => {
           <Typography variant="h3" className="font-bold mb-4">
             All Shops
           </Typography>
-          {/* <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            className="mb-8"
-          >
-            Discover trusted vendors and unique products from around the world
-          </Typography> */}
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          {[
-            { icon: <Storefront />, label: 'Active Vendors', value: '500+' },
-            {
-              icon: <LocalShipping />,
-              label: 'Fast Delivery',
-              value: '2-4 days avg.',
-            },
-            { icon: <Star />, label: 'Verified Sellers', value: '200+' },
-            { icon: <TrendingUp />, label: 'Monthly Sales', value: '10k+' },
-          ].map((stat, index) => (
-            <Card key={index} className="text-center p-4">
-              <div className="flex items-center justify-center mb-2">
-                {stat.icon}
-              </div>
-              <Typography variant="h6">{stat.value}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {stat.label}
-              </Typography>
-            </Card>
-          ))}
         </div>
 
         {/* Advanced Search and Filter Section */}
@@ -198,73 +167,10 @@ const Shop: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Top Sellers Section */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <Typography variant="h5" className="font-bold">
-              Top Selling Vendors
-            </Typography>
-            <Button
-              endIcon={<TrendingUp />}
-              component={Link}
-              to="/top-sellers"
-              color="primary"
-            >
-              View All
-            </Button>
-          </div>
-          <Grid container spacing={4}>
-            {shops
-              .filter((shop) => shop.topSeller)
-              .map((shop) => (
-                <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
-                  <ShopCard
-                    shop={shop}
-                    onFavorite={toggleFavorite}
-                    isFavorite={favorites.includes(shop.id)}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-        </div>
-
-        {/* New Vendors */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <Typography variant="h5" className="font-bold">
-              New Vendors
-            </Typography>
-            <Button
-              endIcon={<NewReleases />}
-              component={Link}
-              to="/new-vendors"
-              color="primary"
-            >
-              View All
-            </Button>
-          </div>
-          <Grid container spacing={4}>
-            {shops
-              .filter(
-                (shop) =>
-                  new Date().getFullYear() - parseInt(shop.joinedDate) < 1
-              )
-              .map((shop) => (
-                <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
-                  <ShopCard
-                    shop={shop}
-                    onFavorite={toggleFavorite}
-                    isFavorite={favorites.includes(shop.id)}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-        </div>
-
-        {/* All Vendors */}
+        {/* All Shops */}
         <div>
           <Typography variant="h5" className="font-bold mb-6">
-            All Vendors
+            All Shops
           </Typography>
           <Grid container spacing={4}>
             {shops.map((shop) => (

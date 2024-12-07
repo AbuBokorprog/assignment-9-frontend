@@ -13,6 +13,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import QuickOrder from '../products/QuickOrder';
 
 interface ProductCardProps {
   product: {
@@ -127,15 +128,7 @@ const ProductCard: React.FC<any> = ({ product }) => {
           )}
         </div>
 
-        <Button
-          className="mt-3 w-full py-2 px-4 "
-          onClick={() => {
-            /* Handle add to cart */
-          }}
-          variant="contained"
-        >
-          Order Now
-        </Button>
+        <QuickOrder data={product} />
       </CardContent>
     </Card>
   );

@@ -8,6 +8,7 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['users', 'carts', 'orders', 'wishlist'],
     }),
     createUser: builder.mutation({
       query: (data) => ({

@@ -4,50 +4,47 @@ import { FaCamera, FaUserCircle } from 'react-icons/fa';
 import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
-
-interface UserProfile {
-  name: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  address: string;
-  profilePhoto?: string;
-}
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 const Profile: React.FC = () => {
+  const [avatar, setAvatar] = useState<any>();
+  const [image, setImage] = useState<File | any>(null);
   const { email }: any = useAppSelector(currentUser);
   const [isEditing, setIsEditing] = useState(false);
 
   const { data, error, refetch } = useMyProfileQuery({});
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    // setProfile((prev) => ({
-    //   ...prev,
-    //   [name]: value,
-    // }));
-  };
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: data?.data?.name,
+      email: data?.data?.email,
+      contactNumber: data?.data?.contactNumber,
+    },
+  });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        // setProfile((prev) => ({
-        //   ...prev,
-        //   avatar: reader.result as string,
-        // }));
+        setAvatar(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the updated data?.data to your backend
-    // console.log('Updated Profile:', data?.data);
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('data', JSON.stringify(data));
+    console.log(data);
+
     setIsEditing(false);
   };
 
@@ -61,13 +58,13 @@ const Profile: React.FC = () => {
         <h2 className="text-3xl font-bold mb-8">My Profile</h2>
 
         <div className="bg-white rounded-lg shadow-md p-6">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* Profile Picture Section */}
             <div className="flex flex-col items-center mb-8">
               <div className="relative">
                 {data?.data.profilePhoto ? (
                   <img
-                    src={data?.data.profilePhoto}
+                    src={avatar ? avatar : data?.data.profilePhoto}
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover"
                   />
@@ -98,7 +95,7 @@ const Profile: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  name="name"
+                  {...register('name')}
                   value={
                     data?.data.vendor
                       ? data?.data?.vendor?.name
@@ -106,7 +103,6 @@ const Profile: React.FC = () => {
                       ? data?.data?.admin?.name
                       : data?.data?.customer?.name
                   }
-                  onChange={handleInputChange}
                   disabled={!isEditing}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
                 />
@@ -119,10 +115,9 @@ const Profile: React.FC = () => {
                   </label>
                   <input
                     type="email"
-                    name="email"
+                    {...register('email')}
                     value={data?.data.email}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
+                    disabled={true}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
                   />
                 </div>
@@ -135,7 +130,7 @@ const Profile: React.FC = () => {
                   </label>
                   <input
                     type="tel"
-                    name="phone"
+                    {...register('contactNumber')}
                     value={
                       data?.data.vendor
                         ? data?.data?.vendor?.contactNumber
@@ -143,7 +138,6 @@ const Profile: React.FC = () => {
                         ? data?.data?.admin?.contactNumber
                         : data?.data?.customer?.contactNumber
                     }
-                    onChange={handleInputChange}
                     disabled={!isEditing}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
                   />
@@ -152,7 +146,7 @@ const Profile: React.FC = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-end mt-6 space-x-4">
+            <div className="flex justify-center mt-6 space-x-4">
               {isEditing ? (
                 <>
                   <button
@@ -162,12 +156,13 @@ const Profile: React.FC = () => {
                   >
                     Cancel
                   </button>
-                  <button
+                  <Button
                     type="submit"
+                    variant="contained"
                     className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                   >
                     Save Changes
-                  </button>
+                  </Button>
                 </>
               ) : (
                 <div className="text-center mx-auto">

@@ -21,14 +21,15 @@ import {
   FaEdit,
   FaEllipsisV,
   FaMapMarkerAlt,
-  FaPause,
   FaPhoneAlt,
-  FaPlay,
   FaStore,
   FaTimes,
   FaTrash,
 } from 'react-icons/fa';
-import { useUpdateShopStatusMutation } from '../../../redux/features/api/shops/shops.api';
+import {
+  useDeleteShopMutation,
+  useUpdateShopStatusMutation,
+} from '../../../redux/features/api/shops/shops.api';
 import { toast } from 'sonner';
 
 type dashboardShopCardProps = {
@@ -43,6 +44,9 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
     setAnchorEl(event.currentTarget);
     setSelectedShop(shop);
   };
+  const [updateStatus, { isLoading: isUpdateLoading }] =
+    useUpdateShopStatusMutation();
+  const [deleteShop, { isLoading: isDeleteLoading }] = useDeleteShopMutation();
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -59,27 +63,18 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
     handleMenuClose();
   };
 
-  const handleDeleteConfirm = () => {
-    // Implement delete shop logic
-    console.log('Deleting shop:', selectedShop?.id);
-    setIsDeleteDialogOpen(false);
+  const handleDeleteConfirm = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    try {
+      const res = await deleteShop(id).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+        setIsDeleteDialogOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const handleToggleStatus = () => {
-    // Implement isActive toggle logic
-    console.log('Toggling isActive for shop:', selectedShop?.id);
-    handleMenuClose();
-  };
-
-  const getStatusColor = (isActive: Shop['isActive']) => {
-    const colors: Record<Shop['isActive'], 'success' | 'error' | 'warning'> = {
-      active: 'success',
-      inactive: 'error',
-      pending: 'warning',
-    };
-    return colors[isActive];
-  };
-  const [updateStatus, { isLoading }] = useUpdateShopStatusMutation();
 
   const handleUpdateStatus = async (id: string, status: string) => {
     const toastId = toast.loading('Loading...');
@@ -95,7 +90,14 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
       console.log(error);
     }
   };
-
+  const getStatusColor = (isActive: Shop['isActive']) => {
+    const colors: Record<Shop['isActive'], 'success' | 'error' | 'warning'> = {
+      active: 'success',
+      inactive: 'error',
+      pending: 'warning',
+    };
+    return colors[isActive];
+  };
   return (
     <div>
       <Card className="hover:shadow-lg transition-shadow">
@@ -238,17 +240,6 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
         <MenuItem onClick={handleEditShop}>
           <FaEdit className="mr-2" /> Edit Shop
         </MenuItem>
-        <MenuItem onClick={handleToggleStatus}>
-          {selectedShop?.isActive === 'active' ? (
-            <>
-              <FaPause className="mr-2" /> Deactivate Shop
-            </>
-          ) : (
-            <>
-              <FaPlay className="mr-2" /> Activate Shop
-            </>
-          )}
-        </MenuItem>
         <MenuItem onClick={handleDeleteClick} className="text-red-500">
           <FaTrash className="mr-2" /> Delete Shop
         </MenuItem>
@@ -268,7 +259,7 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error">
+          <Button onClick={() => handleDeleteConfirm(shop.id)} color="error">
             Delete
           </Button>
         </DialogActions>

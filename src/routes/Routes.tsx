@@ -4,7 +4,7 @@ import Dashboard from '../layout/dashboard/Dashboard';
 import Home from '../pages/Home';
 import Login from '../pages/auth/Login';
 import Registration from '../pages/auth/Registration';
-import AllShop from '../pages/AllShop';
+import AllShop from '../pages/shops/AllShop';
 import AllProducts from '../pages/products/AllProducts';
 import ProductDetails from '../pages/products/ProductDetails';
 import Checkout from '../pages/Checkout';
@@ -38,6 +38,13 @@ import BecomeVendor from '../pages/BecomeVendor';
 import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
 import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 import AdminAllOrders from '../pages/dashboard/admin/AdminAllOrders';
+import Comparison from '../pages/Comparison';
+import ShopDetails from '../pages/shops/ShopDetails';
+import ContactUs from '../pages/inner-pages/ContactUs';
+import Privacy from '../pages/inner-pages/Privacy';
+import TermsCondition from '../pages/inner-pages/TermsCondition';
+import Refund from '../pages/inner-pages/Refund';
+import Payment from '../pages/inner-pages/Payment';
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: '/shop',
         element: <AllShop />,
+      },
+      {
+        path: '/shop-details/:id',
+        element: <ShopDetails />,
       },
       {
         path: '/flash-sale',
@@ -78,6 +89,10 @@ export const router = createBrowserRouter([
         element: <MyRecentProducts />,
       },
       {
+        path: 'comparison',
+        element: <Comparison />,
+      },
+      {
         path: 'my-comparison-products',
         element: <MyCompareProducts />,
       },
@@ -96,6 +111,26 @@ export const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/contact',
+        element: <ContactUs />,
+      },
+      {
+        path: '/privacy',
+        element: <Privacy />,
+      },
+      {
+        path: '/terms-condition',
+        element: <TermsCondition />,
+      },
+      {
+        path: '/refund',
+        element: <Refund />,
+      },
+      {
+        path: '/payment',
+        element: <Payment />,
       },
     ],
   },

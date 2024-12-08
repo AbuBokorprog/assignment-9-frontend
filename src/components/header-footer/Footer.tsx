@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
             </h2>
             <ul className="text-black">
               <li className="mt-4">
-                <Link to="/about-us" className="hover:underline">
+                <Link to="/about" className="hover:underline">
                   About us
                 </Link>
               </li>

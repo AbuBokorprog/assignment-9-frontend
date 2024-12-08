@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, IconButton, Tooltip, Badge } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import QuickOrder from '../products/QuickOrder';
 import { useAppSelector } from '../../redux/hooks/hooks';
@@ -11,6 +10,8 @@ import { currentUser } from '../../redux/store';
 import { toast } from 'sonner';
 import { useCreateWishlistMutation } from '../../redux/features/api/wishlist/wishlistapi';
 import { Product } from '../../types/product.type';
+import { LuGitCompare } from 'react-icons/lu';
+import { useCreateCompareMutation } from '../../redux/features/api/compare/compare.api';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const user: any = useAppSelector(currentUser);
 
   const [createWishlist] = useCreateWishlistMutation();
+  const [createCompare] = useCreateCompareMutation();
 
   const { name, id, images, regular_price, discount_price, productStatus } =
     product;
@@ -31,6 +33,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     try {
       const res = await createWishlist(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const comparisonHandler = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { userId: user.id, productId: id };
+
+    try {
+      const res = await createCompare(data).unwrap();
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
@@ -91,15 +107,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Add to cart" placement="left">
+          <Tooltip title="Add to compare" placement="left">
             <IconButton
               size="small"
               className="bg-white hover:bg-primary-500 hover:text-white"
-              onClick={() => {
-                /* Handle add to cart */
-              }}
+              onClick={() => comparisonHandler(product?.id)}
             >
-              <ShoppingCartIcon fontSize="small" />
+              <LuGitCompare fontSize="small" />
             </IconButton>
           </Tooltip>
         </div>

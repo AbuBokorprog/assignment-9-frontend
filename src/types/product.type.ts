@@ -6,7 +6,7 @@ export interface Product {
   discount_price?: number;
   category: string;
   inventory: number;
-  stockStatus: 'in-stock' | 'low-stock' | 'out-of-stock';
+  stockStatus: string;
   shopId: string;
   shopName: string;
   createdAt: string;

@@ -13,7 +13,12 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { useGetAllUsersQuery } from '../../../redux/features/api/users/user.api';
+import {
+  useGetAllUsersQuery,
+  useUserStatusChangeMutation,
+} from '../../../redux/features/api/users/user.api';
+import { userStatus } from '../../../types/user.type';
+import { toast } from 'sonner';
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +26,7 @@ const AdminAllUsers = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
-  const { data, isLoading } = useGetAllUsersQuery({});
+  const { data, isLoading: isUserLoading } = useGetAllUsersQuery({});
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -32,17 +37,64 @@ const AdminAllUsers = () => {
     setPage(0);
   };
 
-  const deleteUserHandler = (id: string) => {
-    console.log('deleted', id);
+  const [userStatusChange, { isLoading }] = useUserStatusChangeMutation();
+
+  const deleteUserHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await userStatusChange(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const blockUserHandler = (id: string) => {
-    console.log('Block', id);
+  const blockUserHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await userStatusChange(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const suspendUserHandler = (id: string) => {
-    console.log('suspend', id);
+  const suspendUserHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await userStatusChange(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const promoteUserHandler = (id: string) => {
-    console.log('Promote', id);
+
+  const activeUserHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await userStatusChange(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // column
@@ -91,30 +143,30 @@ const AdminAllUsers = () => {
           <Button
             variant="contained"
             color="error"
-            onClick={() => deleteUserHandler(row.id)}
+            onClick={() => deleteUserHandler(row.id, userStatus.DELETED)}
           >
             Delete
           </Button>
           <Button
             variant="contained"
             color="warning"
-            onClick={() => blockUserHandler(row.id)}
+            onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
           >
             Block
           </Button>
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => suspendUserHandler(row.id)}
+            onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
           >
             Suspend
           </Button>
           <Button
             variant="contained"
             color="success"
-            onClick={() => promoteUserHandler(row.id)}
+            onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
           >
-            Promote
+            Active
           </Button>
         </div>
       ),

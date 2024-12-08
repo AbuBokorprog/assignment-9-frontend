@@ -23,6 +23,13 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ['users'],
     }),
+    userStatusChange: builder.mutation({
+      query: (data) => ({
+        url: '/users/status/user-status',
+        method: 'PATCH',
+        body: data,
+      }),
+    }),
     // login: builder.mutation({
     //   query: (data) => ({
     //     url: '/auth/login',
@@ -51,6 +58,7 @@ export const {
   useGetAllUsersQuery,
   useMyProfileQuery,
   useGetUserByIdQuery,
+  useUserStatusChangeMutation,
   //   useLoginMutation,
   //   useCreateUserMutation,
   //   useCreateVendorMutation,

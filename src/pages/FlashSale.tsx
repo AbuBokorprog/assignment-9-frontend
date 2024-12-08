@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGetAllProductsQuery } from '../redux/features/api/products/products.api';
 import ProductCard from '../components/ui/ProductCard';
 
@@ -8,6 +8,10 @@ const FlashSale: React.FC = () => {
   const flashSale = data?.data?.filter(
     (p: any) => p?.productStatus === 'FLASH_SALE'
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="container mx-auto px-2  ">

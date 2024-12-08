@@ -17,3 +17,13 @@ export interface Product {
   productStatus: string;
   isActive: string;
 }
+
+export type productSize = {
+  size: string;
+  stock: number;
+};
+export type productColors = {
+  color: string;
+  code: string;
+  stock: number;
+};

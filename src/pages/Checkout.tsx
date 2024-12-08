@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -42,6 +42,10 @@ const Checkout = () => {
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>

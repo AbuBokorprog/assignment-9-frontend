@@ -14,36 +14,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Link } from 'react-router-dom';
-import { useGetAllMyCartsQuery } from '../redux/features/api/carts/carts.api';
+import {
+  useDeleteCartMutation,
+  useGetAllMyCartsQuery,
+} from '../redux/features/api/carts/carts.api';
 import { CartProduct } from '../types/cart.type';
-
-// Fake cart data
-const cartProducts = [
-  {
-    id: 1,
-    name: 'Classic Burger',
-    price: 299,
-    qty: 2,
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500',
-  },
-  {
-    id: 2,
-    name: 'Chicken Wings',
-    price: 399,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=500',
-  },
-  {
-    id: 3,
-    name: 'Caesar Salad',
-    price: 199,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500',
-  },
-];
+import { toast } from 'sonner';
 
 const ViewCart = () => {
   const { data } = useGetAllMyCartsQuery({});
+  const [deleteCart] = useDeleteCartMutation();
   // Calculate total price
   const totalPrice = data?.data?.reduce(
     (sum: number, item: CartProduct) => sum + item.price * item.qty,
@@ -53,6 +33,24 @@ const ViewCart = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const deleteCartHandler = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+
+    try {
+      const res = await deleteCart(id).unwrap();
+
+      if (res?.success) {
+        toast.success(res?.message, {
+          id: toastId,
+          duration: 200,
+        });
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.success(error, { id: toastId, duration: 200 });
+    }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -90,7 +88,11 @@ const ViewCart = () => {
                     <IconButton size="small">
                       <AddIcon />
                     </IconButton>
-                    <IconButton color="error" sx={{ ml: 'auto' }}>
+                    <IconButton
+                      color="error"
+                      sx={{ ml: 'auto' }}
+                      onClick={() => deleteCartHandler(p.id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Box>

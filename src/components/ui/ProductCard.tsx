@@ -39,8 +39,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast.error(error, { id: toastId, duration: 200 });
     }
   };
 
@@ -57,8 +58,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error, { id: toastId, duration: 200 });
     }
   };
 
@@ -71,8 +72,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast.error(error, { id: toastId, duration: 200 });
     }
   };
 
@@ -168,7 +170,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <QuickOrder data={product} />
+        <QuickOrder data={product} variant="contained" />
       </CardContent>
     </Card>
   );

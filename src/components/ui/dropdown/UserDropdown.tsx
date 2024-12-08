@@ -12,6 +12,8 @@ import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/features/auth-slice/AuthSlice';
+import { LuGitCompare } from 'react-icons/lu';
+import { FaProductHunt } from 'react-icons/fa';
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -113,7 +115,22 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                     <FavoriteIcon className="mr-3 h-5 w-5 text-gray-500" />
                     <span>Wishlist</span>
                   </Link>
-
+                  <Link
+                    to="/comparison"
+                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <LuGitCompare className="mr-3 h-5 w-5 text-gray-500" />
+                    <span>Comparison</span>
+                  </Link>
+                  <Link
+                    to="/my-recent-products"
+                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <FaProductHunt className="mr-3 h-5 w-5 text-gray-500" />
+                    <span>Recent Products</span>
+                  </Link>
                   <Link
                     to="/settings"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"

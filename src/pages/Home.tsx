@@ -1,9 +1,12 @@
 import { Box } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Products from '../components/home/Products';
 import Banner from '../components/home/Banner';
 
 const Home: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Box className="container mx-auto ">
       <Banner />

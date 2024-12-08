@@ -4,8 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api';
 import { toast } from 'sonner';
+import { Product } from '../../types/product.type';
 
-const QuickOrder: React.FC<any> = ({ data }) => {
+type QuickOrderProps = {
+  data: Product;
+  variant: 'contained' | 'outlined' | 'text';
+};
+
+const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
   const navigate = useNavigate();
 
   const [addToCart, { isLoading }] = useCreateCartMutation();
@@ -23,7 +29,7 @@ const QuickOrder: React.FC<any> = ({ data }) => {
 
     try {
       const res = await addToCart(orderData).unwrap();
-      console.log(res);
+
       if (res?.success) {
         toast.success('Add to cart successfully!', {
           id: toastId,
@@ -39,7 +45,7 @@ const QuickOrder: React.FC<any> = ({ data }) => {
   return (
     <div>
       <Button
-        variant="contained"
+        variant={variant}
         color="primary"
         size="large"
         fullWidth

@@ -33,18 +33,17 @@ import AdminAddCoupon from '../pages/dashboard/admin/AdminAddCoupon';
 import AdminAllCoupon from '../pages/dashboard/admin/AdminAllCoupon';
 import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
 import MyRecentProducts from '../pages/products/MyRecentProducts';
-import MyCompareProducts from '../pages/products/MyCompareProducts';
 import BecomeVendor from '../pages/BecomeVendor';
 import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
 import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 import AdminAllOrders from '../pages/dashboard/admin/AdminAllOrders';
-import Comparison from '../pages/Comparison';
 import ShopDetails from '../pages/shops/ShopDetails';
 import ContactUs from '../pages/inner-pages/ContactUs';
 import Privacy from '../pages/inner-pages/Privacy';
 import TermsCondition from '../pages/inner-pages/TermsCondition';
 import Refund from '../pages/inner-pages/Refund';
 import Payment from '../pages/inner-pages/Payment';
+import CustomerComparison from '../pages/dashboard/customer/CustomerComparison';
 
 export const router = createBrowserRouter([
   {
@@ -85,16 +84,12 @@ export const router = createBrowserRouter([
         element: <Checkout />,
       },
       {
-        path: 'my-recent-products',
+        path: '/my-recent-products',
         element: <MyRecentProducts />,
       },
       {
-        path: 'comparison',
-        element: <Comparison />,
-      },
-      {
-        path: 'my-comparison-products',
-        element: <MyCompareProducts />,
+        path: '/comparison',
+        element: <CustomerComparison />,
       },
       {
         path: '/login',

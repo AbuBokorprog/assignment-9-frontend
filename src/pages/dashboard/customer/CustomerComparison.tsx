@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
-import { FaSearch, FaRegHeart, FaProductHunt } from 'react-icons/fa';
+import { FaSearch, FaRegHeart } from 'react-icons/fa';
+import { useGetAllMyComparesQuery } from '../../../redux/features/api/compare/compare.api';
 import { LuGitCompare } from 'react-icons/lu';
-import { useGetAllProductsQuery } from '../../redux/features/api/products/products.api';
 
-const MyRecentProducts: React.FC = () => {
+const CustomerComparison: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { data } = useGetAllProductsQuery({});
+
+  const { data, isLoading } = useGetAllMyComparesQuery({});
+
   const filteredItems = data?.data.filter((item: any) =>
     item.product?.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2">
-          <h2 className="text-3xl font-bold">My Recent Products</h2>
-          <FaProductHunt className="text-2xl text-primary-500" />
+          <h2 className="text-3xl font-bold">
+            My Comparison Products ({data?.data?.length})
+          </h2>
+          <LuGitCompare className="text-2xl text-primary-500" />
         </div>
         <TextField
           size="small"
-          placeholder="Search wishlist..."
+          placeholder="Search comparison..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{
@@ -47,14 +48,14 @@ const MyRecentProducts: React.FC = () => {
 
       {filteredItems?.length === 0 && (
         <div className="text-center py-16">
-          <FaProductHunt className="text-6xl text-gray-300 mx-auto mb-4" />
+          <LuGitCompare className="text-6xl text-gray-300 mx-auto mb-4" />
           <Typography variant="h6" color="textSecondary">
-            No items found in your recent products
+            No items found in your comparison
           </Typography>
           <Typography color="textSecondary">
             {searchTerm
               ? 'Try adjusting your search terms'
-              : 'Start adding items to your recent products!'}
+              : 'Start adding items to your comparison!'}
           </Typography>
         </div>
       )}
@@ -62,4 +63,4 @@ const MyRecentProducts: React.FC = () => {
   );
 };
 
-export default MyRecentProducts;
+export default CustomerComparison;

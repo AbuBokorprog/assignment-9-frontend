@@ -1,8 +1,12 @@
 import { Button } from '@mui/material';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 //* This is Error or 404 page
 const Error: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary-100 px-4 md:px-0">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">

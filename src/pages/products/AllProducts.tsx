@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Products from '../../components/home/Products';
 import {
   Button,
@@ -31,6 +31,10 @@ const AllProducts: React.FC = () => {
     'Food',
     'Sports',
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="container mx-auto px-2  ">

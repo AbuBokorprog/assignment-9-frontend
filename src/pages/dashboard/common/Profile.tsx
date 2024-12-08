@@ -23,7 +23,11 @@ const Profile: React.FC = () => {
     defaultValues: {
       name: data?.data?.name,
       email: data?.data?.email,
-      contactNumber: data?.data?.contactNumber,
+      contactNumber: data?.data.vendor
+        ? data?.data?.vendor?.contactNumber
+        : data?.data?.admin
+        ? data?.data?.admin?.contactNumber
+        : data?.data?.customer?.contactNumber,
     },
   });
 
@@ -116,7 +120,7 @@ const Profile: React.FC = () => {
                   <input
                     type="email"
                     {...register('email')}
-                    value={data?.data.email}
+                    defaultValue={data?.data.email}
                     disabled={true}
                     className="w-full px-4 py-2 border rounded-lg focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
                   />

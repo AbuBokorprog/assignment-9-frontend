@@ -1,3 +1,5 @@
+import { TWishlist } from './wishlist.type';
+
 export interface Product {
   id: string;
   name: string;
@@ -10,6 +12,7 @@ export interface Product {
   shopId: string;
   shopName: string;
   createdAt: string;
+  wishlist: TWishlist[];
   featured: boolean;
   productStatus: string;
   isActive: string;

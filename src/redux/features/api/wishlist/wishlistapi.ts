@@ -7,14 +7,14 @@ export const wishlistsApi = baseApi.injectEndpoints({
         url: '/wishlist/user/my-wishlist',
         method: 'GET',
       }),
-      providesTags: ['wishlist'],
+      providesTags: ['wishlist', 'products'],
     }),
     getWishlistById: builder.query({
       query: (id) => ({
         url: `/wishlist/${id}`,
         method: 'GET',
       }),
-      providesTags: ['wishlist'],
+      providesTags: ['wishlist', 'products'],
     }),
     createWishlist: builder.mutation({
       query: (data) => ({
@@ -22,7 +22,7 @@ export const wishlistsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['wishlist'],
+      invalidatesTags: ['wishlist', 'products'],
     }),
     updateWishlist: builder.mutation({
       query: ({ id, data }) => ({
@@ -30,14 +30,15 @@ export const wishlistsApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['wishlist'],
+      invalidatesTags: ['wishlist', 'products'],
     }),
     deleteWishlist: builder.mutation({
-      query: (id) => ({
-        url: `/wishlist/${id}`,
+      query: (data) => ({
+        url: `/wishlist/user/wishlist-delete`,
         method: 'DELETE',
+        body: data,
       }),
-      invalidatesTags: ['wishlist'],
+      invalidatesTags: ['wishlist', 'products'],
     }),
   }),
 });

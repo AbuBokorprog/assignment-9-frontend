@@ -8,7 +8,10 @@ import QuickOrder from '../products/QuickOrder';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { currentUser } from '../../redux/store';
 import { toast } from 'sonner';
-import { useCreateWishlistMutation } from '../../redux/features/api/wishlist/wishlistapi';
+import {
+  useCreateWishlistMutation,
+  useDeleteWishlistMutation,
+} from '../../redux/features/api/wishlist/wishlistapi';
 import { Product } from '../../types/product.type';
 import { LuGitCompare } from 'react-icons/lu';
 import { useCreateCompareMutation } from '../../redux/features/api/compare/compare.api';
@@ -20,7 +23,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const user: any = useAppSelector(currentUser);
-
+  const [deleteWishlist] = useDeleteWishlistMutation();
   const [createWishlist] = useCreateWishlistMutation();
   const [createCompare] = useCreateCompareMutation();
 
@@ -33,6 +36,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     try {
       const res = await createWishlist(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(product?.wishlist);
+  const isWishlistIncluded = product?.wishlist?.some(
+    (wishlistItem) => wishlistItem.userId === user?.id
+  );
+
+  const handleRemoveFromWishlist = async (itemId: string) => {
+    const toastId = toast.loading('Loading...');
+
+    try {
+      const res: any = await deleteWishlist(itemId).unwrap();
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
@@ -94,17 +115,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             placement="left"
           >
-            <IconButton
-              size="small"
-              className="bg-white hover:bg-primary-500 hover:text-white"
-              onClick={() => wishlistHandler(id)}
-            >
-              {isWishlisted ? (
-                <FavoriteIcon fontSize="small" className="text-red-500" />
+            <div>
+              {isWishlistIncluded ? (
+                <IconButton onClick={() => handleRemoveFromWishlist(id)}>
+                  <FavoriteIcon fontSize="small" className="text-red-500" />
+                </IconButton>
               ) : (
-                <FavoriteBorderIcon fontSize="small" />
+                <IconButton
+                  onClick={() => wishlistHandler(id)}
+                  className="bg-white hover:bg-primary-500 hover:text-white"
+                >
+                  <FavoriteBorderIcon fontSize="small" />
+                </IconButton>
               )}
-            </IconButton>
+            </div>
           </Tooltip>
 
           <Tooltip title="Add to compare" placement="left">

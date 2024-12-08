@@ -39,14 +39,14 @@ const CustomerWishlist: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredItems.map((item: TWishlist) => (
+          {filteredItems?.map((item: TWishlist) => (
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <WishlistCard item={item} />
             </Grid>
           ))}
         </Grid>
 
-        {filteredItems.length === 0 && (
+        {filteredItems?.length === 0 && (
           <div className="text-center py-16">
             <FaRegHeart className="text-6xl text-gray-300 mx-auto mb-4" />
             <Typography variant="h6" color="textSecondary">

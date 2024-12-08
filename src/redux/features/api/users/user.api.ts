@@ -59,6 +59,7 @@ export const {
   useGetAllUsersQuery,
   useMyProfileQuery,
   useGetUserByIdQuery,
+  useUserStatusChangeMutation,
   useUpdateMyProfileMutation,
   //   useCreateUserMutation,
   //   useCreateVendorMutation,

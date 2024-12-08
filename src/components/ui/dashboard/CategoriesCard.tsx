@@ -11,6 +11,8 @@ import {
 import React from 'react';
 import { TCategory } from '../../../types/categories.type';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
+import { useDeleteCategoryMutation } from '../../../redux/features/api/categories/catgeories.api';
+import { toast } from 'sonner';
 
 type CategoriesCardProps = {
   data: TCategory;
@@ -26,8 +28,21 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ data }) => {
     setAnchorEl(null);
   };
 
+  const [deleteCategory, { isLoading }] = useDeleteCategoryMutation();
+
   const handleEditProduct = () => {};
-  const handleDeleteClick = () => {};
+
+  const handleDeleteClick = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    try {
+      const res = await deleteCategory(id).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="">
@@ -87,7 +102,10 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ data }) => {
             <FaEdit className="mr-2" /> Edit Category
           </MenuItem>
 
-          <MenuItem onClick={handleDeleteClick} className="text-red-500">
+          <MenuItem
+            onClick={() => handleDeleteClick(data.id)}
+            className="text-red-500"
+          >
             <FaTrash className="mr-2" /> Delete Category
           </MenuItem>
         </Menu>

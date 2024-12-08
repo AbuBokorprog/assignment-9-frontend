@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import { TCoupon } from '../../../types/coupon.type';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
+import { toast } from 'sonner';
+import { useDeleteCouponMutation } from '../../../redux/features/api/coupon/coupon.api';
 
 type TCouponProps = {
   coupon: TCoupon;
@@ -25,9 +27,21 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [deleteCoupon, { isLoading }] = useDeleteCouponMutation();
 
   const handleEditProduct = () => {};
-  const handleDeleteClick = () => {};
+
+  const handleDeleteClick = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    try {
+      const res = await deleteCoupon(id).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <Card className="relative">
@@ -78,7 +92,10 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
             <FaEdit className="mr-2" /> Edit Coupon
           </MenuItem>
 
-          <MenuItem onClick={handleDeleteClick} className="text-red-500">
+          <MenuItem
+            onClick={() => handleDeleteClick(coupon.id)}
+            className="text-red-500"
+          >
             <FaTrash className="mr-2" /> Delete Coupon
           </MenuItem>
         </Menu>

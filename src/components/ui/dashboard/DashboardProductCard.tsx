@@ -25,6 +25,11 @@ import {
 import { Product } from '../../../types/product.type';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
+import { toast } from 'sonner';
+import {
+  useDeleteProductMutation,
+  useUpdateProductStatusMutation,
+} from '../../../redux/features/api/products/products.api';
 
 type ProductCardProps = {
   product: Product;
@@ -35,6 +40,9 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation();
+  const [updateStatus] = useUpdateProductStatusMutation();
 
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLElement>,
@@ -59,9 +67,16 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
     handleMenuClose();
   };
 
-  const handleDeleteConfirm = () => {
-    // Implement delete product logic
-    console.log('Deleting product:', selectedProduct?.id);
+  const handleDeleteConfirm = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    try {
+      const res = await deleteProduct(id).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setIsDeleteDialogOpen(false);
   };
 
@@ -74,7 +89,21 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
     return colors[stockStatus];
   };
 
-  const handleUpdateStatus = (id: string, status) => {};
+  const handleUpdateStatus = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await updateStatus(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Card className="h-full hover:shadow-lg transition-shadow">
@@ -221,7 +250,7 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error">
+          <Button onClick={() => handleDeleteConfirm(product.id)} color="error">
             Delete
           </Button>
         </DialogActions>

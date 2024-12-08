@@ -30,13 +30,7 @@ export const userApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
-    // login: builder.mutation({
-    //   query: (data) => ({
-    //     url: '/auth/login',
-    //     method: 'POST',
-    //     body: data,
-    //   }),
-    // }),
+
     // createUser: builder.mutation({
     //   query: (data) => ({
     //     url: '/users/create-customer',
@@ -58,8 +52,7 @@ export const {
   useGetAllUsersQuery,
   useMyProfileQuery,
   useGetUserByIdQuery,
-  useUserStatusChangeMutation,
-  //   useLoginMutation,
+
   //   useCreateUserMutation,
   //   useCreateVendorMutation,
 } = userApi;

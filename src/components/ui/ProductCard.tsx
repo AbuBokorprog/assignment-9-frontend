@@ -1,41 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Card,
-  CardContent,
-  IconButton,
-  Rating,
-  Tooltip,
-  Badge,
-  Button,
-} from '@mui/material';
+import { Card, CardContent, IconButton, Tooltip, Badge } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import QuickOrder from '../products/QuickOrder';
+import { useAppSelector } from '../../redux/hooks/hooks';
+import { currentUser } from '../../redux/store';
+import { toast } from 'sonner';
+import { useCreateWishlistMutation } from '../../redux/features/api/wishlist/wishlistapi';
+import { Product } from '../../types/product.type';
 
 interface ProductCardProps {
-  product: {
-    id: string | number;
-    name: string;
-    slug: string;
-    price: number;
-    originalPrice?: number;
-    imageUrl: string;
-    rating: number;
-    reviews: number;
-    isNew?: boolean;
-    discount?: number;
-    isFeatured?: boolean;
-  };
+  product: Product;
 }
 
-const ProductCard: React.FC<any> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const user: any = useAppSelector(currentUser);
+
+  const [createWishlist] = useCreateWishlistMutation();
 
   const { name, id, images, regular_price, discount_price, productStatus } =
     product;
+
+  const wishlistHandler = async (id: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { userId: user.id, productId: id };
+
+    try {
+      const res = await createWishlist(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Card className="relative group h-full transition-all duration-300 hover:shadow-lg">
@@ -79,7 +81,7 @@ const ProductCard: React.FC<any> = ({ product }) => {
             <IconButton
               size="small"
               className="bg-white hover:bg-primary-500 hover:text-white"
-              onClick={() => setIsWishlisted(!isWishlisted)}
+              onClick={() => wishlistHandler(id)}
             >
               {isWishlisted ? (
                 <FavoriteIcon fontSize="small" className="text-red-500" />

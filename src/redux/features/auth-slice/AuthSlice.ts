@@ -1,10 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// type IAuth = {
-//   user:
-// }
+type IAuth = {
+  user: {
+    name: string;
+    email: string;
+    id: string;
+  } | null;
+  token: string | null;
+};
 
-const initialState = {
+const initialState: IAuth = {
   user: null,
   token: null,
 };

@@ -60,6 +60,7 @@ const Login: React.FC = () => {
               email: res?.data.email,
               role: res?.data?.role,
               name: res?.data.name,
+              id: res?.data?.id,
             },
             token: res?.data?.token,
           })

@@ -2,32 +2,25 @@ import { baseApi } from '../BaseApi';
 
 export const recentViewedApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAdminReports: builder.query({
+    getMyAllRecentProducts: builder.query({
       query: () => ({
-        url: '/recent-viewed',
+        url: '/recently-viewed/user/my-recent-products',
         method: 'GET',
       }),
       providesTags: ['recent-products'],
     }),
-    getVendorReports: builder.query({
-      query: () => ({
-        url: '/recent-viewed',
-        method: 'GET',
+    createRecentProducts: builder.mutation({
+      query: (data) => ({
+        url: '/recently-viewed',
+        method: 'POST',
+        body: data,
       }),
-      providesTags: ['recent-products'],
-    }),
-    getUserReports: builder.query({
-      query: () => ({
-        url: '/recent-viewed',
-        method: 'GET',
-      }),
-      providesTags: ['recent-products'],
+      invalidatesTags: ['recent-products'],
     }),
   }),
 });
 
 export const {
-  useGetAdminReportsQuery,
-  useGetVendorReportsQuery,
-  useGetUserReportsQuery,
+  useGetMyAllRecentProductsQuery,
+  useCreateRecentProductsMutation,
 } = recentViewedApi;

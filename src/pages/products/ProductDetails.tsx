@@ -23,6 +23,7 @@ import { useGetProductByIdQuery } from '../../redux/features/api/products/produc
 import QuickOrder from '../../components/products/QuickOrder';
 import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api';
 import { toast } from 'sonner';
+import { useCreateRecentProductsMutation } from '../../redux/features/api/recently-viewed/recently-viewed.api';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -73,6 +74,7 @@ const ProductDetails = () => {
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
 
+  const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
   const { data } = useGetProductByIdQuery(id);
 
@@ -95,7 +97,18 @@ const ProductDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+
+    const createRecentProductsHandler = async () => {
+      const productData = { productId: id };
+      try {
+        await createRecentProduct(productData).unwrap();
+      } catch (error) {
+        // console.log(error);
+      }
+    };
+
+    createRecentProductsHandler();
+  }, [id, createRecentProduct]);
 
   const price = data?.data?.discount_price
     ? data?.data?.discount_price * quantity

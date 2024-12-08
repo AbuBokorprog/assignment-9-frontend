@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
 import { FaSearch, FaRegHeart, FaProductHunt } from 'react-icons/fa';
-import { LuGitCompare } from 'react-icons/lu';
-import { useGetAllProductsQuery } from '../../redux/features/api/products/products.api';
+import { useGetMyAllRecentProductsQuery } from '../../redux/features/api/recently-viewed/recently-viewed.api';
+import ProductCard from '../../components/ui/ProductCard';
+import { TRecentProduct } from '../../types/product.type';
 
 const MyRecentProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { data } = useGetAllProductsQuery({});
+  const { data } = useGetMyAllRecentProductsQuery({});
+
   const filteredItems = data?.data.filter((item: any) =>
     item.product?.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -15,7 +17,7 @@ const MyRecentProducts: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-2">
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2">
           <h2 className="text-3xl font-bold">My Recent Products</h2>
@@ -37,13 +39,13 @@ const MyRecentProducts: React.FC = () => {
         />
       </div>
 
-      {/* <Grid container spacing={4}>
-          {filteredItems?.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} key={item.id}>
-              <WishlistCard item={item} />
-            </Grid>
-          ))}
-        </Grid> */}
+      <Grid container spacing={4}>
+        {filteredItems?.map((RP: TRecentProduct) => (
+          <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={RP.id}>
+            <ProductCard product={RP?.product} />
+          </Grid>
+        ))}
+      </Grid>
 
       {filteredItems?.length === 0 && (
         <div className="text-center py-16">

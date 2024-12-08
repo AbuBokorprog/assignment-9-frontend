@@ -12,7 +12,7 @@ export interface Product {
   shopId: string;
   shopName: string;
   createdAt: string;
-  wishlist: TWishlist[];
+  wishlist?: TWishlist[];
   featured: boolean;
   productStatus: string;
   isActive: string;
@@ -26,4 +26,13 @@ export type productColors = {
   color: string;
   code: string;
   stock: number;
+};
+
+export type TRecentProduct = {
+  id: string;
+  userId: string;
+  productId: string;
+  product: Product;
+  createdAt: string;
+  updatedAt: string;
 };

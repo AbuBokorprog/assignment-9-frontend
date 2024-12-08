@@ -14,7 +14,7 @@ const CustomerComparison: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-2">
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2">
           <h2 className="text-3xl font-bold">

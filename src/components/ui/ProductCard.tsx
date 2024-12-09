@@ -44,7 +44,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
-  // console.log(product?.wishlist);
   const isWishlistIncluded = product?.wishlist?.some(
     (wishlistItem) => wishlistItem.userId === user?.id
   );

@@ -18,3 +18,12 @@ export interface TShop {
   category: TCategory;
   followers: any[];
 }
+
+export interface TFollowShop {
+  createdAt: string;
+  customerId: string;
+  shop: TShop;
+  id: string;
+  shopId: string;
+  updatedAt: string;
+}

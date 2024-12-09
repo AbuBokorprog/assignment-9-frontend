@@ -5,7 +5,7 @@ import ProductCard from '../components/ui/ProductCard';
 
 const FlashSale: React.FC = () => {
   const { data } = useGetAllProductsQuery({});
-  const flashSale = data?.data?.filter(
+  const flashSale = data?.data?.data?.filter(
     (p: any) => p?.productStatus === 'FLASH_SALE'
   );
 

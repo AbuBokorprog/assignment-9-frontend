@@ -38,7 +38,7 @@ export const wishlistsApi = baseApi.injectEndpoints({
         method: 'DELETE',
         body: data,
       }),
-      invalidatesTags: ['wishlist', 'products'],
+      invalidatesTags: ['wishlist', 'products', 'shops'],
     }),
   }),
 });

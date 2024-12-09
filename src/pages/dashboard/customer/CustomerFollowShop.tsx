@@ -3,15 +3,15 @@ import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import CustomerShopCard from '../../../components/ui/dashboard/CustomerShopCard';
 import { useGetMyFollowingShopQuery } from '../../../redux/features/api/shops/shops.api';
-import { TShop } from '../../../types/shop.type';
+import { TFollowShop, TShop } from '../../../types/shop.type';
 
 const CustomerFollowShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const { data } = useGetMyFollowingShopQuery({});
 
-  const filteredShops = data?.data.filter((shop: TShop) =>
-    shop.shopName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredShops = data?.data?.filter((FShop: TFollowShop) =>
+    FShop?.shop?.shopName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -39,14 +39,14 @@ const CustomerFollowShop: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredShops.map((shop: TShop) => (
+          {filteredShops?.map((shop: TFollowShop) => (
             <Grid item xs={12} key={shop.id}>
-              <CustomerShopCard shop={shop} />
+              <CustomerShopCard data={shop} />
             </Grid>
           ))}
         </Grid>
 
-        {filteredShops.length === 0 && (
+        {filteredShops?.length === 0 && (
           <div className="text-center py-16">
             <FaStore className="text-6xl text-gray-300 mx-auto mb-4" />
             <Typography variant="h6" color="textSecondary">

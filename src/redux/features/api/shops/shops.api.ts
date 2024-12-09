@@ -36,7 +36,7 @@ export const shopsApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['followShop'],
+      invalidatesTags: ['followShop', 'shops'],
     }),
     createShop: builder.mutation({
       query: (data) => ({

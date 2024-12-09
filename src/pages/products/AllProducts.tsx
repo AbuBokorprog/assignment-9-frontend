@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Products from '../../components/home/Products';
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -9,11 +10,15 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { FilterList, Search } from '@mui/icons-material';
+import { useGetAllProductsQuery } from '../../redux/features/api/products/products.api';
+import ProductCard from '../../components/ui/ProductCard';
 
 const AllProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +26,11 @@ const AllProducts: React.FC = () => {
   const [category, setCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [shippingTime, setShippingTime] = useState('all');
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+  const { data } = useGetAllProductsQuery({});
 
   const categories = [
     'All',
@@ -35,6 +45,8 @@ const AllProducts: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const meta = data?.data?.meta;
 
   return (
     <div className="container mx-auto px-2  ">
@@ -127,8 +139,26 @@ const AllProducts: React.FC = () => {
       </Card>
 
       <div className="my-5 lg:my-10">
-        <Products />
+        <Box>
+          <Grid container spacing={2}>
+            {data?.data?.data?.map((p: any, index: number) => (
+              <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
+                <ProductCard product={p} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       </div>
+
+      <Stack spacing={2} className="mx-auto text-center">
+        <Pagination
+          count={Math.round(meta.total / 10) || 1}
+          page={page}
+          color="primary"
+          onChange={handleChange}
+          className="mx-auto my-5"
+        />
+      </Stack>
     </div>
   );
 };

@@ -77,7 +77,7 @@ const AdminAllProducts: React.FC = () => {
     return colors[stockStatus];
   };
 
-  const filteredProducts = data?.data?.filter((product: any) => {
+  const filteredProducts = data?.data?.data?.filter((product: any) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());

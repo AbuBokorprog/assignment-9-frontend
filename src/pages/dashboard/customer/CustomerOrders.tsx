@@ -13,69 +13,26 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { FaSearch, FaEye } from 'react-icons/fa';
-
-interface Order {
-  id: string;
-  date: string;
-  total: number;
-  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
-  items: {
-    name: string;
-    quantity: number;
-    price: number;
-  }[];
-  trackingNumber?: string;
-}
+import { useGetAllMyOrdersQuery } from '../../../redux/features/api/orders/orders.api';
+import { TOrder, TProductOrder } from '../../../types/order.type';
 
 const CustomerOrders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { data, isLoading } = useGetAllMyOrdersQuery({});
 
-  // Dummy data - replace with actual API call
-  const orders: Order[] = [
-    {
-      id: 'ORD-001',
-      date: '2024-03-15',
-      total: 299.99,
-      status: 'Delivered',
-      items: [
-        { name: 'Product 1', quantity: 2, price: 99.99 },
-        { name: 'Product 2', quantity: 1, price: 100.01 },
-      ],
-      trackingNumber: 'TRK123456789',
-    },
-    {
-      id: 'ORD-002',
-      date: '2024-03-14',
-      total: 159.99,
-      status: 'Processing',
-      items: [{ name: 'Product 3', quantity: 1, price: 159.99 }],
-      trackingNumber: 'TRK987654321',
-    },
-    {
-      id: 'ORD-003',
-      date: '2024-03-13',
-      total: 499.99,
-      status: 'Pending',
-      items: [
-        { name: 'Product 4', quantity: 2, price: 199.99 },
-        { name: 'Product 5', quantity: 1, price: 100.01 },
-      ],
-    },
-  ];
-
-  const getStatusColor = (status: Order['status']) => {
+  const getStatusColor = (status: TOrder['status']) => {
     const colors = {
-      Pending: 'warning',
-      Processing: 'info',
-      Shipped: 'primary',
-      Delivered: 'success',
-      Cancelled: 'error',
+      PENDING: 'warning',
+      PROCESSING: 'info',
+      SHIPPED: 'primary',
+      DELIVERED: 'success',
+      CANCELLED: 'error',
     };
     return colors[status];
   };
 
-  const filteredOrders = orders.filter(
-    (order) =>
+  const filteredOrders = data?.data?.filter(
+    (order: TOrder) =>
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -120,35 +77,37 @@ const CustomerOrders: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredOrders.map((order) => (
+              {filteredOrders?.map((order: TOrder) => (
                 <TableRow
-                  key={order.id}
+                  key={order?.id}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell>{order.id}</TableCell>
+                  <TableCell>{order?.id}</TableCell>
                   <TableCell>
-                    {new Date(order.date).toLocaleDateString()}
+                    {new Date(order?.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      {order.items.map((item, index) => (
-                        <div key={index} className="text-sm">
-                          {item.quantity}x {item.name}
-                        </div>
-                      ))}
+                      {order.products.map(
+                        (item: TProductOrder, index: number) => (
+                          <div key={index} className="text-sm">
+                            {item.quantity}x {item?.product?.name}
+                          </div>
+                        )
+                      )}
                     </div>
                   </TableCell>
-                  <TableCell>${order.total.toFixed(2)}</TableCell>
+                  <TableCell>${order?.totalAmount.toFixed(2)}</TableCell>
                   <TableCell>
                     <Chip
-                      label={order.status}
-                      color={getStatusColor(order.status)}
+                      label={order?.status}
+                      color={getStatusColor(order?.status)}
                       size="small"
                     />
                   </TableCell>
                   <TableCell>
-                    {order.trackingNumber ? (
-                      <span className="text-sm">{order.trackingNumber}</span>
+                    {order.id ? (
+                      <span className="text-sm">{order?.id}</span>
                     ) : (
                       <span className="text-sm text-gray-400">N/A</span>
                     )}
@@ -169,7 +128,7 @@ const CustomerOrders: React.FC = () => {
           </Table>
         </TableContainer>
 
-        {filteredOrders.length === 0 && (
+        {filteredOrders?.length === 0 && (
           <div className="text-center py-8">
             <p className="text-gray-500">
               No orders found matching your search.

@@ -44,7 +44,7 @@ export const ordersApi = baseApi.injectEndpoints({
         url: `/orders/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['orders'],
+      invalidatesTags: ['orders', 'carts'],
     }),
   }),
 });
@@ -55,4 +55,5 @@ export const {
   useCreateOrderMutation,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
+  useGetAllMyOrdersQuery,
 } = ordersApi;

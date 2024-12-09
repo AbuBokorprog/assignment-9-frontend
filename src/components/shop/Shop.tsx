@@ -23,33 +23,8 @@ import {
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import ShopCard from '../ui/ShopCard';
-
-// Mock data for shops with more vendor-specific information
-const shops = [
-  {
-    id: 1,
-    name: 'Tech Haven',
-    vendorName: 'John Electronics Inc.',
-    image: 'https://images.unsplash.com/photo-1531973576160-7125cd663d86',
-    vendorAvatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-    category: 'Electronics',
-    rating: 4.5,
-    reviews: 128,
-    location: 'New York, NY',
-    verified: true,
-    featured: true,
-    products: 450,
-    description:
-      'Premium electronics and gadgets store with the latest technology',
-    joinedDate: '2022',
-    totalSales: 1200,
-    shippingTime: '1-3 days',
-    topSeller: true,
-    responseRate: 98,
-    categories: ['Phones', 'Laptops', 'Accessories'],
-  },
-  // Add more shops...
-];
+import { useGetAllShopsQuery } from '../../redux/features/api/shops/shops.api';
+import { TShop } from '../../types/shop.type';
 
 const Shop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,6 +43,8 @@ const Shop: React.FC = () => {
     'Food',
     'Sports',
   ];
+
+  const { data } = useGetAllShopsQuery({});
 
   const toggleFavorite = (shopId: number) => {
     setFavorites((prev) =>
@@ -173,12 +150,12 @@ const Shop: React.FC = () => {
             All Shops
           </Typography>
           <Grid container spacing={4}>
-            {shops.map((shop) => (
+            {data?.data.map((shop: TShop) => (
               <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
                 <ShopCard
                   shop={shop}
-                  onFavorite={toggleFavorite}
-                  isFavorite={favorites.includes(shop.id)}
+                  // onFavorite={toggleFavorite}
+                  // isFavorite={favorites.includes(shop.id)}
                 />
               </Grid>
             ))}

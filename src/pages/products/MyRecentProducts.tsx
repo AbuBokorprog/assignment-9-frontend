@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
-import { FaSearch, FaRegHeart, FaProductHunt } from 'react-icons/fa';
+import { FaSearch, FaProductHunt } from 'react-icons/fa';
 import { useGetMyAllRecentProductsQuery } from '../../redux/features/api/recently-viewed/recently-viewed.api';
 import ProductCard from '../../components/ui/ProductCard';
 import { TRecentProduct } from '../../types/product.type';
@@ -9,9 +9,11 @@ const MyRecentProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { data } = useGetMyAllRecentProductsQuery({});
 
-  const filteredItems = data?.data.filter((item: any) =>
-    item.product?.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredItems = data?.data
+    ?.slice(0, 10)
+    .filter((item: any) =>
+      item.product?.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   useEffect(() => {
     window.scrollTo(0, 0);

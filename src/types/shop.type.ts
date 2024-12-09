@@ -1,8 +1,9 @@
+import { TCategory } from './categories.type';
 import { TOrder } from './order.type';
 import { Product } from './product.type';
 import { TAdmin } from './user.type';
 
-export interface Shop {
+export interface TShop {
   id: string;
   shopName: string;
   shopLogo: string;
@@ -18,6 +19,7 @@ export interface Shop {
   phone: string;
   website?: string;
   isActive: string;
-  category: string;
   createdAt: string;
+  category: TCategory;
+  followers: any[];
 }

@@ -8,16 +8,11 @@ export interface TShop {
   shopName: string;
   shopLogo: string;
   shopCover: string;
-  rating: number;
-  totalProducts: number;
-  totalOrders: number;
-  totalRevenue: number;
   vendor: TAdmin;
   orders: TOrder[];
   products: Product[];
+  reviews: any[];
   address: string;
-  phone: string;
-  website?: string;
   isActive: string;
   createdAt: string;
   category: TCategory;

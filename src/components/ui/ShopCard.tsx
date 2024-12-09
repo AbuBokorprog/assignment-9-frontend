@@ -1,10 +1,4 @@
-import {
-  Favorite,
-  FavoriteBorder,
-  LocalShipping,
-  LocationOn,
-  Verified,
-} from '@mui/icons-material';
+import { Verified } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -12,8 +6,6 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  IconButton,
-  Rating,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -61,7 +53,7 @@ const ShopCard: React.FC<ShopCardProps> = ({ shop }) => {
         <div className="flex items-center mb-3">
           <Avatar src={shop.vendor.profilePhoto} className="mr-2" />
           <div>
-            <Link to={`/shop/${shop.id}`}>
+            <Link to={`/shop-details/${shop.id}`}>
               <Typography variant="h6" className="font-bold">
                 {shop.shopName}
               </Typography>

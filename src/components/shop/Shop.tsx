@@ -12,16 +12,7 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import {
-  Search,
-  FilterList,
-  Star,
-  LocalShipping,
-  Storefront,
-  TrendingUp,
-  NewReleases,
-} from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Search, FilterList } from '@mui/icons-material';
 import ShopCard from '../ui/ShopCard';
 import { useGetAllShopsQuery } from '../../redux/features/api/shops/shops.api';
 import { TShop } from '../../types/shop.type';
@@ -30,8 +21,6 @@ const Shop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('rating');
   const [category, setCategory] = useState('all');
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [priceRange, setPriceRange] = useState('all');
   const [shippingTime, setShippingTime] = useState('all');
 
   const categories = [
@@ -45,14 +34,6 @@ const Shop: React.FC = () => {
   ];
 
   const { data } = useGetAllShopsQuery({});
-
-  const toggleFavorite = (shopId: number) => {
-    setFavorites((prev) =>
-      prev.includes(shopId)
-        ? prev.filter((id) => id !== shopId)
-        : [...prev, shopId]
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -152,11 +133,7 @@ const Shop: React.FC = () => {
           <Grid container spacing={4}>
             {data?.data.map((shop: TShop) => (
               <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
-                <ShopCard
-                  shop={shop}
-                  // onFavorite={toggleFavorite}
-                  // isFavorite={favorites.includes(shop.id)}
-                />
+                <ShopCard shop={shop} />
               </Grid>
             ))}
           </Grid>

@@ -73,10 +73,10 @@ const TermsCondition: React.FC = () => {
             If you have any questions or concerns about these terms, feel free
             to reach out to us at{' '}
             <a
-              href="mailto:contact@example.com"
+              href="mailto:bazaarbridge@gmail.com"
               className="text-blue-500 underline"
             >
-              contact@example.com
+              bazaarbridge@gmail.com
             </a>
             .
           </p>

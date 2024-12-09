@@ -39,11 +39,11 @@ import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 import AdminAllOrders from '../pages/dashboard/admin/AdminAllOrders';
 import ShopDetails from '../pages/shops/ShopDetails';
 import ContactUs from '../pages/inner-pages/ContactUs';
-import Privacy from '../pages/inner-pages/Privacy';
 import TermsCondition from '../pages/inner-pages/TermsCondition';
 import Refund from '../pages/inner-pages/Refund';
-import Payment from '../pages/inner-pages/Payment';
 import CustomerComparison from '../pages/dashboard/customer/CustomerComparison';
+import PrivacyPolicy from '../pages/inner-pages/Privacy';
+import PaymentPolicy from '../pages/inner-pages/Payment';
 
 export const router = createBrowserRouter([
   {
@@ -113,7 +113,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/privacy',
-        element: <Privacy />,
+        element: <PrivacyPolicy />,
       },
       {
         path: '/terms-condition',
@@ -125,7 +125,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/payment',
-        element: <Payment />,
+        element: <PaymentPolicy />,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Card, Typography, Avatar } from '@mui/material';
+import { Grid, Card, Typography, Avatar } from '@mui/material';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SecurityIcon from '@mui/icons-material/Security';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';

@@ -10,28 +10,40 @@ import {
   Rating,
   Typography,
 } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import React, { useEffect } from 'react';
 import { FaHeart, FaMapMarkerAlt, FaPhoneAlt, FaStore } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import { useGetShopByIdQuery } from '../../redux/features/api/shops/shops.api';
+import {
+  useGetShopByIdQuery,
+  useShopFollowToggleMutation,
+} from '../../redux/features/api/shops/shops.api';
 import { TShop } from '../../types/shop.type';
 import ProductCard from '../../components/ui/ProductCard';
 import { Product } from '../../types/product.type';
+import { useAppSelector } from '../../redux/hooks/hooks';
+import { currentUser } from '../../redux/store';
 
 const ShopDetails: React.FC = () => {
+  const user = useAppSelector(currentUser);
   const { id } = useParams();
-
-  const { data } = useGetShopByIdQuery('86a19c35-0769-4103-87eb-5ea5bf137503');
-
+  const [followToggle] = useShopFollowToggleMutation();
+  const { data } = useGetShopByIdQuery(id);
   const shop: TShop = data?.data;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleUnfollow = (shopId: string) => {
-    // Implement unfollow logic
-    console.log('Unfollowing shop:', shopId);
+  const isFollowingShop = shop.followers?.some((f) => f.userId === user?.id);
+
+  const toggleFollowShopHandler = async (shopId: string) => {
+    const data = { shopId: shopId };
+    try {
+      await followToggle(data).unwrap();
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (
@@ -78,14 +90,25 @@ const ShopDetails: React.FC = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<FaHeart />}
-                onClick={() => handleUnfollow(shop?.id)}
-              >
-                Unfollow
-              </Button>
+              {isFollowingShop ? (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<FaHeart />}
+                  onClick={() => toggleFollowShopHandler(shop?.id)}
+                >
+                  Unfollow
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<FavoriteBorderIcon />}
+                  onClick={() => toggleFollowShopHandler(shop?.id)}
+                >
+                  Follow
+                </Button>
+              )}
             </div>
           </div>
 

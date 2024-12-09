@@ -23,6 +23,21 @@ export const shopsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['shops'],
     }),
+    getMyFollowingShop: builder.query({
+      query: () => ({
+        url: '/follower/my',
+        method: 'GET',
+      }),
+      providesTags: ['followShop'],
+    }),
+    shopFollowToggle: builder.mutation({
+      query: (data) => ({
+        url: '/follower/shop-follow',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['followShop'],
+    }),
     createShop: builder.mutation({
       query: (data) => ({
         url: '/shop',
@@ -66,4 +81,6 @@ export const {
   useDeleteShopMutation,
   useGetAllShopsByVendorQuery,
   useUpdateShopStatusMutation,
+  useShopFollowToggleMutation,
+  useGetMyFollowingShopQuery,
 } = shopsApi;

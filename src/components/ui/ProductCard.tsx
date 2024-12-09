@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, IconButton, Tooltip, Badge } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -21,7 +21,6 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const user: any = useAppSelector(currentUser);
   const [deleteWishlist] = useDeleteWishlistMutation();
   const [createWishlist] = useCreateWishlistMutation();
@@ -114,7 +113,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </Tooltip>
 
           <Tooltip
-            title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            title={
+              isWishlistIncluded ? 'Remove from wishlist' : 'Add to wishlist'
+            }
             placement="left"
           >
             <div>

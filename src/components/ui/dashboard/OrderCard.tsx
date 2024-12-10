@@ -14,6 +14,8 @@ import {
   Typography,
 } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
+import { toast } from 'sonner';
 
 type OrderCardProps = {
   order: TOrder;
@@ -26,6 +28,8 @@ const OrderCard: React.FC<OrderCardProps> = ({
   setExpandedOrder,
   expandedOrder,
 }) => {
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
+
   const getStatusColor = (status: TOrder['status']) => {
     const colors = {
       PENDING: 'warning',
@@ -36,6 +40,35 @@ const OrderCard: React.FC<OrderCardProps> = ({
     };
     return colors[status];
   };
+
+  const orderStatusChangeHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await updateOrderStatus(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error: any) {
+      toast.error(error?.error);
+    }
+  };
+
+  const paymentStatusChangeHandler = async (id: string, status: string) => {
+    const toastId = toast.loading('Loading...');
+    const data = { id, status };
+
+    try {
+      const res = await updateOrderStatus(data).unwrap();
+      if (res?.success) {
+        toast.success(res?.message, { id: toastId, duration: 200 });
+      }
+    } catch (error: any) {
+      toast.error(error?.error);
+    }
+  };
+
   return (
     <React.Fragment key={order?.id}>
       <TableRow className="hover:bg-gray-50">

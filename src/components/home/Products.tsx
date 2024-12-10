@@ -1,10 +1,10 @@
 import React from 'react';
 import ProductCard from '../ui/ProductCard';
 import { Box, Grid } from '@mui/material';
-import { useGetAllProductsQuery } from '../../redux/features/api/products/products.api';
+import { useGetAllAvailableProductsQuery } from '../../redux/features/api/products/products.api';
 
 const Products: React.FC = () => {
-  const { data } = useGetAllProductsQuery({});
+  const { data } = useGetAllAvailableProductsQuery({});
 
   return (
     <Box>

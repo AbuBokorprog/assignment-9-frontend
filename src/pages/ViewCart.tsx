@@ -18,7 +18,7 @@ import {
   useDeleteCartMutation,
   useGetAllMyCartsQuery,
 } from '../redux/features/api/carts/carts.api';
-import { CartProduct } from '../types/cart.type';
+import { TCartProduct } from '../types/cart.type';
 import { toast } from 'sonner';
 
 const ViewCart = () => {
@@ -26,7 +26,7 @@ const ViewCart = () => {
   const [deleteCart] = useDeleteCartMutation();
   // Calculate total price
   const totalPrice = data?.data?.reduce(
-    (sum: number, item: CartProduct) => sum + item.price * item.qty,
+    (sum: number, item: TCartProduct) => sum + item.price * item.qty,
     0
   );
 
@@ -61,7 +61,7 @@ const ViewCart = () => {
       <Grid container spacing={4}>
         {/* Cart Items */}
         <Grid item xs={12} md={8}>
-          {data?.data.map((p: CartProduct) => (
+          {data?.data.map((p: TCartProduct) => (
             <Card key={p.id} sx={{ mb: 2 }}>
               <CardContent sx={{ display: 'flex', gap: 2 }}>
                 <img

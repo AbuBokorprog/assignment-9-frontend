@@ -13,7 +13,7 @@ import {
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import React, { useEffect } from 'react';
 import { FaHeart, FaMapMarkerAlt, FaPhoneAlt, FaStore } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   useGetShopByIdQuery,
   useShopFollowToggleMutation,
@@ -26,6 +26,7 @@ import { currentUser } from '../../redux/store';
 import Loader from '../../components/ui/Loader';
 
 const ShopDetails: React.FC = () => {
+  const navigate = useNavigate();
   const user = useAppSelector(currentUser);
   const { id } = useParams();
   const [followToggle] = useShopFollowToggleMutation();
@@ -42,12 +43,24 @@ const ShopDetails: React.FC = () => {
 
   const toggleFollowShopHandler = async (shopId: string) => {
     const data = { shopId: shopId };
-    try {
-      await followToggle(data).unwrap();
-    } catch (error: any) {
-      console.log(error);
+    if (user?.id) {
+      try {
+        await followToggle(data).unwrap();
+      } catch (error: any) {
+        console.log(error);
+      }
+    } else {
+      navigate('/login');
     }
   };
+
+  const totalRating = shop?.reviews?.reduce(
+    (sum, item) => sum + item.rating,
+    0
+  );
+
+  const reviewCount = shop?.reviews?.length || 0;
+  const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
 
   return (
     <>
@@ -57,7 +70,7 @@ const ShopDetails: React.FC = () => {
         <Box className="container mx-auto px-2">
           <Card className="hover:shadow-lg transition-shadow">
             <div
-              className="h-60 bg-cover bg-center relative"
+              className="h-72 bg-cover bg-center relative"
               style={{ backgroundImage: `url(${shop?.shopCover})` }}
             >
               <div className="absolute -bottom-6 left-6">
@@ -90,13 +103,17 @@ const ShopDetails: React.FC = () => {
                     {shop?.category?.name}
                   </Typography>
                   <div className="flex items-center gap-2 mb-3">
-                    <Rating value={5} readOnly size="small" />
+                    <Rating value={avgRating} readOnly size="small" />
                     <Typography variant="body2" color="textSecondary">
-                      (5 reviews)
+                      ( {avgRating} reviews)
                     </Typography>
                   </div>
+                  <Typography variant="body2" color="text.secondary">
+                    by {shop.vendor.name}
+                  </Typography>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center ">
+                  <p>Followers ({shop.followers?.length})</p>
                   {isFollowingShop ? (
                     <Button
                       variant="outlined"
@@ -119,19 +136,19 @@ const ShopDetails: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="flex items-center gap-2 text-gray-600">
+              <div className="grid grid-cols-2 md:grid-cols-3 justify-center items-center gap-4 mt-4">
+                <div className="flex items-center justify-center gap-2 text-gray-600">
                   <FaMapMarkerAlt />
                   <Typography variant="body2">{shop?.address}</Typography>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center justify-center gap-2 text-gray-600">
                   <FaPhoneAlt />
                   <Typography variant="body2">
                     {shop?.vendor.contactNumber}
                   </Typography>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center justify-center gap-2 text-gray-600">
                   <FaStore />
                   <Typography variant="body2">
                     {shop?.products?.length} Products
@@ -140,12 +157,12 @@ const ShopDetails: React.FC = () => {
               </div>
 
               {/* <Typography
-            variant="caption"
-            color="textSecondary"
-            className="block mt-4"
-          >
-            Following since {new Date(shop?.followedSince).toLocaleDateString()}
-          </Typography> */}
+                variant="caption"
+                color="textSecondary"
+                className="block mt-4"
+              >
+                Following since {new Date(shop?.createdAt).toLocaleDateString()}
+              </Typography> */}
             </CardContent>
           </Card>
           <Divider />

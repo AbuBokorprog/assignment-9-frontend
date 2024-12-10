@@ -25,6 +25,7 @@ import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api'
 import { toast } from 'sonner';
 import { useCreateRecentProductsMutation } from '../../redux/features/api/recently-viewed/recently-viewed.api';
 import Loader from '../../components/ui/Loader';
+import ProductCard from '../../components/ui/ProductCard';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -78,6 +79,8 @@ const ProductDetails = () => {
   const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
   const { data } = useGetProductByIdQuery(id);
+  const product = data?.data?.product;
+  const relatedProducts = data?.data?.relatedProducts;
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;
@@ -91,7 +94,7 @@ const ProductDetails = () => {
   };
 
   const images =
-    data?.data?.product?.images?.map((image: string) => ({
+    product?.images?.map((image: string) => ({
       original: image,
       thumbnail: image,
     })) || [];
@@ -111,14 +114,14 @@ const ProductDetails = () => {
     createRecentProductsHandler();
   }, [id, createRecentProduct]);
 
-  const price = data?.data?.product?.discount_price
+  const price = product?.discount_price
     ? data?.data?.discount_price * quantity
     : data?.data?.regular_price * quantity;
 
   const addToCartHandler = async () => {
     const toastId = toast.loading('Loading...');
     const orderData = {
-      productId: data?.data?.product?.id,
+      productId: product?.id,
       color: selectedColor || null,
       size: selectedSize || null,
       qty: quantity,
@@ -157,7 +160,7 @@ const ProductDetails = () => {
             <Grid item xs={12} md={6}>
               <Box>
                 <Typography variant="h4" gutterBottom>
-                  {data?.data?.name}
+                  {product?.name}
                 </Typography>
 
                 {/* ratings */}
@@ -168,79 +171,75 @@ const ProductDetails = () => {
               </Typography>
             </Box> */}
 
-                {data?.data?.discount_price ? (
+                {product?.discount_price ? (
                   <div className="mt-2 flex items-center gap-2">
                     <span className="text-lg font-bold text-primary-500">
-                      ৳{data?.data?.product?.discount_price}
+                      ৳{product?.discount_price}
                     </span>
-                    {data?.data?.regular_price && (
+                    {product?.regular_price && (
                       <span className="text-sm text-gray-500 line-through">
-                        ৳{data?.data?.product?.regular_price}
+                        ৳{product?.regular_price}
                       </span>
                     )}
                   </div>
                 ) : (
                   <span className="text-lg font-bold text-primary-500">
-                    ৳{data?.data?.product?.regular_price}
+                    ৳{product?.regular_price}
                   </span>
                 )}
 
                 {/* Add Color Selection */}
-                {data?.data?.product?.colors?.length > 0 && (
+                {product?.colors?.length > 0 && (
                   <Box sx={{ mb: 3 }}>
                     <Typography variant="body1" sx={{ mb: 1 }}>
                       Color: {selectedColor}
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      {data?.data?.product?.colors?.map(
-                        (color: any, index: number) => (
-                          <Box
-                            key={index}
-                            onClick={() => setSelectedColor(color.color)}
-                            sx={{
-                              width: 32,
-                              height: 32,
-                              bgcolor: `#${color.code}`,
-                              borderRadius: '50%',
-                              cursor: 'pointer',
-                              border: '2px solid',
-                              borderColor:
-                                selectedColor === color.name
-                                  ? 'primary.main'
-                                  : 'transparent',
-                              '&:hover': {
-                                opacity: 0.8,
-                              },
-                            }}
-                          />
-                        )
-                      )}
+                      {product?.colors?.map((color: any, index: number) => (
+                        <Box
+                          key={index}
+                          onClick={() => setSelectedColor(color.color)}
+                          sx={{
+                            width: 32,
+                            height: 32,
+                            bgcolor: `#${color.code}`,
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            border: '2px solid',
+                            borderColor:
+                              selectedColor === color.name
+                                ? 'primary.main'
+                                : 'transparent',
+                            '&:hover': {
+                              opacity: 0.8,
+                            },
+                          }}
+                        />
+                      ))}
                     </Box>
                   </Box>
                 )}
                 {/* Add Size Selection */}
-                {data?.data?.product?.sizes?.length > 0 && (
+                {product?.sizes?.length > 0 && (
                   <div>
                     <Typography variant="body1" sx={{ mb: 1 }}>
                       Size: {selectedSize}
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      {data?.data?.product?.sizes?.map(
-                        (size: any, index: number) => (
-                          <Button
-                            key={index}
-                            variant={
-                              selectedSize === size.size
-                                ? 'contained'
-                                : 'outlined'
-                            }
-                            onClick={() => setSelectedSize(size.size)}
-                            sx={{ minWidth: 60 }}
-                          >
-                            {size.size}
-                          </Button>
-                        )
-                      )}
+                      {product?.sizes?.map((size: any, index: number) => (
+                        <Button
+                          key={index}
+                          variant={
+                            selectedSize === size.size
+                              ? 'contained'
+                              : 'outlined'
+                          }
+                          onClick={() => setSelectedSize(size.size)}
+                          sx={{ minWidth: 60 }}
+                        >
+                          {size.size}
+                        </Button>
+                      ))}
                     </Box>
                   </div>
                 )}
@@ -275,10 +274,27 @@ const ProductDetails = () => {
                     Add to Cart - {price} TK
                   </Button>
 
-                  <QuickOrder data={data?.data?.product} variant="outlined" />
+                  <QuickOrder data={product} variant="outlined" />
                 </Stack>
 
                 <Divider sx={{ my: 3 }} />
+
+                <div>
+                  <p>
+                    Shop Name:{' '}
+                    <Link to={`/shop-details/${product?.shop?.shopName}`}>
+                      {product?.shop?.shopName}
+                    </Link>{' '}
+                  </p>
+                  <p>
+                    Categories:{' '}
+                    <Link
+                      to={`/all-products/?category=${product?.category?.name}`}
+                    >
+                      {product?.category?.name}
+                    </Link>{' '}
+                  </p>
+                </div>
               </Box>
             </Grid>
           </Grid>
@@ -306,7 +322,7 @@ const ProductDetails = () => {
                       Product Description
                     </Typography>
                     <Typography variant="body1" paragraph>
-                      {data?.data?.product?.description}
+                      {product?.description}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -389,6 +405,26 @@ const ProductDetails = () => {
               </TabPanel>
             </Paper>
           </Box>
+
+          {relatedProducts?.length > 0 && (
+            <Box>
+              <Typography
+                variant="h4"
+                component={'h4'}
+                className="my-5 lg:my-10"
+              >
+                Related Products
+              </Typography>
+
+              <Grid container spacing={2} className="mb-5 lg:mb-10">
+                {relatedProducts?.map((product: any, index: number) => (
+                  <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
+                    <ProductCard product={product} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
         </Container>
       )}
     </>

@@ -1,4 +1,6 @@
 import { TCategory } from './categories.type';
+import { TReview } from './review.type';
+import { TAdmin } from './user.type';
 import { TWishlist } from './wishlist.type';
 
 export interface Product {
@@ -13,11 +15,13 @@ export interface Product {
   stockStatus: string;
   shopId: string;
   shopName: string;
+  vendor?: TAdmin;
   createdAt: string;
   wishlist?: TWishlist[];
   featured: boolean;
   productStatus: string;
   isActive: string;
+  reviews: TReview[];
 }
 
 export type productSize = {

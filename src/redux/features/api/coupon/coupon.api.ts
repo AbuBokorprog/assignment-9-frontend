@@ -24,6 +24,14 @@ export const couponsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['coupon'],
     }),
+    applyCoupon: builder.mutation({
+      query: (data) => ({
+        url: '/coupon/apply-coupon',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['coupon'],
+    }),
     updateCoupon: builder.mutation({
       query: ({ id, data }) => ({
         url: `/coupon/${id}`,
@@ -48,4 +56,5 @@ export const {
   useCreateCouponMutation,
   useUpdateCouponMutation,
   useDeleteCouponMutation,
+  useApplyCouponMutation,
 } = couponsApi;

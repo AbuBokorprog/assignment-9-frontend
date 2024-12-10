@@ -42,6 +42,7 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
       toast.success(error, { id: toastId, duration: 200 });
     }
   };
+
   return (
     <div>
       <Button
@@ -49,6 +50,7 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
         color="primary"
         size="large"
         fullWidth
+        disabled={data?.inventory === 0}
         startIcon={<FlashOnIcon />}
         onClick={QuickOrderHandler}
       >

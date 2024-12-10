@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, IconButton, Tooltip, Badge } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  IconButton,
+  Tooltip,
+  Badge,
+  Rating,
+} from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -26,9 +33,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [createWishlist] = useCreateWishlistMutation();
   const [createCompare] = useCreateCompareMutation();
 
-  const { name, id, images, regular_price, discount_price, productStatus } =
-    product;
-
   const wishlistHandler = async (id: string) => {
     const toastId = toast.loading('Loading...');
     const data = { userId: user.id, productId: id };
@@ -53,11 +57,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     try {
       const res: any = await deleteWishlist(itemId).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
+      toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
-      toast.error(error, { id: toastId, duration: 200 });
+      toast.error(error.error, { id: toastId, duration: 200 });
     }
   };
 
@@ -67,32 +69,40 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     try {
       const res = await createCompare(data).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
+
+      toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
-      console.log(error);
-      toast.error(error, { id: toastId, duration: 200 });
+      toast.error(error.error, { id: toastId, duration: 200 });
     }
   };
 
+  const totalRating = product?.reviews?.reduce(
+    (sum, item) => sum + item?.rating,
+    0
+  );
+
+  const reviewCount = product?.reviews?.length || 0;
+  const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
+
   return (
-    <Card className="relative group h-full transition-all duration-300 hover:shadow-lg">
+    <Card className="relative group h-full transition-all duration-300 hover:shadow-lg border border-primary-500">
       {/* Product badges */}
       <div className="absolute top-2 left-2 z-10 flex flex-col gap-2">
-        {productStatus && (
+        {product?.productStatus && (
           <Badge className="bg-green-500 text-white px-2 py-1 text-xs rounded">
-            {productStatus}
+            {product?.productStatus === 'FLASH_SALE'
+              ? 'FLASH SALE'
+              : product?.productStatus}
           </Badge>
         )}
       </div>
 
       {/* Product image and actions */}
       <div className="relative overflow-hidden">
-        <Link to={`/product-details/${id}`}>
+        <Link to={`/product-details/${product?.id}`}>
           <img
-            src={images[0]}
-            alt={name}
+            src={product?.images?.[0]}
+            alt={product?.name}
             className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
@@ -119,12 +129,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           >
             <div>
               {isWishlistIncluded ? (
-                <IconButton onClick={() => handleRemoveFromWishlist(id)}>
+                <IconButton
+                  onClick={() => handleRemoveFromWishlist(product?.id)}
+                >
                   <FavoriteIcon fontSize="small" className="text-red-500" />
                 </IconButton>
               ) : (
                 <IconButton
-                  onClick={() => wishlistHandler(id)}
+                  onClick={() => wishlistHandler(product?.id)}
                   className="bg-white hover:bg-primary-500 hover:text-white"
                 >
                   <FavoriteBorderIcon fontSize="small" />
@@ -148,24 +160,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product info */}
       <CardContent className="p-4">
         <Link
-          to={`/product-details/${id}`}
-          className="text-lg font-medium text-gray-800 h-16 hover:text-primary-500 line-clamp-2"
+          to={`/product-details/${product?.id}`}
+          className="text-lg font-medium text-gray-800 h-10 hover:text-primary-500 line-clamp-2"
         >
-          {name}
+          {product?.name}
         </Link>
 
-        {/* <div className="flex items-center mt-2">
-          <Rating value={rating} precision={0.5} size="small" readOnly />
-          <span className="ml-2 text-sm text-gray-500">({reviews})</span>
-        </div> */}
+        <div className="flex items-center mt-2">
+          <Rating value={avgRating} precision={0.5} size="small" readOnly />
+          <span className="ml-2 text-sm text-gray-500">({avgRating})</span>
+        </div>
 
-        <div className="mt-2 flex items-center gap-2">
+        <div className="my-2 flex items-center gap-2">
           <span className="text-lg font-bold text-primary-500">
-            ৳{discount_price}
+            ৳{product?.discount_price}
           </span>
-          {regular_price && (
+          {product?.regular_price && (
             <span className="text-sm text-gray-500 line-through">
-              ৳{regular_price}
+              ৳{product?.regular_price}
             </span>
           )}
         </div>

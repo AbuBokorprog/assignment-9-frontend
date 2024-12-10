@@ -2,7 +2,7 @@ import React from 'react';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
-import './categories.css';
+// import './categories.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';

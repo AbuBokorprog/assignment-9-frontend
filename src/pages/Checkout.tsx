@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Typography,
@@ -19,13 +19,14 @@ import {
 } from '@mui/material';
 import { useGetAllMyCartsQuery } from '../redux/features/api/carts/carts.api';
 import { TCartProduct } from '../types/cart.type';
-import { z } from 'zod';
+import { number, z } from 'zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateOrderMutation } from '../redux/features/api/orders/orders.api';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
+import { useApplyCouponMutation } from '../redux/features/api/coupon/coupon.api';
 
 const steps = ['Shipping Details', 'Payment Method', 'Review Order'];
 
@@ -52,7 +53,11 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [paymentMethod, setPaymentMethod] = React.useState('COD');
   const [deliveryCharge, setDeliveryCharge] = React.useState('60');
+  const [saveMoney, setSaveMoney] = useState<number>(0);
+  const [discountedAmount, setDiscountedAmount] = useState<number>(0);
+  const [couponCode, setCouponCode] = useState<string>('');
 
+  const [applyCouponCode] = useApplyCouponMutation();
   const [orderPlace] = useCreateOrderMutation();
   const { data, isLoading } = useGetAllMyCartsQuery({});
   // Calculate total price
@@ -96,11 +101,38 @@ const Checkout = () => {
     quantity: item.qty,
   }));
 
+  // apply coupon
+  const applyCoupon = async () => {
+    if (couponCode === '' || !couponCode) {
+      toast.error('Please enter code');
+    }
+    const toastId = toast.loading('Loading...');
+    const data = { couponCode, cartTotal: totalPrice };
+    try {
+      const res = await applyCouponCode(data).unwrap();
+      if (res?.success) {
+        setDiscountedAmount(res?.data?.discountedTotal);
+        setSaveMoney(res?.data?.discountAmount);
+      }
+
+      toast.success(res?.message, { id: toastId, duration: 200 });
+      // setDiscountDetails(response.data);
+    } catch (error: any) {
+      toast.error(error.error || 'Failed to apply coupon', {
+        id: toastId,
+        duration: 200,
+      });
+    }
+  };
+
+  // place order form
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const orderData = {
       ...data,
       products: products,
-      totalAmount: totalPrice + Number(deliveryCharge),
+      totalAmount: discountedAmount
+        ? discountedAmount + Number(deliveryCharge)
+        : totalPrice + Number(deliveryCharge),
       quantity: totalQuantity,
     };
 
@@ -347,6 +379,30 @@ const Checkout = () => {
                       <Typography>{Number(deliveryCharge)} TK</Typography>
                     </Box>
                   </Box>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      label="Enter valid coupon"
+                      name="coupon"
+                      disabled={discountedAmount ? true : false}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                    />
+                    <Button
+                      variant="contained"
+                      color="info"
+                      onClick={() => applyCoupon()}
+                    >
+                      Apply
+                    </Button>
+                  </Box>
+
                   <Divider sx={{ my: 2 }} />
                   <Box
                     sx={{
@@ -357,8 +413,21 @@ const Checkout = () => {
                   >
                     <Typography variant="h6">Total:</Typography>
                     <Typography variant="h6">
-                      {totalPrice + Number(deliveryCharge)} TK
+                      {discountedAmount
+                        ? discountedAmount + Number(deliveryCharge)
+                        : totalPrice + Number(deliveryCharge)}{' '}
+                      TK
                     </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 2,
+                    }}
+                  >
+                    <Typography variant="body1">Save:</Typography>
+                    <Typography variant="body2">{saveMoney} TK</Typography>
                   </Box>
                 </CardContent>
               </Card>

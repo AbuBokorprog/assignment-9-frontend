@@ -67,10 +67,10 @@ const Login: React.FC = () => {
         );
         toast.success(res?.message, { id: tokenId, duration: 200 });
 
-        if (res?.data?.role === 'ADMIN') {
+        if (res?.data?.role === 'ADMIN' || res?.data?.role === 'SUPER-ADMIN') {
           navigate('/dashboard/admin-dashboard');
         } else if (res?.data?.role === 'VENDOR') {
-          navigate('/dashboard/admin-dashboard');
+          navigate('/dashboard/vendor-dashboard');
         } else {
           navigate('/');
         }

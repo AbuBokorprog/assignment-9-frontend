@@ -109,7 +109,9 @@ const Checkout = () => {
       if (res?.success) {
         toast.success(res?.message);
         reset();
-        navigate('/dashboard/my-orders');
+        if (data?.paymentType === 'COD') {
+          navigate('/dashboard/my-orders');
+        }
       }
     } catch (error: any) {
       console.log(error);

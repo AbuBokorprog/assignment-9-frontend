@@ -4,11 +4,12 @@ import { FaSearch, FaStore } from 'react-icons/fa';
 import CustomerShopCard from '../../../components/ui/dashboard/CustomerShopCard';
 import { useGetMyFollowingShopQuery } from '../../../redux/features/api/shops/shops.api';
 import { TFollowShop, TShop } from '../../../types/shop.type';
+import Loader from '../../../components/ui/Loader';
 
 const CustomerFollowShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data } = useGetMyFollowingShopQuery({});
+  const { data, isLoading } = useGetMyFollowingShopQuery({});
 
   const filteredShops = data?.data?.filter((FShop: TFollowShop) =>
     FShop?.shop?.shopName?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -16,6 +17,7 @@ const CustomerFollowShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

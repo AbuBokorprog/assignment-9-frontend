@@ -1,3 +1,4 @@
+import { TCategory } from './categories.type';
 import { TWishlist } from './wishlist.type';
 
 export interface Product {
@@ -6,7 +7,8 @@ export interface Product {
   images: string[];
   regular_price: number;
   discount_price?: number;
-  category: string;
+  categoryId: string;
+  category: TCategory;
   inventory: number;
   stockStatus: string;
   shopId: string;

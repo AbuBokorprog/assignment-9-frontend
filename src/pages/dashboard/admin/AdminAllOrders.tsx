@@ -20,6 +20,7 @@ import { FaSearch, FaFilter } from 'react-icons/fa';
 import { useGetAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { TOrder } from '../../../types/order.type';
 import OrderCard from '../../../components/ui/dashboard/OrderCard';
+import Loader from '../../../components/ui/Loader';
 
 const AdminAllOrders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -64,6 +65,7 @@ const AdminAllOrders: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Order History</h2>

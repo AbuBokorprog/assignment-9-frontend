@@ -10,6 +10,7 @@ import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
 import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCard';
 import { Shop } from '../../../types/shop.type';
+import Loader from '../../../components/ui/Loader';
 
 const AdminAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +23,7 @@ const AdminAllShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

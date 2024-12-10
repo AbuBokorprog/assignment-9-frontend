@@ -4,6 +4,7 @@ import { FaSearch, FaRegHeart } from 'react-icons/fa';
 import { useGetAllMyWishlistsQuery } from '../../../redux/features/api/wishlist/wishlistapi';
 import { TWishlist } from '../../../types/wishlist.type';
 import WishlistCard from '../../../components/ui/dashboard/WishlistCard';
+import Loader from '../../../components/ui/Loader';
 
 const CustomerWishlist: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +17,7 @@ const CustomerWishlist: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

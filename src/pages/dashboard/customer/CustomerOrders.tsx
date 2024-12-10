@@ -15,6 +15,7 @@ import {
 import { FaSearch, FaEye } from 'react-icons/fa';
 import { useGetAllMyOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { TOrder, TProductOrder } from '../../../types/order.type';
+import Loader from '../../../components/ui/Loader';
 
 const CustomerOrders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,6 +45,7 @@ const CustomerOrders: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">My Orders</h2>

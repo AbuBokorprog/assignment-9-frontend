@@ -19,6 +19,7 @@ import {
 } from '../../../redux/features/api/users/user.api';
 import { userStatus } from '../../../types/user.type';
 import { toast } from 'sonner';
+import Loader from '../../../components/ui/Loader';
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -175,6 +176,7 @@ const AdminAllUsers = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

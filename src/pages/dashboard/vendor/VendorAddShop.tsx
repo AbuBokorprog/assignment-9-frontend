@@ -25,6 +25,7 @@ import { z } from 'zod';
 import { shopSchema } from '../../../schema/shop';
 import { toast } from 'sonner';
 import { useCreateShopMutation } from '../../../redux/features/api/shops/shops.api';
+import Loader from '../../../components/ui/Loader';
 
 type TCategorySchema = z.infer<typeof shopSchema>;
 
@@ -94,6 +95,7 @@ const VendorAddShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

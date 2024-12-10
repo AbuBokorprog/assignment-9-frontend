@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
-import { FaSearch, FaRegHeart } from 'react-icons/fa';
+import { Typography, TextField, InputAdornment } from '@mui/material';
+import { FaSearch } from 'react-icons/fa';
 import { useGetAllMyComparesQuery } from '../../../redux/features/api/compare/compare.api';
 import { LuGitCompare } from 'react-icons/lu';
+import Loader from '../../../components/ui/Loader';
 
 const CustomerComparison: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +16,7 @@ const CustomerComparison: React.FC = () => {
 
   return (
     <div className="container mx-auto px-2">
+      {isLoading && <Loader />}
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2">
           <h2 className="text-3xl font-bold">

@@ -30,6 +30,7 @@ import {
 import { useGetAllProductsQuery } from '../../../redux/features/api/products/products.api';
 import { Product } from '../../../types/product.type';
 import DashboardProductCard from '../../../components/ui/dashboard/DashboardProductCard';
+import Loader from '../../../components/ui/Loader';
 
 const AdminAllProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -89,6 +90,7 @@ const AdminAllProducts: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

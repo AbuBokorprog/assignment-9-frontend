@@ -28,6 +28,7 @@ import { useGetAllShopsByVendorQuery } from '../../../redux/features/api/shops/s
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
 import { useCreateProductMutation } from '../../../redux/features/api/products/products.api';
 import { toast } from 'sonner';
+import Loader from '../../../components/ui/Loader';
 
 type TCategorySchema = z.infer<typeof productSchema>;
 
@@ -150,6 +151,7 @@ const VendorAddProduct: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

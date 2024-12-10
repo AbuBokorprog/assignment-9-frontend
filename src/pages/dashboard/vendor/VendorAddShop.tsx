@@ -84,7 +84,7 @@ const VendorAddShop: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Error creating category:', error);
-      toast.error(error.message, { id: toastId, duration: 200 });
+      toast.error(error.error, { id: toastId, duration: 200 });
     }
   };
 

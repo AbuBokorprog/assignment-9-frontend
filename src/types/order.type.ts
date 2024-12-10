@@ -1,4 +1,5 @@
 import { Product } from './product.type';
+import { TUser } from './user.type';
 
 export interface TOrder {
   id: string;
@@ -18,6 +19,7 @@ export interface TOrder {
   createdAt: string;
   updatedAt: string;
   products: TProductOrder[];
+  customer: TUser;
 }
 
 export interface TProductOrder {

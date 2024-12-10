@@ -12,3 +12,14 @@ export type TAdmin = {
   profilePhoto?: string;
   contactNumber: string;
 };
+
+export interface TUser {
+  id: string;
+  email: string;
+  password: string;
+  role: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  customer: TAdmin;
+}

@@ -78,8 +78,7 @@ const Login: React.FC = () => {
         reset();
       }
     } catch (error: any) {
-      console.log(error);
-      toast.error(error.message as string, { id: tokenId, duration: 200 });
+      toast.error(error.error as string, { id: tokenId, duration: 200 });
     }
   };
 

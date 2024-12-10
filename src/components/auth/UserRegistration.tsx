@@ -83,7 +83,7 @@ const UserRegistration: React.FC = () => {
         reset();
       }
     } catch (error: any) {
-      toast.success(error.message);
+      toast.error(error.error);
     }
   };
 

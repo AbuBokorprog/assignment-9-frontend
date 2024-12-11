@@ -44,6 +44,8 @@ import Refund from '../pages/inner-pages/Refund';
 import CustomerComparison from '../pages/dashboard/customer/CustomerComparison';
 import PrivacyPolicy from '../pages/inner-pages/Privacy';
 import PaymentPolicy from '../pages/inner-pages/Payment';
+import PrivateRoute from '../private/PrivateRoute';
+import { UserRole } from '../utils/UserRole';
 
 export const router = createBrowserRouter([
   {
@@ -137,97 +139,198 @@ export const router = createBrowserRouter([
       // Admin dashboard route
       {
         path: 'admin-dashboard',
-        element: <AdminDashboard />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminDashboard />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-users',
-        element: <AdminAllUsers />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllUsers />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-shops',
-        element: <AdminAllShop />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllShop />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-categories',
-        element: <AdminAllCategories />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllCategories />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/add-category',
-        element: <AdminAddCategory />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAddCategory />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-products',
-        element: <AdminAllProducts />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/add-coupon',
-        element: <AdminAddCoupon />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            {' '}
+            <AdminAddCoupon />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-coupons',
-        element: <AdminAllCoupon />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllCoupon />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-orders',
-        element: <AdminAllOrders />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllOrders />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'admin/all-reviews',
-        element: <AdminAllReviews />,
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminAllReviews />
+          </PrivateRoute>
+        ),
       },
       // User dashboard route
       {
         path: 'user-dashboard',
-        element: <CustomerDashboardHome />,
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <CustomerDashboardHome />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'my-profile',
-        element: <Profile />,
+        element: (
+          <PrivateRoute
+            roles={[
+              UserRole.admin,
+              UserRole.super_admin,
+              UserRole.vendor,
+              UserRole.customer,
+            ]}
+          >
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'my-orders',
-        element: <CustomerOrders />,
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <CustomerOrders />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'my-wishlist',
-        element: <CustomerWishlist />,
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <CustomerWishlist />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'my-reviews',
-        element: <CustomerReview />,
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <CustomerReview />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'followed-shops',
-        element: <CustomerFollowShop />,
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <CustomerFollowShop />
+          </PrivateRoute>
+        ),
       },
       // vendor dashboard
       {
         path: 'vendor-dashboard',
-        element: <VendorDashboard />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorDashboard />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/all-shop',
-        element: <VendorAllShop />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorAllShop />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/add-shop',
-        element: <VendorAddShop />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            {' '}
+            <VendorAddShop />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/all-products',
-        element: <VendorAllProducts />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorAllProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/add-product',
-        element: <VendorAddProduct />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorAddProduct />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/order-history',
-        element: <VendorOrderHistory />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorOrderHistory />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'vendor/review-management',
-        element: <VendorReviews />,
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorReviews />
+          </PrivateRoute>
+        ),
       },
     ],
   },

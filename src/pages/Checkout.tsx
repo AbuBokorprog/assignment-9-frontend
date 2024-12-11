@@ -36,7 +36,7 @@ const orderSchema = z.object({
   deliveryArea: z.string().nonempty('Delivery area is required.'),
   email: z.string().email('Email is required!'),
   fullName: z.string().nonempty('Full name is required.'),
-  paymentType: z.enum(['COD', 'Online']),
+  paymentType: z.enum(['COD', 'ADV']),
   phoneNumber: z
     .string()
     .regex(
@@ -127,6 +127,7 @@ const Checkout = () => {
 
   // place order form
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log('Order');
     const toastId = toast.loading('Loading...');
     const orderData = {
       ...data,
@@ -136,9 +137,10 @@ const Checkout = () => {
         : totalPrice + Number(deliveryCharge),
       quantity: totalQuantity,
     };
-
+    console.log(orderData);
     try {
       const res = await orderPlace(orderData).unwrap();
+      console.log(res);
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
         reset();

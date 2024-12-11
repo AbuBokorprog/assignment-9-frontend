@@ -46,6 +46,7 @@ import PrivacyPolicy from '../pages/inner-pages/Privacy';
 import PaymentPolicy from '../pages/inner-pages/Payment';
 import PrivateRoute from '../private/PrivateRoute';
 import { UserRole } from '../utils/UserRole';
+import OrderDetails from '../pages/dashboard/customer/OrderDetails';
 
 export const router = createBrowserRouter([
   {
@@ -247,6 +248,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute roles={[UserRole.customer]}>
             <CustomerOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'my-orders/:orderId',
+        element: (
+          <PrivateRoute roles={[UserRole.customer]}>
+            <OrderDetails />
           </PrivateRoute>
         ),
       },

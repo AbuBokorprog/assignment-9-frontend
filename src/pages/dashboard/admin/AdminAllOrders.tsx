@@ -38,18 +38,6 @@ const AdminAllOrders: React.FC = () => {
     setPaymentFilter(event.target.value);
   };
 
-  // const getPaymentStatusColor = (
-  //   status: TOrder['paymentStatus']
-  // ): 'success' | 'error' | 'warning' => {
-  //   const colors = {
-  //     PAID: 'success',
-  //     UNPAID: 'error',
-  //     FAILED: 'warning',
-  //     REFUNDED: 'warning',
-  //   };
-  //   return colors[status];
-  // };
-
   const filteredOrders = data?.data?.filter((order: TOrder) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -58,9 +46,9 @@ const AdminAllOrders: React.FC = () => {
         .includes(searchTerm.toLowerCase());
     const matchesStatus =
       statusFilter === 'all' || order.status === statusFilter;
-    // const matchesPayment =
-    //   paymentFilter === 'all' || order.paymentStatus === paymentFilter;
-    return matchesSearch && matchesStatus;
+    const matchesPayment =
+      paymentFilter === 'all' || order.payment.status === paymentFilter;
+    return matchesSearch && matchesStatus && matchesPayment;
   });
 
   return (

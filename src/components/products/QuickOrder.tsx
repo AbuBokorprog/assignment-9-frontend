@@ -1,10 +1,11 @@
 import { Button } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api';
 import { toast } from 'sonner';
 import { Product } from '../../types/product.type';
+import CartAlertDialog from '../ui/CartAlertDialog';
 
 type QuickOrderProps = {
   data: Product;
@@ -13,19 +14,18 @@ type QuickOrderProps = {
 
 const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false);
   const [addToCart, { isLoading }] = useCreateCartMutation();
 
+  const orderData = {
+    productId: data?.id,
+    color: null,
+    size: null,
+    qty: 1,
+    price: data?.discount_price ? data?.discount_price : data?.regular_price,
+  };
   const QuickOrderHandler = async () => {
     const toastId = toast.loading('Loading...');
-
-    const orderData = {
-      productId: data?.id,
-      color: null,
-      size: null,
-      qty: 1,
-      price: data?.discount_price ? data?.discount_price : data?.regular_price,
-    };
 
     try {
       const res = await addToCart(orderData).unwrap();
@@ -36,6 +36,8 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
           duration: 200,
         });
         navigate('/checkout');
+      } else if (res?.status === 409) {
+        setOpen(true);
       }
     } catch (error: any) {
       console.log(error);
@@ -56,6 +58,8 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
       >
         Quick Order
       </Button>
+
+      <CartAlertDialog open={open} setOpen={setOpen} orderData={orderData} />
     </div>
   );
 };

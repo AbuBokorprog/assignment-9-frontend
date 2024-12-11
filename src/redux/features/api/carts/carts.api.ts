@@ -31,6 +31,14 @@ export const cartsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['carts'],
     }),
+    replaceCart: builder.mutation({
+      query: (data) => ({
+        url: '/carts/conflict/replace-cart',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['carts'],
+    }),
     updateCart: builder.mutation({
       query: ({ id, data }) => ({
         url: `/carts/${id}`,
@@ -56,4 +64,5 @@ export const {
   useUpdateCartMutation,
   useDeleteCartMutation,
   useGetAllMyCartsQuery,
+  useReplaceCartMutation,
 } = cartsApi;

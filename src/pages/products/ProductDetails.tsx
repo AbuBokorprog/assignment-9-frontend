@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { useCreateRecentProductsMutation } from '../../redux/features/api/recently-viewed/recently-viewed.api';
 import Loader from '../../components/ui/Loader';
 import ProductCard from '../../components/ui/ProductCard';
+import CartAlertDialog from '../../components/ui/CartAlertDialog';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -72,7 +73,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [tabValue, setTabValue] = useState(0);
-
+  const [open, setOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
 
@@ -115,18 +116,19 @@ const ProductDetails = () => {
   }, [id, createRecentProduct]);
 
   const price = product?.discount_price
-    ? data?.data?.discount_price * quantity
-    : data?.data?.regular_price * quantity;
+    ? product?.discount_price * quantity
+    : product?.regular_price * quantity;
+
+  const orderData = {
+    productId: product?.id,
+    color: selectedColor || null,
+    size: selectedSize || null,
+    qty: quantity,
+    price: price,
+  };
 
   const addToCartHandler = async () => {
     const toastId = toast.loading('Loading...');
-    const orderData = {
-      productId: product?.id,
-      color: selectedColor || null,
-      size: selectedSize || null,
-      qty: quantity,
-      price: price,
-    };
 
     try {
       const res = await addToCart(orderData).unwrap();
@@ -136,6 +138,8 @@ const ProductDetails = () => {
           id: toastId,
           duration: 200,
         });
+      } else if (res?.status === 409) {
+        setOpen(true);
       }
     } catch (error: any) {
       console.log(error);
@@ -425,6 +429,14 @@ const ProductDetails = () => {
               </Grid>
             </Box>
           )}
+
+          {/* dialog */}
+
+          <CartAlertDialog
+            open={open}
+            setOpen={setOpen}
+            orderData={orderData}
+          />
         </Container>
       )}
     </>

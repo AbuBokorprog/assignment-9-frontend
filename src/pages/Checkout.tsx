@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import { useGetAllMyCartsQuery } from '../redux/features/api/carts/carts.api';
 import { TCartProduct } from '../types/cart.type';
-import { number, z } from 'zod';
+import { z } from 'zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateOrderMutation } from '../redux/features/api/orders/orders.api';
@@ -127,6 +127,7 @@ const Checkout = () => {
 
   // place order form
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Loading...');
     const orderData = {
       ...data,
       products: products,
@@ -139,15 +140,20 @@ const Checkout = () => {
     try {
       const res = await orderPlace(orderData).unwrap();
       if (res?.success) {
-        toast.success(res?.message);
+        toast.success(res?.message, { id: toastId, duration: 200 });
         reset();
         if (data?.paymentType === 'COD') {
           navigate('/dashboard/my-orders');
         }
+
+        if (res?.data?.payment) {
+          window.location.href = res?.data?.payment?.payment_url;
+        }
       }
+      toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
       console.log(error);
-      toast.success(error);
+      toast.error(error?.error);
     }
   };
 

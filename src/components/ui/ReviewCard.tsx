@@ -7,6 +7,7 @@ type ReviewCardProps = {
 };
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+  console.log(review);
   return (
     <div>
       <Box key={review?.id} sx={{ mb: 3 }}>

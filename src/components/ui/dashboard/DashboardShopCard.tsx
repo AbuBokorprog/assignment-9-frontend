@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Shop } from '../../../types/shop.type';
 import {
   Avatar,
   Button,
@@ -31,16 +30,21 @@ import {
   useUpdateShopStatusMutation,
 } from '../../../redux/features/api/shops/shops.api';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
+import { TShop } from '../../../types/shop.type';
 
 type dashboardShopCardProps = {
-  shop: Shop;
+  shop: TShop;
 };
 
 const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedShop, setSelectedShop] = useState<Shop | null>(null);
+  const [selectedShop, setSelectedShop] = useState<TShop | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, shop: Shop) => {
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    shop: TShop
+  ) => {
     setAnchorEl(event.currentTarget);
     setSelectedShop(shop);
   };
@@ -90,14 +94,23 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
       console.log(error);
     }
   };
-  const getStatusColor = (isActive: Shop['isActive']) => {
-    const colors: Record<Shop['isActive'], 'success' | 'error' | 'warning'> = {
-      active: 'success',
-      inactive: 'error',
-      pending: 'warning',
+  const getStatusColor = (isActive: TShop['isActive']) => {
+    const colors: Record<TShop['isActive'], 'success' | 'error' | 'warning'> = {
+      APPROVED: 'success',
+      REJECT: 'error',
+      PENDING: 'warning',
     };
     return colors[isActive];
   };
+
+  const totalRating = shop?.reviews?.reduce(
+    (sum, item) => sum + item.rating,
+    0
+  );
+
+  const reviewCount = shop?.reviews?.length || 0;
+  const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
+
   return (
     <div>
       <Card className="hover:shadow-lg transition-shadow">
@@ -142,9 +155,9 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                 {/* {shop.category} */}
               </Typography>
               <div className="flex items-center gap-2 mb-3">
-                <Rating value={shop.rating} readOnly size="small" />
+                <Rating value={avgRating} readOnly size="small" />
                 <Typography variant="body2" color="textSecondary">
-                  {/* ({shop.rating} rating) */}
+                  ({avgRating} rating)
                 </Typography>
               </div>
             </div>
@@ -237,9 +250,12 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleEditShop}>
-          <FaEdit className="mr-2" /> Edit Shop
-        </MenuItem>
+        <Link to={`/dashboard/vendor/edit-shop/${shop?.id}`}>
+          <MenuItem>
+            <FaEdit className="mr-2" /> Edit Shop
+          </MenuItem>
+        </Link>
+
         <MenuItem onClick={handleDeleteClick} className="text-red-500">
           <FaTrash className="mr-2" /> Delete Shop
         </MenuItem>

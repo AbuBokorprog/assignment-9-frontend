@@ -26,6 +26,8 @@ import { shopSchema } from '../../../schema/shop';
 import { toast } from 'sonner';
 import { useCreateShopMutation } from '../../../redux/features/api/shops/shops.api';
 import Loader from '../../../components/ui/Loader';
+import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
+import { TCategory } from '../../../types/categories.type';
 
 type TCategorySchema = z.infer<typeof shopSchema>;
 
@@ -61,6 +63,7 @@ const VendorAddShop: React.FC = () => {
   };
 
   const [createShop, { isLoading }] = useCreateShopMutation();
+  const { data } = useGetAllCategoriesQuery({});
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const vendorData = {
@@ -92,6 +95,11 @@ const VendorAddShop: React.FC = () => {
   const handleCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  const categoryOptions = data?.data?.map((item: TCategory) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
@@ -133,9 +141,11 @@ const VendorAddShop: React.FC = () => {
                   {...register('categoryId')}
                   onChange={handleCategory}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {categoryOptions?.map((item: any, index: number) => (
+                    <MenuItem value={item?.value} key={index}>
+                      {item?.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>

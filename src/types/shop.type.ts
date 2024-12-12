@@ -1,6 +1,7 @@
 import { TCategory } from './categories.type';
 import { TOrder } from './order.type';
 import { Product } from './product.type';
+import { TReview } from './review.type';
 import { TAdmin } from './user.type';
 
 export interface TShop {
@@ -11,7 +12,7 @@ export interface TShop {
   vendor: TAdmin;
   orders: TOrder[];
   products: Product[];
-  reviews: any[];
+  reviews: TReview[];
   address: string;
   isActive: string;
   createdAt: string;

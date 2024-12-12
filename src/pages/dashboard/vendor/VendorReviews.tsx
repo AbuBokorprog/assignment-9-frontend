@@ -89,7 +89,7 @@ const VendorReviews: React.FC = () => {
               onChange={handleRatingChange}
             >
               <MenuItem value="all">All Ratings</MenuItem>
-              {[5, 4, 3, 2, 1].map((rating) => (
+              {[5, 4, 3, 2, 1]?.map((rating) => (
                 <MenuItem key={rating} value={rating}>
                   {rating} Stars
                 </MenuItem>
@@ -99,14 +99,14 @@ const VendorReviews: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredReviews.map((review: TReview) => (
+          {filteredReviews?.map((review: TReview) => (
             <Grid item xs={12} key={review.id}>
               <DashboardReviewCard review={review} />
             </Grid>
           ))}
         </Grid>
 
-        {filteredReviews.length === 0 && (
+        {filteredReviews?.length === 0 && (
           <div className="text-center py-16">
             <Typography variant="h6" color="textSecondary">
               No reviews found

@@ -1,6 +1,14 @@
-import { Card, CardContent, Chip, Rating, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Rating,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { TReview } from '../../../types/review.type';
+import { FaCheck, FaReply, FaTimes } from 'react-icons/fa';
 
 type DashboardReviewCardProps = {
   review: TReview;
@@ -13,9 +21,9 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
     status: TReview['reviewStatus']
   ): 'success' | 'warning' | 'error' => {
     const colors = {
-      approved: 'success',
-      pending: 'warning',
-      rejected: 'error',
+      APPROVED: 'success',
+      PENDING: 'warning',
+      REJECTED: 'error',
     } as const;
     return colors[status];
   };
@@ -90,13 +98,13 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                         </Typography> */}
               </div>
 
-              {/* <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        className="mb-4"
-                      >
-                        {review.comment}
-                      </Typography> */}
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                className="mb-4"
+              >
+                {review.comment}
+              </Typography>
 
               {/* {review.reply && (
                         <div className="bg-gray-50 p-3 rounded-lg mb-4">
@@ -112,43 +120,39 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                           </Typography>
                         </div>
                       )} */}
-              {/* 
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          startIcon={<FaReply />}
-                          onClick={() => handleReplyClick(review)}
-                        >
-                          {review.reply ? 'Edit Reply' : 'Reply'}
-                        </Button>
-                        {review.status === 'pending' && (
-                          <>
-                            <Button
-                              variant="contained"
-                              color="success"
-                              size="small"
-                              startIcon={<FaCheck />}
-                              onClick={() =>
-                                handleUpdateStatus(review.id, 'approved')
-                              }
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="error"
-                              size="small"
-                              startIcon={<FaTimes />}
-                              onClick={() =>
-                                handleUpdateStatus(review.id, 'rejected')
-                              }
-                            >
-                              Reject
-                            </Button>
-                          </>
-                        )}
-                      </div> */}
+
+              <div className="flex gap-2">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<FaReply />}
+                  // onClick={() => handleReplyClick(review)}
+                >
+                  {/* {review.reply ? 'Edit Reply' : 'Reply'} */}
+                </Button>
+                {review.reviewStatus === 'PENDING' && (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      startIcon={<FaCheck />}
+                      onClick={() => handleUpdateStatus(review.id, 'APPROVED')}
+                    >
+                      Approve
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      startIcon={<FaTimes />}
+                      onClick={() => handleUpdateStatus(review.id, 'REJECTED')}
+                    >
+                      Reject
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </CardContent>

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import {
+  useCreateShopMutation,
   useGetShopByIdQuery,
   useUpdateShopMutation,
 } from '../../../redux/features/api/shops/shops.api';
@@ -26,33 +27,26 @@ import { FaStore } from 'react-icons/fa';
 import { Person } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { TShop } from '../../../types/shop.type';
+import { TCategory } from '../../../types/categories.type';
+import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
 
 type TCategorySchema = z.infer<typeof editShopSchema>;
 
 const VendorEditShop = () => {
   const { id } = useParams();
-  const [category, setCategory] = React.useState('');
-  const [shop, setShop] = React.useState('');
+  const { data } = useGetShopByIdQuery(id);
+  const shopData: TShop = data?.data;
+  const [category, setCategory] = React.useState(shopData?.category?.id);
+  // const [shop, setShop] = React.useState('');
   const [logo, setLogo] = useState<any>();
   const [cover, setCover] = useState<any>();
 
-  const { data } = useGetShopByIdQuery(id);
-  const shopData: TShop = data?.data;
-
   const {
     register,
-    // reset,
     handleSubmit,
     formState: { errors },
   } = useForm<TCategorySchema>({
     resolver: zodResolver(editShopSchema),
-    defaultValues: {
-      address: shopData.address,
-      categoryId: shopData.category.id,
-      description: shopData?.description,
-      registrationNumber: shopData?.registrationNumber,
-      shopName: shopData?.shopName,
-    },
   });
 
   const handleLogo = (e: any) => {
@@ -69,12 +63,12 @@ const VendorEditShop = () => {
     setCover(file);
   };
 
+  const { data: categories } = useGetAllCategoriesQuery({});
   const [updateShop, { isLoading }] = useUpdateShopMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const vendorData = {
       ...data,
-      name: `${data.firstName} ${data.lastName},`,
       categoryId: category,
     };
 
@@ -89,7 +83,7 @@ const VendorEditShop = () => {
 
     const toastId = toast.loading('Loading...');
     try {
-      const response = await updateShop(formData).unwrap();
+      const response = await updateShop({ id: id, data: formData }).unwrap();
       if (response.success) {
         toast.success('Category created successfully!', {
           id: toastId,
@@ -105,6 +99,12 @@ const VendorEditShop = () => {
   const handleCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  const categoryOptions = categories?.data?.map((item: TCategory) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
+
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}
@@ -122,6 +122,7 @@ const VendorEditShop = () => {
               <TextField
                 fullWidth
                 label="Shop Name"
+                defaultValue={shopData?.shopName}
                 {...register('shopName')}
                 error={!!errors.shopName}
                 helperText={errors.shopName?.message}
@@ -145,9 +146,14 @@ const VendorEditShop = () => {
                   {...register('categoryId')}
                   onChange={handleCategory}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem defaultValue={shopData?.category?.id}>
+                    {shopData?.category?.name}
+                  </MenuItem>
+                  {categoryOptions?.map((item: any, index: number) => (
+                    <MenuItem value={item?.value} key={index}>
+                      {item?.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -159,6 +165,7 @@ const VendorEditShop = () => {
                   fullWidth
                   label="Address"
                   {...register('address')}
+                  defaultValue={shopData?.address}
                   error={!!errors.address}
                   helperText={errors.address?.message}
                   InputProps={{
@@ -175,6 +182,7 @@ const VendorEditShop = () => {
               <div>
                 <TextField
                   fullWidth
+                  defaultValue={shopData?.registrationNumber}
                   label="Registration Number"
                   {...register('registrationNumber')}
                   error={!!errors.registrationNumber}
@@ -195,21 +203,21 @@ const VendorEditShop = () => {
             <Typography variant="body1" component="p">
               Upload logo
             </Typography>
+            <img src={shopData?.shopLogo} alt="" className="size-20" />
             <TextField
               fullWidth
               name="image"
               type="file"
-              required
               onChange={handleLogo}
             />
             <Typography variant="body1" component="p">
               Upload Cover Image
             </Typography>
+            <img src={shopData?.shopCover} alt="" className="size-72" />
             <TextField
               fullWidth
               name="image"
               type="file"
-              required
               onChange={handleCover}
             />
           </Box>

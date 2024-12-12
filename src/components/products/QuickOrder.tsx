@@ -6,6 +6,8 @@ import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api'
 import { toast } from 'sonner';
 import { Product } from '../../types/product.type';
 import CartAlertDialog from '../ui/CartAlertDialog';
+import { useAppSelector } from '../../redux/hooks/hooks';
+import { currentUser } from '../../redux/store';
 
 type QuickOrderProps = {
   data: Product;
@@ -13,6 +15,7 @@ type QuickOrderProps = {
 };
 
 const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
+  const user = useAppSelector(currentUser);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [addToCart, { isLoading }] = useCreateCartMutation();
@@ -25,6 +28,9 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
     price: data?.discount_price ? data?.discount_price : data?.regular_price,
   };
   const QuickOrderHandler = async () => {
+    if (!user) {
+      navigate('/login');
+    }
     const toastId = toast.loading('Loading...');
 
     try {

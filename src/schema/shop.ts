@@ -9,3 +9,13 @@ export const shopSchema = z.object({
   address: z.string().min(2, 'Address is required'),
   registrationNumber: z.string().min(2, 'Address is required'),
 });
+
+export const editShopSchema = z.object({
+  shopName: z.string().optional(),
+  // shopLogo: z.object({ file: z.instanceof(File) }),
+  // shopCover: z.object({ file: z.instanceof(File) }),
+  description: z.string().optional(),
+  categoryId: z.string().optional(),
+  address: z.string().optional(),
+  registrationNumber: z.string().optional(),
+});

@@ -17,6 +17,8 @@ export interface TShop {
   createdAt: string;
   category: TCategory;
   followers: any[];
+  description?: string;
+  registrationNumber?: string;
 }
 
 export interface TFollowShop {

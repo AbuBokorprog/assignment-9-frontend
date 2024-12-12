@@ -48,6 +48,7 @@ import PrivateRoute from '../private/PrivateRoute';
 import { UserRole } from '../utils/UserRole';
 import OrderDetails from '../pages/dashboard/customer/OrderDetails';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
+import VendorEditShop from '../pages/dashboard/vendor/VendorEditShop';
 
 export const router = createBrowserRouter([
   {
@@ -311,6 +312,14 @@ export const router = createBrowserRouter([
           <PrivateRoute roles={[UserRole.vendor]}>
             {' '}
             <VendorAddShop />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'vendor/edit-shop/:id',
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorEditShop />
           </PrivateRoute>
         ),
       },

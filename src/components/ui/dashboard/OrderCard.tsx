@@ -16,6 +16,8 @@ import {
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
 import { toast } from 'sonner';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
 
 type OrderCardProps = {
   order: TOrder;
@@ -28,6 +30,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   setExpandedOrder,
   expandedOrder,
 }) => {
+  const user: any = useAppSelector(currentUser);
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
   const getStatusColor = (status: TOrder['status']) => {
@@ -37,6 +40,18 @@ const OrderCard: React.FC<OrderCardProps> = ({
       SHIPPED: 'primary',
       DELIVERED: 'success',
       CANCELLED: 'error',
+    };
+    return colors[status];
+  };
+
+  const getPaymentStatusColor = (
+    status: TOrder['status']
+  ): 'success' | 'error' | 'warning' => {
+    const colors = {
+      PAID: 'success',
+      UNPAID: 'error',
+      FAILED: 'warning',
+      REFUNDED: 'primary',
     };
     return colors[status];
   };
@@ -68,7 +83,6 @@ const OrderCard: React.FC<OrderCardProps> = ({
       toast.error(error?.error);
     }
   };
-
   return (
     <React.Fragment key={order?.id}>
       <TableRow className="hover:bg-gray-50">
@@ -82,6 +96,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
             {expandedOrder === order?.id ? <FaChevronUp /> : <FaChevronDown />}
           </IconButton>
         </TableCell>
+
         <TableCell>{order?.id}</TableCell>
         <TableCell>{new Date(order?.createdAt).toLocaleDateString()}</TableCell>
         <TableCell>
@@ -101,15 +116,30 @@ const OrderCard: React.FC<OrderCardProps> = ({
           />
         </TableCell>
         <TableCell>
-          <Chip label={'Unpaid'} color={'error'} size="small" />
+          {order?.payment?.status ? (
+            <Chip
+              label={order?.payment?.status}
+              color={getPaymentStatusColor(order?.payment?.status)}
+              size="small"
+            />
+          ) : (
+            <span className="text-sm text-gray-400">N/A</span>
+          )}
         </TableCell>
-        <TableCell>
+        <TableCell className="space-y-2">
           <Button
             variant="outlined"
             size="small"
             onClick={() => console.log('Update status:', order?.id)}
           >
             Update Status
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => console.log('Update status:', order?.id)}
+          >
+            Update payment Status
           </Button>
         </TableCell>
       </TableRow>

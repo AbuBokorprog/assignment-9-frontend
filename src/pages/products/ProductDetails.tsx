@@ -13,6 +13,8 @@ import {
   Tab,
   Paper,
   Avatar,
+  FormControl,
+  TextField,
 } from '@mui/material';
 import ImageGallery from 'react-image-gallery';
 import { useParams, Link } from 'react-router-dom';
@@ -27,6 +29,11 @@ import { useCreateRecentProductsMutation } from '../../redux/features/api/recent
 import Loader from '../../components/ui/Loader';
 import ProductCard from '../../components/ui/ProductCard';
 import CartAlertDialog from '../../components/ui/CartAlertDialog';
+import { register } from 'react-scroll/modules/mixins/scroller';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useCreateReviewMutation } from '../../redux/features/api/reviews/reviews.api';
+import { currentUser } from '../../redux/store';
+import { useAppSelector } from '../../redux/hooks/hooks';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -71,15 +78,25 @@ function TabPanel(props: TabPanelProps) {
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const user = useAppSelector(currentUser);
+  const [value, setValue] = React.useState<number | null>(2);
   const [quantity, setQuantity] = useState(1);
   const [tabValue, setTabValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
   const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
   const { data } = useGetProductByIdQuery(id);
+  const [addReview] = useCreateReviewMutation();
   const product = data?.data?.product;
   const relatedProducts = data?.data?.relatedProducts;
 
@@ -144,6 +161,24 @@ const ProductDetails = () => {
     } catch (error: any) {
       console.log(error);
       toast.success(error, { id: toastId, duration: 200 });
+    }
+  };
+
+  const isOrderedProduct = product?.orders?.some(
+    (item: any) => item.order.customerId === user?.id
+  );
+
+  const reviewHandler: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Loading...');
+    const reviewData = { productId: product?.id, rating: value, ...data };
+
+    try {
+      const res = await addReview(reviewData).unwrap();
+      toast.success(res?.message, { id: toastId, duration: 200 });
+      reset();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.error, { id: toastId, duration: 200 });
     }
   };
 
@@ -335,13 +370,44 @@ const ProductDetails = () => {
               {/* Reviews Tab */}
               <TabPanel value={tabValue} index={1}>
                 <Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
-                    <Typography variant="h6">Customer Reviews</Typography>
-                    <Button variant="contained" sx={{ ml: 'auto' }}>
-                      Write a Review
-                    </Button>
+                  <Box>
+                    <Typography variant="h6"> Write a Review</Typography>
+                    <Rating
+                      name="simple-controlled"
+                      value={value}
+                      disabled={!isOrderedProduct}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                      }}
+                    />
+                    <form onSubmit={handleSubmit(reviewHandler)}>
+                      <FormControl className="w-full my-2">
+                        <TextField
+                          fullWidth
+                          rows={5}
+                          multiline
+                          disabled={!isOrderedProduct}
+                          {...register('comment')}
+                          label={'Give me review'}
+                        />
+                      </FormControl>
+
+                      <div className="text-center my-4">
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          disabled={!isOrderedProduct}
+                        >
+                          Submit Review
+                        </Button>
+                      </div>
+                    </form>
                   </Box>
 
+                  {/* reviews card */}
+                  <Typography variant="h6" className="my-4">
+                    Customer Reviews
+                  </Typography>
                   {reviews.map((review) => (
                     <Box key={review.id} sx={{ mb: 3 }}>
                       <Box
@@ -410,6 +476,7 @@ const ProductDetails = () => {
             </Paper>
           </Box>
 
+          {/* Related products */}
           {relatedProducts?.length > 0 && (
             <Box>
               <Typography

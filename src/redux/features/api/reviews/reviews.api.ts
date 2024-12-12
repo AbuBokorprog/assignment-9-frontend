@@ -9,6 +9,20 @@ export const reviewsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['reviews'],
     }),
+    getMyAllReviews: builder.query({
+      query: () => ({
+        url: '/reviews/users/my-review',
+        method: 'GET',
+      }),
+      providesTags: ['reviews'],
+    }),
+    getVendorAllReviews: builder.query({
+      query: () => ({
+        url: '/reviews/vendor/my-review',
+        method: 'GET',
+      }),
+      providesTags: ['reviews'],
+    }),
     getReviewById: builder.query({
       query: (id) => ({
         url: `/reviews/${id}`,
@@ -48,4 +62,6 @@ export const {
   useCreateReviewMutation,
   useUpdateReviewMutation,
   useDeleteReviewMutation,
+  useGetMyAllReviewsQuery,
+  useGetVendorAllReviewsQuery,
 } = reviewsApi;

@@ -16,6 +16,7 @@ import { FaSearch, FaEye } from 'react-icons/fa';
 import { useGetAllMyOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { TOrder, TProductOrder } from '../../../types/order.type';
 import Loader from '../../../components/ui/Loader';
+import { Link } from 'react-router-dom';
 
 const CustomerOrders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -31,6 +32,15 @@ const CustomerOrders: React.FC = () => {
     };
     return colors[status];
   };
+  const getPaymentStatusColor = (status: TOrder['status']) => {
+    const colors = {
+      PAID: 'success',
+      UNPAID: 'warning',
+      FAILED: 'error',
+      REFUNDED: 'primary',
+    };
+    return colors[status];
+  };
 
   const filteredOrders = data?.data?.filter(
     (order: TOrder) =>
@@ -42,7 +52,7 @@ const CustomerOrders: React.FC = () => {
     // Implement order details view logic
     console.log('Viewing order:', orderId);
   };
-
+  console.log(data?.data);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}
@@ -74,7 +84,8 @@ const CustomerOrders: React.FC = () => {
                 <TableCell className="font-semibold">Items</TableCell>
                 <TableCell className="font-semibold">Total</TableCell>
                 <TableCell className="font-semibold">Status</TableCell>
-                <TableCell className="font-semibold">Tracking</TableCell>
+                <TableCell className="font-semibold">Payment Status</TableCell>
+                <TableCell className="font-semibold">Payment Type</TableCell>
                 <TableCell className="font-semibold">Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -108,21 +119,33 @@ const CustomerOrders: React.FC = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    {order.id ? (
-                      <span className="text-sm">{order?.id}</span>
+                    {order?.payment?.status ? (
+                      <Chip
+                        label={order?.payment?.status}
+                        color={getPaymentStatusColor(order?.payment?.status)}
+                        size="small"
+                      />
                     ) : (
                       <span className="text-sm text-gray-400">N/A</span>
                     )}
                   </TableCell>
                   <TableCell>
-                    <Button
-                      startIcon={<FaEye />}
-                      onClick={() => handleViewDetails(order.id)}
-                      variant="outlined"
-                      size="small"
-                    >
-                      View
-                    </Button>
+                    {order.paymentType ? (
+                      <span className="text-sm">{order?.paymentType}</span>
+                    ) : (
+                      <span className="text-sm text-gray-400">N/A</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/dashboard/my-orders/${order.id}`}>
+                      <Button
+                        startIcon={<FaEye />}
+                        variant="outlined"
+                        size="small"
+                      >
+                        View
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

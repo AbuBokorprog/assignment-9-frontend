@@ -1,3 +1,4 @@
+import { TPayment } from './payment.type';
 import { Product } from './product.type';
 import { TUser } from './user.type';
 
@@ -19,6 +20,7 @@ export interface TOrder {
   createdAt: string;
   updatedAt: string;
   products: TProductOrder[];
+  payment: TPayment;
   customer: TUser;
 }
 

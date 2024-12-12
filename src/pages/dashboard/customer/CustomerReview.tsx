@@ -15,75 +15,27 @@ import {
   DialogActions,
 } from '@mui/material';
 import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
-
-interface Review {
-  id: string;
-  productId: string;
-  productName: string;
-  productImage: string;
-  rating: number;
-  comment: string;
-  date: string;
-  helpful: number;
-  status: 'published' | 'pending' | 'rejected';
-}
+import { useGetMyAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
+import { TReview } from '../../../types/review.type';
 
 const CustomerReview: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [editReview, setEditReview] = useState<Review | null>(null);
+  const [editReview, setEditReview] = useState<TReview | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editedRating, setEditedRating] = useState(0);
   const [editedComment, setEditedComment] = useState('');
+  const { data, isLoading } = useGetMyAllReviewsQuery({});
 
-  // Dummy data - replace with actual API call
-  const reviews: Review[] = [
-    {
-      id: '1',
-      productId: 'p1',
-      productName: 'Wireless Headphones',
-      productImage: 'https://placehold.co/300x300',
-      rating: 4,
-      comment:
-        'Great sound quality and comfortable to wear for long periods. Battery life could be better.',
-      date: '2024-03-15',
-      helpful: 12,
-      status: 'published',
-    },
-    {
-      id: '2',
-      productId: 'p2',
-      productName: 'Smart Watch',
-      productImage: 'https://placehold.co/300x300',
-      rating: 5,
-      comment:
-        'Amazing features and battery life. The fitness tracking is very accurate.',
-      date: '2024-03-10',
-      helpful: 8,
-      status: 'published',
-    },
-    {
-      id: '3',
-      productId: 'p3',
-      productName: 'Bluetooth Speaker',
-      productImage: 'https://placehold.co/300x300',
-      rating: 3,
-      comment: 'Decent sound but connectivity issues sometimes.',
-      date: '2024-03-05',
-      helpful: 4,
-      status: 'pending',
-    },
-  ];
-
-  const filteredReviews = reviews.filter(
-    (review) =>
-      review.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      review.comment.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredReviews = data?.data?.filter(
+    (review: TReview) =>
+      review?.product?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      review?.comment?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleEditClick = (review: Review) => {
+  const handleEditClick = (review: TReview) => {
     setEditReview(review);
     setEditedRating(review.rating);
-    setEditedComment(review.comment);
+    setEditedComment(review?.comment ? review?.comment : '');
     setIsEditDialogOpen(true);
   };
 
@@ -104,7 +56,7 @@ const CustomerReview: React.FC = () => {
     setIsEditDialogOpen(false);
   };
 
-  const getStatusColor = (status: Review['status']) => {
+  const getStatusColor = (status: TReview['reviewStatus']) => {
     const colors = {
       published: 'success',
       pending: 'warning',
@@ -135,15 +87,15 @@ const CustomerReview: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredReviews.map((review) => (
+          {filteredReviews.map((review: TReview) => (
             <Grid item xs={12} key={review.id}>
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent>
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="w-full md:w-32">
                       <img
-                        src={review.productImage}
-                        alt={review.productName}
+                        src={review.product?.images?.[0]}
+                        alt={review.product?.name}
                         className="w-full h-32 object-cover rounded"
                       />
                     </div>
@@ -151,7 +103,7 @@ const CustomerReview: React.FC = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <Typography variant="h6" component="h3">
-                            {review.productName}
+                            {review.product?.name}
                           </Typography>
                           <div className="flex items-center gap-2 mb-2">
                             <Rating
@@ -166,8 +118,8 @@ const CustomerReview: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-2">
                           <Chip
-                            label={review.status}
-                            color={getStatusColor(review.status)}
+                            label={review?.reviewStatus}
+                            color={getStatusColor(review?.reviewStatus)}
                             size="small"
                           />
                           <Button
@@ -197,10 +149,7 @@ const CustomerReview: React.FC = () => {
                       <div className="flex justify-between items-center mt-2">
                         <Typography variant="caption" color="textSecondary">
                           Reviewed on{' '}
-                          {new Date(review.date).toLocaleDateString()}
-                        </Typography>
-                        <Typography variant="caption" color="textSecondary">
-                          {review.helpful} people found this helpful
+                          {new Date(review?.createdAt).toLocaleDateString()}
                         </Typography>
                       </div>
                     </div>

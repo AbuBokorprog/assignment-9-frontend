@@ -34,32 +34,14 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateReviewMutation } from '../../redux/features/api/reviews/reviews.api';
 import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
+import { TReview } from '../../types/review.type';
+import ReviewCard from '../../components/ui/ReviewCard';
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
-
-// Sample reviews data
-const reviews = [
-  {
-    id: 1,
-    user: 'John Doe',
-    rating: 5,
-    date: '2024-03-15',
-    comment: 'Very fresh and good quality vegetables. Will order again!',
-    avatar: 'J',
-  },
-  {
-    id: 2,
-    user: 'Sarah Smith',
-    rating: 4,
-    date: '2024-03-14',
-    comment: 'Good product but delivery took longer than expected.',
-    avatar: 'S',
-  },
-];
 
 // Custom TabPanel component
 function TabPanel(props: TabPanelProps) {
@@ -408,37 +390,8 @@ const ProductDetails = () => {
                   <Typography variant="h6" className="my-4">
                     Customer Reviews
                   </Typography>
-                  {reviews.map((review) => (
-                    <Box key={review.id} sx={{ mb: 3 }}>
-                      <Box
-                        sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
-                      >
-                        <Avatar sx={{ mr: 2 }}>{review.avatar}</Avatar>
-                        <Box>
-                          <Typography variant="subtitle1">
-                            {review.user}
-                          </Typography>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Rating
-                              value={review.rating}
-                              size="small"
-                              readOnly
-                            />
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              sx={{ ml: 1 }}
-                            >
-                              {new Date(review.date).toLocaleDateString()}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Box>
-                      <Typography variant="body2" color="text.secondary">
-                        {review.comment}
-                      </Typography>
-                      <Divider sx={{ mt: 2 }} />
-                    </Box>
+                  {product?.reviews?.map((review: TReview, index: number) => (
+                    <ReviewCard review={review} key={index} />
                   ))}
                 </Box>
               </TabPanel>

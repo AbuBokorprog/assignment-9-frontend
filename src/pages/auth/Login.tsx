@@ -35,6 +35,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -168,12 +169,13 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className="text-sm">
-                    <Link
-                      to="/forgot-password"
+                    <Button
+                      variant="text"
+                      onClick={() => setOpen(true)}
                       className="font-medium text-primary-600 hover:text-primary-500"
                     >
                       Forgot your password?
-                    </Link>
+                    </Button>
                   </div>
                 </div>
 
@@ -185,38 +187,6 @@ const Login: React.FC = () => {
                 >
                   Sign in
                 </Button>
-
-                <div className="mt-6">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <Divider className="w-full" />
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-gray-500">
-                        Or continue with
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 grid grid-cols-2 gap-3">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      className="text-gray-700 border-gray-300"
-                      startIcon={<Google />}
-                    >
-                      Google
-                    </Button>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      className="text-gray-700 border-gray-300"
-                      startIcon={<Facebook />}
-                    >
-                      Facebook
-                    </Button>
-                  </div>
-                </div>
               </form>
             </div>
           </div>

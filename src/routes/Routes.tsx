@@ -47,6 +47,7 @@ import PaymentPolicy from '../pages/inner-pages/Payment';
 import PrivateRoute from '../private/PrivateRoute';
 import { UserRole } from '../utils/UserRole';
 import OrderDetails from '../pages/dashboard/customer/OrderDetails';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 
 export const router = createBrowserRouter([
   {
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/reset-password',
+        element: <ResetPasswordPage />,
       },
       {
         path: '/register',

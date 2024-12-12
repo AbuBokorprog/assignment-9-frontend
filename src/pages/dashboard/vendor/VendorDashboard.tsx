@@ -7,6 +7,10 @@ import {
   FaStar,
   FaUser,
 } from 'react-icons/fa';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
+import { useGetVendorAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
+import { useGetVendorReportsQuery } from '../../../redux/features/api/reports/reports.api';
 
 interface DashboardCardProps {
   title: string;
@@ -33,6 +37,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 );
 
 const VendorDashboard: React.FC = () => {
+  const user = useAppSelector(currentUser);
   // This would typically come from your API/backend
   const dashboardData = {
     totalOrders: 12,
@@ -42,6 +47,9 @@ const VendorDashboard: React.FC = () => {
     cartItems: 3,
     reviews: 7,
   };
+
+  const { data: orders } = useGetVendorAllOrdersQuery({});
+  const { data, error } = useGetVendorReportsQuery({});
 
   const recentOrders = [
     {
@@ -69,45 +77,27 @@ const VendorDashboard: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
-      <h2 className="text-3xl font-bold mb-8">Welcome Back, User!</h2>
+      <h2 className="text-3xl font-bold mb-8">Welcome Back, {user?.name}!</h2>
 
       {/* Dashboard Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <DashboardCard
           title="Total Orders"
-          value={dashboardData.totalOrders}
+          value={orders?.data?.length}
           icon={<FaBox />}
           bgColor="bg-blue-100"
         />
         <DashboardCard
-          title="Wishlist Items"
-          value={dashboardData.wishlistItems}
-          icon={<FaHeart />}
-          bgColor="bg-red-100"
-        />
-        <DashboardCard
-          title="Cart Items"
-          value={dashboardData.cartItems}
-          icon={<FaShoppingCart />}
-          bgColor="bg-green-100"
-        />
-        <DashboardCard
-          title="Followed Shops"
-          value={dashboardData.followedShops}
+          title="Total Shops"
+          value={data?.data?.products?.length}
           icon={<FaStore />}
           bgColor="bg-purple-100"
         />
         <DashboardCard
-          title="My Reviews"
-          value={dashboardData.reviews}
-          icon={<FaStar />}
-          bgColor="bg-yellow-100"
-        />
-        <DashboardCard
-          title="Pending Orders"
-          value={dashboardData.pendingOrders}
+          title="Total Products"
+          value={data?.data?.shops?.length}
           icon={<FaBox />}
-          bgColor="bg-orange-100"
+          bgColor="bg-yellow-100"
         />
       </div>
 
@@ -149,29 +139,6 @@ const VendorDashboard: React.FC = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <FaShoppingCart className="text-2xl mb-2 text-primary-500" />
-            <span className="text-sm">View Cart</span>
-          </button>
-          <button className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <FaHeart className="text-2xl mb-2 text-primary-500" />
-            <span className="text-sm">Wishlist</span>
-          </button>
-          <button className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <FaUser className="text-2xl mb-2 text-primary-500" />
-            <span className="text-sm">Profile</span>
-          </button>
-          <button className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <FaStore className="text-2xl mb-2 text-primary-500" />
-            <span className="text-sm">Shops</span>
-          </button>
         </div>
       </div>
     </div>

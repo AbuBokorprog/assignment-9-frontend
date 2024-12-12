@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FaSearch, FaFilter } from 'react-icons/fa';
-import { useGetAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
+import { useGetVendorAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { TOrder } from '../../../types/order.type';
 import OrderCard from '../../../components/ui/dashboard/OrderCard';
 import Loader from '../../../components/ui/Loader';
@@ -28,7 +28,7 @@ const VendorOrderHistory: React.FC = () => {
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
-  const { data, isLoading } = useGetAllOrdersQuery({});
+  const { data, isLoading } = useGetVendorAllOrdersQuery({});
 
   const handleStatusChange = (event: SelectChangeEvent) => {
     setStatusFilter(event.target.value);

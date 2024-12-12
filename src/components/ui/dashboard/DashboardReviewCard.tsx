@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import { TReview } from '../../../types/review.type';
 import { FaCheck, FaReply, FaTimes } from 'react-icons/fa';
+import { useUpdateReviewStatusMutation } from '../../../redux/features/api/reviews/reviews.api';
+import { toast } from 'sonner';
 
 type DashboardReviewCardProps = {
   review: TReview;
@@ -23,29 +25,38 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
     const colors = {
       APPROVED: 'success',
       PENDING: 'warning',
-      REJECTED: 'error',
+      REJECT: 'error',
+      DELETE: 'error',
     } as const;
     return colors[status];
   };
 
-  const handleUpdateStatus = (
+  const [updateStatus] = useUpdateReviewStatusMutation();
+
+  const handleUpdateStatus = async (
     reviewId: string,
     newStatus: TReview['reviewStatus']
   ) => {
-    // Implement status update logic
-    console.log('Updating status:', reviewId, newStatus);
+    const toastId = toast.loading('Loading...');
+    const data = { id: reviewId, status: newStatus };
+    try {
+      const res = await updateStatus(data).unwrap();
+      toast.success(res?.message, { id: toastId, duration: 200 });
+    } catch (error: any) {
+      toast.error(error?.error, { id: toastId, duration: 200 });
+    }
   };
 
   return (
     <div>
       <Card className="hover:shadow-lg transition-shadow">
         <CardContent>
-          <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="w-full md:w-32">
               <img
                 src={review?.product?.images?.[0]}
                 alt={review?.product?.name}
-                className="w-full h-32 object-cover rounded"
+                className="size-32 object-cover rounded-full border"
               />
             </div>
             <div className="flex-1">
@@ -146,9 +157,53 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                       color="error"
                       size="small"
                       startIcon={<FaTimes />}
-                      onClick={() => handleUpdateStatus(review.id, 'REJECTED')}
+                      onClick={() => handleUpdateStatus(review.id, 'REJECT')}
                     >
                       Reject
+                    </Button>
+                  </>
+                )}
+                {review.reviewStatus === 'APPROVED' && (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      size="small"
+                      startIcon={<FaCheck />}
+                      onClick={() => handleUpdateStatus(review.id, 'PENDING')}
+                    >
+                      pending
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      startIcon={<FaTimes />}
+                      onClick={() => handleUpdateStatus(review.id, 'REJECT')}
+                    >
+                      Reject
+                    </Button>
+                  </>
+                )}
+                {review.reviewStatus === 'REJECT' && (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      startIcon={<FaCheck />}
+                      onClick={() => handleUpdateStatus(review.id, 'APPROVED')}
+                    >
+                      approved
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      size="small"
+                      startIcon={<FaTimes />}
+                      onClick={() => handleUpdateStatus(review.id, 'PENDING')}
+                    >
+                      pending
                     </Button>
                   </>
                 )}

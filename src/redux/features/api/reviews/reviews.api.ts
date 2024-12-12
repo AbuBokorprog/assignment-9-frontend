@@ -53,6 +53,14 @@ export const reviewsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['reviews'],
     }),
+    updateReviewStatus: builder.mutation({
+      query: (data) => ({
+        url: `/reviews/status/update-status`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['reviews'],
+    }),
   }),
 });
 
@@ -64,4 +72,5 @@ export const {
   useDeleteReviewMutation,
   useGetMyAllReviewsQuery,
   useGetVendorAllReviewsQuery,
+  useUpdateReviewStatusMutation,
 } = reviewsApi;

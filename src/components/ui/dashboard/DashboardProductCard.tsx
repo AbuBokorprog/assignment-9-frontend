@@ -30,6 +30,7 @@ import {
   useDeleteProductMutation,
   useUpdateProductStatusMutation,
 } from '../../../redux/features/api/products/products.api';
+import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
   product: Product;
@@ -228,9 +229,11 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <MenuItem onClick={handleEditProduct}>
           <FaEdit className="mr-2" /> Edit Product
         </MenuItem>
-        <MenuItem onClick={() => console.log('View product details')}>
-          <FaEye className="mr-2" /> View Details
-        </MenuItem>
+        <Link to={`/product-details/${product?.id}`}>
+          <MenuItem>
+            <FaEye className="mr-2" /> View Details
+          </MenuItem>
+        </Link>
         <MenuItem onClick={handleDeleteClick} className="text-red-500">
           <FaTrash className="mr-2" /> Delete Product
         </MenuItem>

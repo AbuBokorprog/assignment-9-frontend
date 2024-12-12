@@ -14,6 +14,7 @@ import { FaSearch, FaFilter } from 'react-icons/fa';
 import { TReview } from '../../../types/review.type';
 import { useGetVendorAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
 import DashboardReviewCard from '../../../components/ui/dashboard/DashboardReviewCard';
+import Loader from '../../../components/ui/Loader';
 
 const VendorReviews: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,6 +44,7 @@ const VendorReviews: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Review Management</h2>
@@ -76,9 +78,9 @@ const VendorReviews: React.FC = () => {
               }
             >
               <MenuItem value="all">All Status</MenuItem>
-              <MenuItem value="pending">Pending</MenuItem>
-              <MenuItem value="approved">Approved</MenuItem>
-              <MenuItem value="rejected">Rejected</MenuItem>
+              <MenuItem value="PENDING">Pending</MenuItem>
+              <MenuItem value="APPROVED">Approved</MenuItem>
+              <MenuItem value="REJECT">Rejected</MenuItem>
             </Select>
           </FormControl>
           <FormControl size="small">

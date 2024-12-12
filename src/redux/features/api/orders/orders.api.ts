@@ -16,6 +16,13 @@ export const ordersApi = baseApi.injectEndpoints({
       }),
       providesTags: ['orders'],
     }),
+    getVendorAllOrders: builder.query({
+      query: () => ({
+        url: '/orders/vendor/my-orders',
+        method: 'GET',
+      }),
+      providesTags: ['orders'],
+    }),
     getOrderById: builder.query({
       query: (id) => ({
         url: `/orders/${id}`,
@@ -63,5 +70,6 @@ export const {
   useUpdateOrderMutation,
   useDeleteOrderMutation,
   useGetAllMyOrdersQuery,
+  useGetVendorAllOrdersQuery,
   useUpdateOrderStatusMutation,
 } = ordersApi;

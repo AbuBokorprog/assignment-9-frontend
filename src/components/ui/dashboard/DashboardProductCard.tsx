@@ -99,7 +99,6 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -190,14 +189,74 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
           {user?.role === 'ADMIN' && (
             <div className="flex gap-2">
-              {product.isActive === 'PENDING' && (
+              {product?.isActive === 'APPROVED' ? (
                 <>
                   <Button
                     variant="contained"
                     color="success"
                     size="small"
                     startIcon={<FaCheck />}
-                    onClick={() => handleUpdateStatus(product.id, 'approved')}
+                    onClick={() => handleUpdateStatus(product?.id, 'PENDING')}
+                  >
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'REJECT')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : product?.isActive === 'PENDING' ? (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(product?.id, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'REJECT')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : product?.isActive === 'REJECT' ? (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(product?.id, 'APPROVED')}
                   >
                     Approve
                   </Button>
@@ -206,9 +265,48 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     color="error"
                     size="small"
                     startIcon={<FaTimes />}
-                    onClick={() => handleUpdateStatus(product?.id, 'rejected')}
+                    onClick={() => handleUpdateStatus(product?.id, 'PENDING')}
                   >
-                    Reject
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(product?.id, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'PENDING')}
+                  >
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(product?.id, 'REJECT')}
+                  >
+                    reject
                   </Button>
                 </>
               )}

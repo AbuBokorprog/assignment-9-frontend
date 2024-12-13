@@ -50,6 +50,7 @@ import OrderDetails from '../pages/dashboard/customer/OrderDetails';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import VendorEditShop from '../pages/dashboard/vendor/VendorEditShop';
 import AdminEditCategory from '../pages/dashboard/admin/AdminEditCategory';
+import AdminEditCoupon from '../pages/dashboard/admin/AdminEditCoupon';
 
 export const router = createBrowserRouter([
   {
@@ -207,6 +208,14 @@ export const router = createBrowserRouter([
           <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
             {' '}
             <AdminAddCoupon />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'admin/edit-coupon/:id',
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminEditCoupon />
           </PrivateRoute>
         ),
       },

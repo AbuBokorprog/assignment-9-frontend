@@ -11,6 +11,7 @@ import { TCoupon } from '../../../types/coupon.type';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { useDeleteCouponMutation } from '../../../redux/features/api/coupon/coupon.api';
+import { Link } from 'react-router-dom';
 
 type TCouponProps = {
   coupon: TCoupon;
@@ -88,9 +89,11 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
             },
           }}
         >
-          <MenuItem onClick={handleEditProduct}>
-            <FaEdit className="mr-2" /> Edit Coupon
-          </MenuItem>
+          <Link to={`/dashboard/admin/edit-coupon/${coupon?.id}`}>
+            <MenuItem onClick={handleEditProduct}>
+              <FaEdit className="mr-2" /> Edit Coupon
+            </MenuItem>
+          </Link>
 
           <MenuItem
             onClick={() => handleDeleteClick(coupon.id)}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useResetPasswordMutation } from '../../redux/features/api/auth/auth.api';
 
 interface ResetPasswordFormInputs {
@@ -8,7 +8,7 @@ interface ResetPasswordFormInputs {
   confirmPassword: string;
 }
 
-const ResetPassword = () => {
+const ResetPassword: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const email = searchParams.get('email');

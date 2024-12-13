@@ -30,10 +30,10 @@ const AllProducts: React.FC = () => {
   const [category, setCategory] = useState<string | null>(
     categoryQuery?.toLowerCase() || 'all'
   );
-  const [priceRange, setPriceRange] = useState('all');
+  // const [priceRange, setPriceRange] = useState('all');
   const [shippingTime, setShippingTime] = useState('all');
   const [page, setPage] = React.useState(1);
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
   const { data, isLoading } = useGetAllAvailableProductsQuery({});

@@ -22,7 +22,7 @@ import { TCartProduct } from '../types/cart.type';
 import { toast } from 'sonner';
 import Loader from '../components/ui/Loader';
 
-const ViewCart = () => {
+const ViewCart: React.FC = () => {
   const { data, isLoading } = useGetAllMyCartsQuery({});
   const [deleteCart] = useDeleteCartMutation();
   // Calculate total price

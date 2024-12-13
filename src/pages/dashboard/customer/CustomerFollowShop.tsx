@@ -3,7 +3,7 @@ import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import CustomerShopCard from '../../../components/ui/dashboard/CustomerShopCard';
 import { useGetMyFollowingShopQuery } from '../../../redux/features/api/shops/shops.api';
-import { TFollowShop, TShop } from '../../../types/shop.type';
+import { TFollowShop } from '../../../types/shop.type';
 import Loader from '../../../components/ui/Loader';
 
 const CustomerFollowShop: React.FC = () => {

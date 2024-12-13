@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -4,7 +4,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LoginIcon from '@mui/icons-material/Login';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Button, Drawer, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,12 +18,6 @@ interface UserDropdownProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
-
-type TUser = {
-  email: string;
-  name: string;
-  role: string;
-};
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
   const user: any = useAppSelector(currentUser);

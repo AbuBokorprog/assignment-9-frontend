@@ -1,10 +1,10 @@
 import {
-  Card,
-  CardContent,
+  // Card,
+  // CardContent,
   Grid,
   InputAdornment,
   TextField,
-  Typography,
+  // Typography,
 } from '@mui/material';
 import React from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';

@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import {
-  useCreateShopMutation,
   useGetShopByIdQuery,
   useUpdateShopMutation,
 } from '../../../redux/features/api/shops/shops.api';
@@ -32,7 +31,7 @@ import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories
 
 type TCategorySchema = z.infer<typeof editShopSchema>;
 
-const VendorEditShop = () => {
+const VendorEditShop: React.FC = () => {
   const { id } = useParams();
   const { data } = useGetShopByIdQuery(id);
   const shopData: TShop = data?.data;

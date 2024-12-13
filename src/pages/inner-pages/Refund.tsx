@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Refund = () => {
+const Refund: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

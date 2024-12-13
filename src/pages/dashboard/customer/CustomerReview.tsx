@@ -18,6 +18,7 @@ import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
 import { useGetMyAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
 import { TReview } from '../../../types/review.type';
 import { MdOutlineRateReview } from 'react-icons/md';
+import Loader from '../../../components/ui/Loader';
 
 const CustomerReview: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,17 +58,20 @@ const CustomerReview: React.FC = () => {
     setIsEditDialogOpen(false);
   };
 
-  const getStatusColor = (status: TReview['reviewStatus']) => {
-    const colors = {
-      published: 'success',
-      pending: 'warning',
-      rejected: 'error',
-    };
+  const colors = {
+    APPROVED: 'primary',
+    PENDING: 'success',
+    REJECT: 'warning',
+    DELETE: 'error',
+  } as const;
+
+  const getStatusColor = (status: keyof typeof colors) => {
     return colors[status];
   };
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">My Reviews</h2>

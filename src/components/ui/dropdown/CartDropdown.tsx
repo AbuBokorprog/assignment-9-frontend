@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useGetAllMyCartsQuery } from '../../../redux/features/api/carts/carts.api';
-import { CartProduct } from '../../../types/cart.type';
+import { TCartProduct } from '../../../types/cart.type';
 
 interface CartDropdownProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
   const cartCount = data?.data?.length;
 
   const subTotal = data?.data?.reduce(
-    (sum: number, item: CartProduct) => sum + item.price * item.qty,
+    (sum: number, item: TCartProduct) => sum + item.price * item.qty,
     0
   );
 
@@ -40,7 +40,7 @@ const CartDropdown: React.FC<CartDropdownProps> = ({ isOpen, setIsOpen }) => {
             </div>
             <div className="h-60 overflow-y-scroll">
               {data?.data?.length > 0 ? (
-                data?.data?.map((product: CartProduct, index: number) => (
+                data?.data?.map((product: TCartProduct, index: number) => (
                   <div className="mt-3 flex" key={index}>
                     <img
                       src={product.product.images[0]}

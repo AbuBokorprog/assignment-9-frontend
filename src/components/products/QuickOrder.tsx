@@ -8,6 +8,7 @@ import { Product } from '../../types/product.type';
 import CartAlertDialog from '../ui/CartAlertDialog';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { currentUser } from '../../redux/store';
+import Loader from '../ui/Loader';
 
 type QuickOrderProps = {
   data: Product;
@@ -53,6 +54,7 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       <Button
         variant={variant}
         color="primary"

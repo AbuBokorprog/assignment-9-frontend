@@ -12,7 +12,7 @@ export interface Product {
   categoryId: string;
   category: TCategory;
   inventory: number;
-  stockStatus: string;
+  stockStatus: 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK';
   shopId: string;
   shopName: string;
   vendor?: TAdmin;

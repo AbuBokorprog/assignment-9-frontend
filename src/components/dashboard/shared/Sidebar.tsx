@@ -13,8 +13,6 @@ import {
   Home as HomeIcon,
   Dashboard as DashboardIcon,
   Logout as LogoutIcon,
-  Login as LoginIcon,
-  // Settings as SettingsIcon,
   People as PeopleIcon,
 } from '@mui/icons-material';
 import React, { useState } from 'react';

@@ -12,6 +12,7 @@ import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
 import { toast } from 'sonner';
 import { useDeleteCouponMutation } from '../../../redux/features/api/coupon/coupon.api';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 
 type TCouponProps = {
   coupon: TCoupon;
@@ -45,6 +46,7 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
   };
   return (
     <div>
+      {isLoading && <Loader />}
       <Card className="relative">
         <div className="absolute top-0 right-0">
           <IconButton

@@ -23,12 +23,7 @@ import UserDropdown from '../ui/dropdown/UserDropdown';
 import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api';
-
-type TUser = {
-  email: string;
-  name: string;
-  role: string;
-} | null;
+import Loader from '../ui/Loader';
 
 const Header: React.FC = () => {
   const user: any = useAppSelector(currentUser);
@@ -67,6 +62,7 @@ const Header: React.FC = () => {
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
+      {isLoading && <Loader />}
       {/* Large device */}
       <nav className="border-y hidden lg:block bg-secondary-50 text-black">
         {/* 1st layer */}

@@ -8,7 +8,6 @@ import {
   Button,
   IconButton,
   InputAdornment,
-  Alert,
   Paper,
   Grid,
   Typography,
@@ -27,6 +26,7 @@ import {
 } from '@mui/icons-material';
 import { useCreateUserMutation } from '../../redux/features/api/auth/auth.api';
 import { toast } from 'sonner';
+import Loader from '../ui/Loader';
 
 // Validation schema
 const userSchema = z
@@ -56,7 +56,6 @@ type UserFormData = z.infer<typeof userSchema>;
 const UserRegistration: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
   const {
     register,
@@ -83,20 +82,15 @@ const UserRegistration: React.FC = () => {
         reset();
       }
     } catch (error: any) {
-      toast.error(error.error);
+      toast.error(error?.data?.message);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {isLoading && <Loader />}
       <div className="max-w-2xl mx-auto">
         <Paper className="p-8">
-          {error && (
-            <Alert severity="error" className="mb-6">
-              {error}
-            </Alert>
-          )}
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>

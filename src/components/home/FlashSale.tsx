@@ -3,12 +3,14 @@ import { useGetAllFlashSaleProductsQuery } from '../../redux/features/api/produc
 import ProductCard from '../ui/ProductCard';
 import { Button, Grid, Typography } from '@mui/material';
 import { Product } from '../../types/product.type';
+import Loader from '../ui/Loader';
 
 const FlashSale: React.FC = () => {
   const { data, isLoading } = useGetAllFlashSaleProductsQuery({});
   const product = data?.data;
   return (
     <div>
+      {isLoading && <Loader />}
       <div className="my-5 lg:my-10">
         <Typography variant="h4" component={'h4'} className="text-bold">
           Flash Sale{' '}

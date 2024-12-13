@@ -1,82 +1,66 @@
 import {
   Button,
-  Card,
-  CardContent,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  // Dialog,
+  // DialogActions,
+  // DialogContent,
+  // DialogTitle,
   Grid,
-  IconButton,
   InputAdornment,
-  Menu,
-  MenuItem,
+  // Menu,
+  // MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import {
-  FaCheck,
-  FaEdit,
-  FaEllipsisV,
-  FaEye,
+  // FaEdit,
+  // FaEye,
   FaPlusCircle,
   FaSearch,
   FaStore,
-  FaTimes,
-  FaTrash,
+  // FaTrash,
 } from 'react-icons/fa';
 import { useGetAllProductsQuery } from '../../../redux/features/api/products/products.api';
-import { Product } from '../../../types/product.type';
+// import { Product } from '../../../types/product.type';
 import DashboardProductCard from '../../../components/ui/dashboard/DashboardProductCard';
 import Loader from '../../../components/ui/Loader';
 
 const AdminAllProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const { data, isLoading } = useGetAllProductsQuery({});
 
-  const handleMenuOpen = (
-    event: React.MouseEvent<HTMLElement>,
-    product: Product
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedProduct(product);
-  };
+  // const handleMenuOpen = (
+  //   event: React.MouseEvent<HTMLElement>,
+  //   product: Product
+  // ) => {
+  //   setAnchorEl(event.currentTarget);
+  //   setSelectedProduct(product);
+  // };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  const handleEditProduct = () => {
-    // Implement edit product logic
-    console.log('Editing product:', selectedProduct?.id);
-    handleMenuClose();
-  };
+  // const handleEditProduct = () => {
+  //   // Implement edit product logic
+  //   console.log('Editing product:', selectedProduct?.id);
+  //   handleMenuClose();
+  // };
 
-  const handleDeleteClick = () => {
-    setIsDeleteDialogOpen(true);
-    handleMenuClose();
-  };
+  // const handleDeleteClick = () => {
+  //   setIsDeleteDialogOpen(true);
+  //   handleMenuClose();
+  // };
 
-  const handleDeleteConfirm = () => {
-    // Implement delete product logic
-    console.log('Deleting product:', selectedProduct?.id);
-    setIsDeleteDialogOpen(false);
-  };
-
-  const getStatusColor = (stockStatus: Product['stockStatus']) => {
-    const colors = {
-      IN_STOCK: 'success',
-      LOW_STOCK: 'warning',
-      OUT_OF_STOCK: 'error',
-    } as const;
-    return colors[stockStatus];
-  };
+  // const handleDeleteConfirm = () => {
+  //   // Implement delete product logic
+  //   console.log('Deleting product:', selectedProduct?.id);
+  //   setIsDeleteDialogOpen(false);
+  // };
 
   const filteredProducts = data?.data?.data?.filter((product: any) => {
     const matchesSearch = product.name
@@ -86,7 +70,7 @@ const AdminAllProducts: React.FC = () => {
     return matchesSearch;
   });
 
-  const handleUpdateStatus = (id: string, status) => {};
+  // const handleUpdateStatus = (id: string, status) => {};
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
@@ -144,7 +128,7 @@ const AdminAllProducts: React.FC = () => {
         )}
 
         {/* Product Actions Menu */}
-        <Menu
+        {/* <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
@@ -158,10 +142,10 @@ const AdminAllProducts: React.FC = () => {
           <MenuItem onClick={handleDeleteClick} className="text-red-500">
             <FaTrash className="mr-2" /> Delete Product
           </MenuItem>
-        </Menu>
+        </Menu> */}
 
         {/* Delete Confirmation Dialog */}
-        <Dialog
+        {/* <Dialog
           open={isDeleteDialogOpen}
           onClose={() => setIsDeleteDialogOpen(false)}
         >
@@ -178,7 +162,7 @@ const AdminAllProducts: React.FC = () => {
               Delete
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
       </div>
     </div>
   );

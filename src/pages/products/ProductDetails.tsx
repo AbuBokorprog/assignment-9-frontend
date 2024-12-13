@@ -12,7 +12,6 @@ import {
   Tabs,
   Tab,
   Paper,
-  Avatar,
   FormControl,
   TextField,
 } from '@mui/material';
@@ -29,7 +28,6 @@ import { useCreateRecentProductsMutation } from '../../redux/features/api/recent
 import Loader from '../../components/ui/Loader';
 import ProductCard from '../../components/ui/ProductCard';
 import CartAlertDialog from '../../components/ui/CartAlertDialog';
-import { register } from 'react-scroll/modules/mixins/scroller';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateReviewMutation } from '../../redux/features/api/reviews/reviews.api';
 import { currentUser } from '../../redux/store';
@@ -68,12 +66,7 @@ const ProductDetails = () => {
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
@@ -89,7 +82,7 @@ const ProductDetails = () => {
     }
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
@@ -358,7 +351,7 @@ const ProductDetails = () => {
                       name="simple-controlled"
                       value={value}
                       disabled={!isOrderedProduct}
-                      onChange={(event, newValue) => {
+                      onChange={(_event, newValue) => {
                         setValue(newValue);
                       }}
                     />

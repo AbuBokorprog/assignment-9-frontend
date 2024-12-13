@@ -1,56 +1,15 @@
 import React, { useState } from 'react';
 import {
-  Card,
-  CardContent,
   Typography,
   Button,
   Grid,
   TextField,
   InputAdornment,
-  Rating,
-  Chip,
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from '@mui/material';
-import {
-  FaSearch,
-  FaStore,
-  FaMapMarkerAlt,
-  FaPhoneAlt,
-  FaGlobe,
-  FaEllipsisV,
-  FaEdit,
-  FaTrash,
-  FaPause,
-  FaPlay,
-} from 'react-icons/fa';
+import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
 import Loader from '../../../components/ui/Loader';
-import { Link } from 'react-router-dom';
 import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCard';
-
-interface Shop {
-  id: string;
-  shopName: string;
-  shopLogo: string;
-  shopCover: string;
-  rating: number;
-  totalProducts: number;
-  totalOrders: number;
-  totalRevenue: number;
-  address: string;
-  phone: string;
-  website?: string;
-  isActive: 'active' | 'inactive' | 'pending';
-  category: string;
-  createdAt: string;
-}
 
 const VendorAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');

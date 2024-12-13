@@ -14,12 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaStore } from 'react-icons/fa';
 import { z } from 'zod';
 import { shopSchema } from '../../../schema/shop';
@@ -33,7 +28,6 @@ type TCategorySchema = z.infer<typeof shopSchema>;
 
 const VendorAddShop: React.FC = () => {
   const [category, setCategory] = React.useState('');
-  const [shop, setShop] = React.useState('');
   const [logo, setLogo] = useState<any>();
   const [cover, setCover] = useState<any>();
 
@@ -41,7 +35,6 @@ const VendorAddShop: React.FC = () => {
     register,
     // reset,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<TCategorySchema>({
     resolver: zodResolver(shopSchema),

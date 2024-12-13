@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VendorEditProduct = () => {
+const VendorEditProduct: React.FC = () => {
   return <div></div>;
 };
 

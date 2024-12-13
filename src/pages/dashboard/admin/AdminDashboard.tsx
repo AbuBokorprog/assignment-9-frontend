@@ -18,7 +18,7 @@ import {
   FaUsers,
   FaStore,
   FaShoppingCart,
-  FaMoneyBillWave,
+  // FaMoneyBillWave,
   FaChartLine,
   FaExclamationTriangle,
   FaEye,
@@ -40,6 +40,7 @@ import { useGetAdminReportsQuery } from '../../../redux/features/api/reports/rep
 import { useGetAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { TOrder } from '../../../types/order.type';
 import { Link } from 'react-router-dom';
+import Loader from '../../../components/ui/Loader';
 
 const AdminDashboard: React.FC = () => {
   const { data: AdminReports } = useGetAdminReportsQuery({});
@@ -63,17 +64,16 @@ const AdminDashboard: React.FC = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-  const getStatusColor = (
-    status: TOrder['status']
-  ): 'success' | 'warning' | 'error' => {
-    const colors = {
-      PROCESSING: 'primary',
-      PENDING: 'warning',
-      DELIVERED: 'success',
-      SHIPPED: 'secondary',
-      CANCELLED: 'error',
-    } as const;
-    return colors[status];
+  const orderStatusColors = {
+    PENDING: 'warning',
+    PROCESSING: 'info',
+    SHIPPED: 'primary',
+    DELIVERED: 'success',
+    CANCELLED: 'error',
+  } as const;
+
+  const getStatusColor = (status: keyof typeof orderStatusColors) => {
+    return orderStatusColors[status] || 'default';
   };
 
   const alerts = [
@@ -84,6 +84,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
 
@@ -171,7 +172,7 @@ const AdminDashboard: React.FC = () => {
                         dataKey="value"
                         label
                       >
-                        {categoryData.map((entry, index) => (
+                        {categoryData.map((_entry, index) => (
                           <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}

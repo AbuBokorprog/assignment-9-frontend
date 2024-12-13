@@ -13,6 +13,7 @@ import { useDeleteWishlistMutation } from '../../../redux/features/api/wishlist/
 import { toast } from 'sonner';
 import { useCreateCartMutation } from '../../../redux/features/api/carts/carts.api';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../Loader';
 
 type WishlistCardProps = {
   item: TWishlist;
@@ -67,6 +68,7 @@ const WishlistCard: React.FC<WishlistCardProps> = ({ item }) => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       <Card className="h-full flex flex-col">
         <div className="relative">
           <CardMedia

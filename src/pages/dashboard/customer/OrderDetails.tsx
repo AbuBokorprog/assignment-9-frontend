@@ -1,8 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
-const OrderDetails = () => {
-  const { orderId } = useParams();
+const OrderDetails: React.FC = () => {
+  // const { orderId } = useParams();
   return <div></div>;
 };
 

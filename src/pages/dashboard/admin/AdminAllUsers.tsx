@@ -32,7 +32,7 @@ const AdminAllUsers = () => {
 
   const { data, isLoading: isUserLoading } = useGetAllUsersQuery({});
 
-  const handleChangePage = (event: any, newPage: number) => {
+  const handleChangePage = (_event: any, newPage: number) => {
     setPage(newPage);
   };
 
@@ -252,7 +252,7 @@ const AdminAllUsers = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
-      {isLoading && <Loader />}
+      {isLoading || (isUserLoading && <Loader />)}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">

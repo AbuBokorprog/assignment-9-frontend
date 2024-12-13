@@ -7,11 +7,13 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
 import { TCategory } from '../../types/categories.type';
+import Loader from '../ui/Loader';
 
 const Categories: React.FC = () => {
   const { data, isLoading } = useGetAllCategoriesQuery({});
   return (
     <div className="my-5 lg:my-10">
+      {isLoading && <Loader />}
       <h3 className="my-5 lg:my-10 text-center uppercase text-xl lg:text-3xl font-semibold">
         Top Categories
       </h3>

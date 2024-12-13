@@ -15,7 +15,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
   SelectChangeEvent,
 } from '@mui/material';
 import {
@@ -33,6 +32,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { useCreateVendorMutation } from '../../redux/features/api/auth/auth.api';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
+import Loader from '../ui/Loader';
 
 const vendorSchema = z
   .object({
@@ -131,8 +131,8 @@ const VendorRegistration: React.FC = () => {
         navigate('/login');
       }
     } catch (error: any) {
-      console.error('Error creating category:', error);
-      toast.error(error.error, { id: toastId, duration: 200 });
+      // console.error('Error creating category:', error);
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 
@@ -344,6 +344,7 @@ const VendorRegistration: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {isLoading && <Loader />}
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <Typography

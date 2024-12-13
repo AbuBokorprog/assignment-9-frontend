@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const PaymentPolicy = () => {
+const PaymentPolicy: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -6,7 +6,7 @@ export interface TOrder {
   id: string;
   customerId: string;
   totalAmount: number;
-  status: string;
+  status: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
   fullName: string;
   phoneNumber: string;
   email: string;

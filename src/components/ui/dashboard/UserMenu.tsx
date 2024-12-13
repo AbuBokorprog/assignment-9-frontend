@@ -1,4 +1,4 @@
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 import React from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { useUserRoleChangeMutation } from '../../../redux/features/api/users/user.api';

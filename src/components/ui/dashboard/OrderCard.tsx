@@ -14,10 +14,11 @@ import {
   Typography,
 } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
-import { toast } from 'sonner';
-import { useAppSelector } from '../../../redux/hooks/hooks';
-import { currentUser } from '../../../redux/store';
+// import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
+// import { toast } from 'sonner';
+// import { useAppSelector } from '../../../redux/hooks/hooks';
+// import { currentUser } from '../../../redux/store';
+// import { TPayment } from '../../../types/payment.type';
 
 type OrderCardProps = {
   order: TOrder;
@@ -30,59 +31,59 @@ const OrderCard: React.FC<OrderCardProps> = ({
   setExpandedOrder,
   expandedOrder,
 }) => {
-  const user: any = useAppSelector(currentUser);
-  const [updateOrderStatus] = useUpdateOrderStatusMutation();
+  // const user: any = useAppSelector(currentUser);
+  // const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
-  const getStatusColor = (status: TOrder['status']) => {
-    const colors = {
-      PENDING: 'warning',
-      PROCESSING: 'info',
-      SHIPPED: 'primary',
-      DELIVERED: 'success',
-      CANCELLED: 'error',
-    };
-    return colors[status];
+  const orderStatusColors = {
+    PENDING: 'warning',
+    PROCESSING: 'info',
+    SHIPPED: 'primary',
+    DELIVERED: 'success',
+    CANCELLED: 'error',
+  } as const;
+
+  const paymentStatusColors = {
+    PAID: 'success',
+    UNPAID: 'error',
+    FAILED: 'warning',
+    REFUNDED: 'primary',
+  } as const;
+
+  const getStatusColor = (status: keyof typeof orderStatusColors) => {
+    return orderStatusColors[status] || 'default';
   };
 
-  const getPaymentStatusColor = (
-    status: TOrder['status']
-  ): 'success' | 'error' | 'warning' => {
-    const colors = {
-      PAID: 'success',
-      UNPAID: 'error',
-      FAILED: 'warning',
-      REFUNDED: 'primary',
-    };
-    return colors[status];
+  const getPaymentStatusColor = (status: keyof typeof paymentStatusColors) => {
+    return paymentStatusColors[status];
   };
 
-  const orderStatusChangeHandler = async (id: string, status: string) => {
-    const toastId = toast.loading('Loading...');
-    const data = { id, status };
+  // const orderStatusChangeHandler = async (id: string, status: string) => {
+  //   const toastId = toast.loading('Loading...');
+  //   const data = { id, status };
 
-    try {
-      const res = await updateOrderStatus(data).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
-    } catch (error: any) {
-      toast.error(error?.error);
-    }
-  };
+  //   try {
+  //     const res = await updateOrderStatus(data).unwrap();
+  //     if (res?.success) {
+  //       toast.success(res?.message, { id: toastId, duration: 200 });
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(error?.error);
+  //   }
+  // };
 
-  const paymentStatusChangeHandler = async (id: string, status: string) => {
-    const toastId = toast.loading('Loading...');
-    const data = { id, status };
+  // const paymentStatusChangeHandler = async (id: string, status: string) => {
+  //   const toastId = toast.loading('Loading...');
+  //   const data = { id, status };
 
-    try {
-      const res = await updateOrderStatus(data).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
-    } catch (error: any) {
-      toast.error(error?.error);
-    }
-  };
+  //   try {
+  //     const res = await updateOrderStatus(data).unwrap();
+  //     if (res?.success) {
+  //       toast.success(res?.message, { id: toastId, duration: 200 });
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(error?.error);
+  //   }
+  // };
   return (
     <React.Fragment key={order?.id}>
       <TableRow className="hover:bg-gray-50">

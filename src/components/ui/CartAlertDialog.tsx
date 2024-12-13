@@ -21,10 +21,6 @@ const CartAlertDialog: React.FC<CartAlertDialogProps> = ({
   setOpen,
   orderData,
 }) => {
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -53,9 +49,6 @@ const CartAlertDialog: React.FC<CartAlertDialogProps> = ({
 
   return (
     <React.Fragment>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
       <Dialog
         open={open}
         onClose={handleClose}

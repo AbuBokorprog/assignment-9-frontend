@@ -12,5 +12,5 @@ export type TReview = {
   updatedAt: string;
   product?: Product;
   customer?: TUser;
-  reviewStatus: string;
+  reviewStatus: 'PENDING' | 'APPROVED' | 'REJECT' | 'DELETE';
 };

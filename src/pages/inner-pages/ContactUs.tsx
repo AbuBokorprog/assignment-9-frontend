@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
 
-const ContactUs = () => {
+const ContactUs: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     // eslint-disable-next-line no-unused-vars
-    formState: { error },
+    // formState: { error },
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {

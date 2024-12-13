@@ -14,6 +14,7 @@ import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
 import { useDeleteCategoryMutation } from '../../../redux/features/api/categories/catgeories.api';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 
 type CategoriesCardProps = {
   data: TCategory;
@@ -47,6 +48,7 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ data }) => {
 
   return (
     <div className="">
+      {isLoading && <Loader />}
       <Card className="relative">
         <CardMedia
           sx={{ height: 250 }}

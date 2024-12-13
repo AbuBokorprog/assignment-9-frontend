@@ -26,7 +26,7 @@ import { toast } from 'sonner';
 const CustomerComparison: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data, isLoading, error } = useGetAllMyComparesQuery({});
+  const { data, isLoading } = useGetAllMyComparesQuery({});
   const [deleteComparison] = useDeleteCompareMutation();
 
   const filteredItems = data?.data.filter((item: any) =>

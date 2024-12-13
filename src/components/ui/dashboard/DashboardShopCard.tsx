@@ -34,6 +34,7 @@ import { Link } from 'react-router-dom';
 import { TShop } from '../../../types/shop.type';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
+import Loader from '../Loader';
 
 type dashboardShopCardProps = {
   shop: TShop;
@@ -114,6 +115,7 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
 
   return (
     <div>
+      {isUpdateLoading || (isDeleteLoading && <Loader />)}
       <Card className="hover:shadow-lg transition-shadow">
         <div
           className="h-48 bg-cover bg-center relative"

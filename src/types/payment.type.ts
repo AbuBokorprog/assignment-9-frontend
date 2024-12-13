@@ -3,7 +3,7 @@ export interface TPayment {
   orderId: string;
   amount: number;
   paymentMethod: string;
-  status: string;
+  status: 'PAID' | 'UNPAID' | 'FAILED' | 'REFUNDED';
   transactionId: string;
   paidAt: any;
   createdAt: string;

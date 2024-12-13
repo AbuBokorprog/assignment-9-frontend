@@ -10,7 +10,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  SelectChangeEvent,
+  // SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
@@ -31,6 +31,7 @@ import {
   useUpdateProductStatusMutation,
 } from '../../../redux/features/api/products/products.api';
 import { Link } from 'react-router-dom';
+import Loader from '../Loader';
 
 type ProductCardProps = {
   product: Product;
@@ -81,13 +82,14 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setIsDeleteDialogOpen(false);
   };
 
-  const getStatusColor = (stockStatus: Product['stockStatus']) => {
-    const colors = {
-      'in-stock': 'success',
-      'low-stock': 'warning',
-      'out-of-stock': 'error',
-    } as const;
-    return colors[stockStatus];
+  const colors = {
+    IN_STOCK: 'success',
+    LOW_STOCK: 'warning',
+    OUT_OF_STOCK: 'error',
+  } as const;
+
+  const getStatusColor = (stockStatus: keyof typeof colors) => {
+    return colors[stockStatus] || 'default';
   };
 
   const handleUpdateStatus = async (id: string, status: string) => {
@@ -106,6 +108,7 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       <Card className="h-full hover:shadow-lg transition-shadow">
         <div className="relative">
           <img

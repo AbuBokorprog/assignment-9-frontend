@@ -19,16 +19,15 @@ type DashboardReviewCardProps = {
 const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
   review,
 }): any => {
-  const getStatusColor = (
-    status: TReview['reviewStatus']
-  ): 'success' | 'warning' | 'error' => {
-    const colors = {
-      APPROVED: 'success',
-      PENDING: 'warning',
-      REJECT: 'error',
-      DELETE: 'error',
-    } as const;
-    return colors[status];
+  const colors = {
+    APPROVED: 'success',
+    PENDING: 'warning',
+    REJECT: 'error',
+    DELETE: 'error',
+  } as const;
+
+  const getStatusColor = (reviewStatus: keyof typeof colors) => {
+    return colors[reviewStatus] || 'default';
   };
 
   const [updateStatus] = useUpdateReviewStatusMutation();

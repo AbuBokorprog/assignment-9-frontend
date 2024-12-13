@@ -20,7 +20,7 @@ const categorySchema = z.object({
 
 type TCategorySchema = z.infer<typeof categorySchema>;
 
-const AdminEditCategory = () => {
+const AdminEditCategory: React.FC = () => {
   const { id } = useParams();
   const [image, setImage] = useState<any>(null);
   const {

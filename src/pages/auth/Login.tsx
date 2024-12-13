@@ -3,18 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import {
-  TextField,
-  Button,
-  IconButton,
-  InputAdornment,
-  Divider,
-} from '@mui/material';
+import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import {
   Visibility,
   VisibilityOff,
-  Google,
-  Facebook,
+  // Google,
+  // Facebook,
   Email,
   Lock,
 } from '@mui/icons-material';
@@ -35,7 +29,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -171,7 +165,7 @@ const Login: React.FC = () => {
                   <div className="text-sm">
                     <Button
                       variant="text"
-                      onClick={() => setOpen(true)}
+                      // onClick={() => setOpen(true)}
                       className="font-medium text-primary-600 hover:text-primary-500"
                     >
                       Forgot your password?

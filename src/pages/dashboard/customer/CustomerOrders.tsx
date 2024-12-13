@@ -22,24 +22,27 @@ const CustomerOrders: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { data, isLoading } = useGetAllMyOrdersQuery({});
 
-  const getStatusColor = (status: TOrder['status']) => {
-    const colors = {
-      PENDING: 'warning',
-      PROCESSING: 'info',
-      SHIPPED: 'primary',
-      DELIVERED: 'success',
-      CANCELLED: 'error',
-    };
-    return colors[status];
+  const orderStatusColors = {
+    PENDING: 'warning',
+    PROCESSING: 'info',
+    SHIPPED: 'primary',
+    DELIVERED: 'success',
+    CANCELLED: 'error',
+  } as const;
+
+  const paymentStatusColors = {
+    PAID: 'success',
+    UNPAID: 'error',
+    FAILED: 'warning',
+    REFUNDED: 'primary',
+  } as const;
+
+  const getStatusColor = (status: keyof typeof orderStatusColors) => {
+    return orderStatusColors[status] || 'default';
   };
-  const getPaymentStatusColor = (status: TOrder['status']) => {
-    const colors = {
-      PAID: 'success',
-      UNPAID: 'warning',
-      FAILED: 'error',
-      REFUNDED: 'primary',
-    };
-    return colors[status];
+
+  const getPaymentStatusColor = (status: keyof typeof paymentStatusColors) => {
+    return paymentStatusColors[status];
   };
 
   const filteredOrders = data?.data?.filter(
@@ -47,11 +50,6 @@ const CustomerOrders: React.FC = () => {
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleViewDetails = (orderId: string) => {
-    // Implement order details view logic
-    console.log('Viewing order:', orderId);
-  };
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

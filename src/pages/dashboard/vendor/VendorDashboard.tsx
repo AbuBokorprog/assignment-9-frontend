@@ -6,15 +6,17 @@ import { useGetVendorAllOrdersQuery } from '../../../redux/features/api/orders/o
 import { useGetVendorReportsQuery } from '../../../redux/features/api/reports/reports.api';
 import DashboardCard from '../../../components/ui/dashboard/DashboardCard';
 import { TOrder } from '../../../types/order.type';
+import Loader from '../../../components/ui/Loader';
 
 const VendorDashboard: React.FC = () => {
   const user = useAppSelector(currentUser);
 
-  const { data: orders } = useGetVendorAllOrdersQuery({});
-  const { data, error } = useGetVendorReportsQuery({});
+  const { data: orders, isLoading } = useGetVendorAllOrdersQuery({});
+  const { data, isLoading: loading } = useGetVendorReportsQuery({});
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      {isLoading || (loading && <Loader />)}
       <h2 className="text-3xl font-bold mb-8">Welcome Back, {user?.name}!</h2>
 
       {/* Dashboard Cards */}
@@ -61,9 +63,9 @@ const VendorDashboard: React.FC = () => {
                   <td className="px-4 py-2">
                     <span
                       className={`px-2 py-1 rounded-full text-sm ${
-                        order?.status === 'Delivered'
+                        order?.status === 'DELIVERED'
                           ? 'bg-green-100 text-green-800'
-                          : order?.status === 'Processing'
+                          : order?.status === 'PROCESSING'
                           ? 'bg-blue-100 text-blue-800'
                           : 'bg-yellow-100 text-yellow-800'
                       }`}

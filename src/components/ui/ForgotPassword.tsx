@@ -18,11 +18,7 @@ type TForgotPasswordProps = {
 };
 
 const ForgotPassword: React.FC<TForgotPasswordProps> = ({ open, setOpen }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const handleClose = () => {
     setOpen(false);
   };

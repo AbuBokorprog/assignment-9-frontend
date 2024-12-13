@@ -1,7 +1,7 @@
 import React from 'react';
 import ResetPassword from '../../components/ui/ResetPassword';
 
-const ResetPasswordPage = () => {
+const ResetPasswordPage: React.FC = () => {
   return (
     <div>
       <ResetPassword />

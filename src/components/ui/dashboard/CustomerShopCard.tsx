@@ -11,8 +11,8 @@ import React from 'react';
 import { FaHeart, FaMapMarkerAlt, FaPhoneAlt, FaStore } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useShopFollowToggleMutation } from '../../../redux/features/api/shops/shops.api';
-import { useAppSelector } from '../../../redux/hooks/hooks';
-import { currentUser } from '../../../redux/store';
+// import { useAppSelector } from '../../../redux/hooks/hooks';
+// import { currentUser } from '../../../redux/store';
 import { TFollowShop } from '../../../types/shop.type';
 
 type CustomerShopCardProps = {
@@ -20,7 +20,7 @@ type CustomerShopCardProps = {
 };
 
 const CustomerShopCard: React.FC<CustomerShopCardProps> = ({ data }) => {
-  const user = useAppSelector(currentUser);
+  // const user = useAppSelector(currentUser);
   const [followToggle] = useShopFollowToggleMutation();
 
   const toggleFollowShopHandler = async (shopId: string) => {

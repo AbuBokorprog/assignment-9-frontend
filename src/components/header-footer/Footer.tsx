@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
       youtube: 'https://www.youtube.com/masemart',
       address: '123 Main St, Anytown, USA',
       phone: '+1 (123) 456-7890',
-      email: 'info@masemart.com',
+      email: 'info@bazaar-bridge.com',
     },
   };
 

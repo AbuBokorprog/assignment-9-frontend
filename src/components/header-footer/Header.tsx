@@ -69,9 +69,9 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between mx-auto container px-4 gap-4 py-2">
           <Link to={'/'}>
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src="/images/bazaar-bridge.png"
               alt="logo"
-              className=""
+              className="size-28"
             />
           </Link>
           <div className="">
@@ -223,9 +223,9 @@ const Header: React.FC = () => {
             </button>
             <Link to={'/'}>
               <img
-                src="https://super-admin.masemart.com/setting/1727638699.png"
+                src="/images/bazaar-bridge.png"
                 alt="logo"
-                className="w-52"
+                className="size-24"
               />
             </Link>
             <div className="px-2 pb-2 hidden sm:block">

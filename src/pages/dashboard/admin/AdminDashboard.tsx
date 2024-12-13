@@ -35,79 +35,15 @@ import {
   Pie,
   Cell,
 } from 'recharts';
-
-interface DashboardMetric {
-  title: string;
-  value: string | number;
-  change: number;
-  icon: React.ReactNode;
-  color: string;
-}
-
-interface RecentOrder {
-  id: string;
-  customer: string;
-  date: string;
-  amount: number;
-  status: 'completed' | 'pending' | 'cancelled';
-}
+import DashboardCard from '../../../components/ui/dashboard/DashboardCard';
+import { useGetAdminReportsQuery } from '../../../redux/features/api/reports/reports.api';
+import { useGetAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
+import { TOrder } from '../../../types/order.type';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
-  // Dummy data - replace with actual API data
-  const metrics: DashboardMetric[] = [
-    {
-      title: 'Total Users',
-      value: '2,547',
-      change: 12.5,
-      icon: <FaUsers className="text-3xl" />,
-      color: 'bg-blue-100 text-blue-600',
-    },
-    {
-      title: 'Active Shops',
-      value: '184',
-      change: 8.2,
-      icon: <FaStore className="text-3xl" />,
-      color: 'bg-green-100 text-green-600',
-    },
-    {
-      title: 'Total Orders',
-      value: '3,890',
-      change: 15.3,
-      icon: <FaShoppingCart className="text-3xl" />,
-      color: 'bg-purple-100 text-purple-600',
-    },
-    {
-      title: 'Total Revenue',
-      value: '$287,493',
-      change: -2.4,
-      icon: <FaMoneyBillWave className="text-3xl" />,
-      color: 'bg-orange-100 text-orange-600',
-    },
-  ];
-
-  const recentOrders: RecentOrder[] = [
-    {
-      id: 'ORD-001',
-      customer: 'John Doe',
-      date: '2024-03-15',
-      amount: 299.99,
-      status: 'completed',
-    },
-    {
-      id: 'ORD-002',
-      customer: 'Jane Smith',
-      date: '2024-03-15',
-      amount: 149.99,
-      status: 'pending',
-    },
-    {
-      id: 'ORD-003',
-      customer: 'Mike Johnson',
-      date: '2024-03-14',
-      amount: 89.99,
-      status: 'cancelled',
-    },
-  ];
+  const { data: AdminReports } = useGetAdminReportsQuery({});
+  const { data: orders, isLoading } = useGetAllOrdersQuery({});
 
   const salesData = [
     { name: 'Jan', sales: 4000 },
@@ -128,12 +64,14 @@ const AdminDashboard: React.FC = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   const getStatusColor = (
-    status: RecentOrder['status']
+    status: TOrder['status']
   ): 'success' | 'warning' | 'error' => {
     const colors = {
-      completed: 'success',
-      pending: 'warning',
-      cancelled: 'error',
+      PROCESSING: 'primary',
+      PENDING: 'warning',
+      DELIVERED: 'success',
+      SHIPPED: 'secondary',
+      CANCELLED: 'error',
     } as const;
     return colors[status];
   };
@@ -151,38 +89,41 @@ const AdminDashboard: React.FC = () => {
 
         {/* Metrics */}
         <Grid container spacing={4} className="mb-8">
-          {metrics.map((metric, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card className="h-full">
-                <CardContent>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-full ${metric.color}`}>
-                      {metric.icon}
-                    </div>
-                    <div
-                      className={`text-sm ${
-                        metric.change >= 0 ? 'text-green-600' : 'text-red-600'
-                      }`}
-                    >
-                      {metric.change >= 0 ? '+' : ''}
-                      {metric.change}%
-                    </div>
-                  </div>
-                  <Typography variant="h4" component="div" className="mb-1">
-                    {metric.value}
-                  </Typography>
-                  <Typography color="textSecondary" variant="body2">
-                    {metric.title}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+          <Grid item sm={6} md={4}>
+            <Link to={'/dashboard/admin/all-users'}>
+              <DashboardCard
+                title="Total Users"
+                value={AdminReports?.data?.totalUsers}
+                icon={<FaUsers className="text-3xl" />}
+                bgColor="bg-blue-100"
+              />
+            </Link>
+          </Grid>
+          <Grid item sm={6} md={4}>
+            <Link to={'/dashboard/admin/all-shops'}>
+              <DashboardCard
+                title="Total Active Shops"
+                value={AdminReports?.data?.totalActiveShop}
+                icon={<FaStore className="text-3xl" />}
+                bgColor="bg-purple-100"
+              />
+            </Link>
+          </Grid>
+          <Grid item sm={6} md={4}>
+            <Link to={'/dashboard/admin/all-products'}>
+              <DashboardCard
+                title="Total Products"
+                value={AdminReports?.data?.totalOrders}
+                icon={<FaShoppingCart className="text-3xl" />}
+                bgColor="bg-yellow-100"
+              />
+            </Link>
+          </Grid>
         </Grid>
 
         <Grid container spacing={4}>
           {/* Sales Chart */}
-          <Grid item xs={12} md={8}>
+          <Grid item md={8}>
             <Card className="h-full">
               <CardContent>
                 <div className="flex justify-between items-center mb-4">
@@ -212,7 +153,7 @@ const AdminDashboard: React.FC = () => {
           </Grid>
 
           {/* Category Distribution */}
-          <Grid item xs={12} md={4}>
+          <Grid item md={4}>
             <Card className="h-full">
               <CardContent>
                 <Typography variant="h6" component="h3" className="mb-4">
@@ -246,7 +187,7 @@ const AdminDashboard: React.FC = () => {
           </Grid>
 
           {/* Recent Orders */}
-          <Grid item xs={12} md={8}>
+          <Grid item md={8}>
             <Card>
               <CardContent>
                 <div className="flex justify-between items-center mb-4">
@@ -273,18 +214,20 @@ const AdminDashboard: React.FC = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {recentOrders.map((order) => (
-                        <TableRow key={order.id} hover>
-                          <TableCell>{order.id}</TableCell>
-                          <TableCell>{order.customer}</TableCell>
+                      {orders?.data?.slice(0, 10).map((order: TOrder) => (
+                        <TableRow key={order?.id} hover>
+                          <TableCell>{order?.id}</TableCell>
                           <TableCell>
-                            {new Date(order.date).toLocaleDateString()}
+                            {order?.customer?.customer?.name}
                           </TableCell>
-                          <TableCell>${order.amount}</TableCell>
+                          <TableCell>
+                            {new Date(order?.createdAt).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell>${order?.totalAmount}</TableCell>
                           <TableCell>
                             <Chip
-                              label={order.status}
-                              color={getStatusColor(order.status)}
+                              label={order?.status}
+                              color={getStatusColor(order?.status)}
                               size="small"
                             />
                           </TableCell>
@@ -298,7 +241,7 @@ const AdminDashboard: React.FC = () => {
           </Grid>
 
           {/* Alerts */}
-          <Grid item xs={12} md={4}>
+          <Grid item md={4}>
             <Card>
               <CardContent>
                 <div className="flex items-center gap-2 mb-4">

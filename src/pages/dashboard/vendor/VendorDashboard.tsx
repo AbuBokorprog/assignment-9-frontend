@@ -1,79 +1,17 @@
 import React from 'react';
-import {
-  FaBox,
-  FaHeart,
-  FaShoppingCart,
-  FaStore,
-  FaStar,
-  FaUser,
-} from 'react-icons/fa';
+import { FaBox, FaStore } from 'react-icons/fa';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
 import { useGetVendorAllOrdersQuery } from '../../../redux/features/api/orders/orders.api';
 import { useGetVendorReportsQuery } from '../../../redux/features/api/reports/reports.api';
-
-interface DashboardCardProps {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  bgColor: string;
-}
-
-const DashboardCard: React.FC<DashboardCardProps> = ({
-  title,
-  value,
-  icon,
-  bgColor,
-}) => (
-  <div
-    className={`${bgColor} rounded-lg p-6 shadow-md flex items-center justify-between`}
-  >
-    <div>
-      <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-    </div>
-    <div className="text-3xl text-gray-700">{icon}</div>
-  </div>
-);
+import DashboardCard from '../../../components/ui/dashboard/DashboardCard';
+import { TOrder } from '../../../types/order.type';
 
 const VendorDashboard: React.FC = () => {
   const user = useAppSelector(currentUser);
-  // This would typically come from your API/backend
-  const dashboardData = {
-    totalOrders: 12,
-    pendingOrders: 2,
-    wishlistItems: 8,
-    followedShops: 5,
-    cartItems: 3,
-    reviews: 7,
-  };
 
   const { data: orders } = useGetVendorAllOrdersQuery({});
   const { data, error } = useGetVendorReportsQuery({});
-
-  const recentOrders = [
-    {
-      id: '1',
-      date: '2024-03-15',
-      status: 'Delivered',
-      total: 129.99,
-      items: 3,
-    },
-    {
-      id: '2',
-      date: '2024-03-14',
-      status: 'Processing',
-      total: 79.99,
-      items: 2,
-    },
-    {
-      id: '3',
-      date: '2024-03-13',
-      status: 'Pending',
-      total: 199.99,
-      items: 4,
-    },
-  ];
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
@@ -116,16 +54,16 @@ const VendorDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {recentOrders.map((order) => (
+              {orders?.data?.slice(0, 10)?.map((order: TOrder) => (
                 <tr key={order.id} className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-2">#{order.id}</td>
-                  <td className="px-4 py-2">{order.date}</td>
+                  <td className="px-4 py-2">#{order?.id}</td>
+                  <td className="px-4 py-2">{order?.createdAt}</td>
                   <td className="px-4 py-2">
                     <span
                       className={`px-2 py-1 rounded-full text-sm ${
-                        order.status === 'Delivered'
+                        order?.status === 'Delivered'
                           ? 'bg-green-100 text-green-800'
-                          : order.status === 'Processing'
+                          : order?.status === 'Processing'
                           ? 'bg-blue-100 text-blue-800'
                           : 'bg-yellow-100 text-yellow-800'
                       }`}
@@ -133,8 +71,8 @@ const VendorDashboard: React.FC = () => {
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2">{order.items}</td>
-                  <td className="px-4 py-2">${order.total}</td>
+                  <td className="px-4 py-2">{order?.products?.length}</td>
+                  <td className="px-4 py-2">${order?.totalAmount}</td>
                 </tr>
               ))}
             </tbody>

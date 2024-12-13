@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
+import UserMenu from '../../../components/ui/dashboard/UserMenu';
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -143,11 +144,7 @@ const AdminAllUsers = () => {
       align: 'center',
       format: (row: any) => (
         <>
-          {row?.email === user?.email ? (
-            <div>
-              <p>This is You</p>
-            </div>
-          ) : row?.status === userStatus.ACTIVE ? (
+          {user?.email !== row?.email && row?.status === userStatus.ACTIVE ? (
             <div className="space-x-4">
               <Button
                 variant="contained"
@@ -309,6 +306,7 @@ const AdminAllUsers = () => {
                           role="checkbox"
                           tabIndex={-1}
                           key={row.id}
+                          className="relative"
                         >
                           {columns.map((column: any) => {
                             const value = row[column.id];
@@ -319,6 +317,10 @@ const AdminAllUsers = () => {
                                   : column.id === 'action'
                                   ? column.format(row)
                                   : value}
+
+                                <div className="absolute right-0 z-50 top-4">
+                                  <UserMenu userId={row?.id} />
+                                </div>
                               </TableCell>
                             );
                           })}

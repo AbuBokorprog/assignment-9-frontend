@@ -19,7 +19,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, roles }) => {
     return <Navigate to={'/login'} replace />;
   }
 
-  if (roles.length > 0 && (!user || !roles.includes(user.role))) {
+  if (roles?.length > 0 && (!user || !roles.includes(user?.role))) {
     dispatch(logout());
     return <Navigate to={'/login'} replace />;
   }

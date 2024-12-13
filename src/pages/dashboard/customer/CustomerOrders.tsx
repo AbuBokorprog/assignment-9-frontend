@@ -52,7 +52,7 @@ const CustomerOrders: React.FC = () => {
     // Implement order details view logic
     console.log('Viewing order:', orderId);
   };
-  console.log(data?.data);
+
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}

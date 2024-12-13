@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Main from '../layout/main/Main';
 import Dashboard from '../layout/dashboard/Dashboard';
 import Home from '../pages/Home';
@@ -143,7 +143,7 @@ export const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Dashboard />,
-    errorElement: <Error />,
+    errorElement: <Navigate to={'/'} replace />,
     children: [
       // Admin dashboard route
       {

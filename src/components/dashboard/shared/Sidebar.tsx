@@ -244,7 +244,7 @@ const Sidebar = () => {
     },
   ];
 
-  type UserRole = 'CUSTOMER' | 'ADMIN' | 'SUPER-ADMIN' | 'VENDOR';
+  type UserRole = 'CUSTOMER' | 'ADMIN' | 'SUPER_ADMIN' | 'VENDOR';
   type MenuItem = {
     text: string;
     icon: React.ReactNode;
@@ -257,7 +257,7 @@ const Sidebar = () => {
       case 'CUSTOMER':
         return userMenuItems;
       case 'ADMIN':
-      case 'SUPER-ADMIN':
+      case 'SUPER_ADMIN':
         return adminMenuItems;
       case 'VENDOR':
         return vendorMenuItems;
@@ -410,7 +410,7 @@ const Sidebar = () => {
           </div>
         </div>
         <List className="mt-4">
-          {getMenuItems(user.role)?.map((item: any, index) => (
+          {getMenuItems(user?.role)?.map((item: any, index) => (
             <div key={item.text}>
               {!item.children ? (
                 <NavLink to={item.path}>

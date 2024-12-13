@@ -7,108 +7,60 @@ import {
   FaStar,
   FaUser,
 } from 'react-icons/fa';
-
-interface DashboardCardProps {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  bgColor: string;
-}
-
-const DashboardCard: React.FC<DashboardCardProps> = ({
-  title,
-  value,
-  icon,
-  bgColor,
-}) => (
-  <div
-    className={`${bgColor} rounded-lg p-6 shadow-md flex items-center justify-between`}
-  >
-    <div>
-      <h3 className="text-lg font-semibold text-gray-700">{title}</h3>
-      <p className="text-2xl font-bold text-gray-900">{value}</p>
-    </div>
-    <div className="text-3xl text-gray-700">{icon}</div>
-  </div>
-);
+import { useGetUserReportsQuery } from '../../../redux/features/api/reports/reports.api';
+import DashboardCard from '../../../components/ui/dashboard/DashboardCard';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
+import { useGetAllMyOrdersQuery } from '../../../redux/features/api/orders/orders.api';
+import { TOrder } from '../../../types/order.type';
 
 const CustomerDashboardHome: React.FC = () => {
-  // This would typically come from your API/backend
-  const dashboardData = {
-    totalOrders: 12,
-    pendingOrders: 2,
-    wishlistItems: 8,
-    followedShops: 5,
-    cartItems: 3,
-    reviews: 7,
-  };
-
-  const recentOrders = [
-    {
-      id: '1',
-      date: '2024-03-15',
-      status: 'Delivered',
-      total: 129.99,
-      items: 3,
-    },
-    {
-      id: '2',
-      date: '2024-03-14',
-      status: 'Processing',
-      total: 79.99,
-      items: 2,
-    },
-    {
-      id: '3',
-      date: '2024-03-13',
-      status: 'Pending',
-      total: 199.99,
-      items: 4,
-    },
-  ];
+  const { data } = useGetUserReportsQuery({});
+  const { data: order, isLoading } = useGetAllMyOrdersQuery({});
+  const user = useAppSelector(currentUser);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
-      <h2 className="text-3xl font-bold mb-8">Welcome Back, User!</h2>
+      <h2 className="text-3xl font-bold mb-8">Welcome Back, {user?.name}</h2>
 
       {/* Dashboard Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <DashboardCard
           title="Total Orders"
-          value={dashboardData.totalOrders}
+          value={data?.data?.totalOrder || 0}
           icon={<FaBox />}
           bgColor="bg-blue-100"
         />
         <DashboardCard
           title="Wishlist Items"
-          value={dashboardData.wishlistItems}
+          value={data?.data?.totalWishlist || 0}
           icon={<FaHeart />}
           bgColor="bg-red-100"
         />
         <DashboardCard
           title="Cart Items"
-          value={dashboardData.cartItems}
+          value={data?.data.totalCart || 0}
           icon={<FaShoppingCart />}
           bgColor="bg-green-100"
         />
         <DashboardCard
           title="Followed Shops"
-          value={dashboardData.followedShops}
+          value={data?.data.totalFollowingShop || 0}
           icon={<FaStore />}
           bgColor="bg-purple-100"
         />
         <DashboardCard
           title="My Reviews"
-          value={dashboardData.reviews}
+          value={data?.data?.totalReview || 0}
           icon={<FaStar />}
           bgColor="bg-yellow-100"
         />
-        <DashboardCard
+        {/* <DashboardCard
           title="Pending Orders"
           value={dashboardData.pendingOrders}
           icon={<FaBox />}
           bgColor="bg-orange-100"
-        />
+        /> */}
       </div>
 
       {/* Recent Orders Section */}
@@ -126,10 +78,10 @@ const CustomerDashboardHome: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {recentOrders.map((order) => (
+              {order?.data?.slice(0, 10)?.map((order: TOrder) => (
                 <tr key={order.id} className="border-b hover:bg-gray-50">
                   <td className="px-4 py-2">#{order.id}</td>
-                  <td className="px-4 py-2">{order.date}</td>
+                  <td className="px-4 py-2">{order.createdAt}</td>
                   <td className="px-4 py-2">
                     <span
                       className={`px-2 py-1 rounded-full text-sm ${
@@ -143,8 +95,8 @@ const CustomerDashboardHome: React.FC = () => {
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2">{order.items}</td>
-                  <td className="px-4 py-2">${order.total}</td>
+                  <td className="px-4 py-2">{order?.quantity}</td>
+                  <td className="px-4 py-2">${order.totalAmount}</td>
                 </tr>
               ))}
             </tbody>

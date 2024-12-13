@@ -17,6 +17,7 @@ import {
 import { FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
 import { useGetMyAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
 import { TReview } from '../../../types/review.type';
+import { MdOutlineRateReview } from 'react-icons/md';
 
 const CustomerReview: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,7 +88,7 @@ const CustomerReview: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredReviews.map((review: TReview) => (
+          {filteredReviews?.map((review: TReview) => (
             <Grid item xs={12} key={review.id}>
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent>
@@ -160,8 +161,9 @@ const CustomerReview: React.FC = () => {
           ))}
         </Grid>
 
-        {filteredReviews.length === 0 && (
+        {filteredReviews?.length === 0 && (
           <div className="text-center py-16">
+            <MdOutlineRateReview className="text-6xl text-gray-300 mx-auto mb-4" />
             <Typography variant="h6" color="textSecondary">
               No reviews found
             </Typography>

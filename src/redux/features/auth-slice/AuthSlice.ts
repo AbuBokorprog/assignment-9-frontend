@@ -5,6 +5,7 @@ type IAuth = {
     name: string;
     email: string;
     id: string;
+    role: string;
   } | null;
   token: string | null;
 };

@@ -20,10 +20,12 @@ import {
 import { userStatus } from '../../../types/user.type';
 import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
+  const user = useAppSelector(currentUser);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
@@ -140,36 +142,113 @@ const AdminAllUsers = () => {
       minWidth: 100,
       align: 'center',
       format: (row: any) => (
-        <div className="space-x-4">
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => deleteUserHandler(row.id, userStatus.DELETED)}
-          >
-            Delete
-          </Button>
-          <Button
-            variant="contained"
-            color="warning"
-            onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
-          >
-            Block
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
-          >
-            Suspend
-          </Button>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
-          >
-            Active
-          </Button>
-        </div>
+        <>
+          {row?.email === user?.email ? (
+            <div>
+              <p>This is You</p>
+            </div>
+          ) : row?.status === userStatus.ACTIVE ? (
+            <div className="space-x-4">
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => deleteUserHandler(row.id, userStatus.DELETED)}
+              >
+                Delete
+              </Button>
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+              >
+                Block
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+              >
+                Suspend
+              </Button>
+            </div>
+          ) : row?.status === userStatus.BLOCKED ? (
+            <div className="space-x-4">
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => deleteUserHandler(row.id, userStatus.DELETED)}
+              >
+                Delete
+              </Button>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+              >
+                Suspend
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+              >
+                Active
+              </Button>
+            </div>
+          ) : row?.any === userStatus?.DELETED ? (
+            <div className="space-x-4">
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+              >
+                Block
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+              >
+                Suspend
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+              >
+                Active
+              </Button>
+            </div>
+          ) : (
+            row?.status === userStatus?.SUSPEND && (
+              <div className="space-x-4">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => deleteUserHandler(row.id, userStatus.DELETED)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color="warning"
+                  onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+                >
+                  Block
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+                >
+                  Active
+                </Button>
+              </div>
+            )
+          )}
+        </>
       ),
     },
   ];

@@ -32,12 +32,15 @@ import {
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { TShop } from '../../../types/shop.type';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { currentUser } from '../../../redux/store';
 
 type dashboardShopCardProps = {
   shop: TShop;
 };
 
 const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
+  const user = useAppSelector(currentUser);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedShop, setSelectedShop] = useState<TShop | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -54,12 +57,6 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleEditShop = () => {
-    // Implement edit shop logic
-    console.log('Editing shop:', selectedShop?.id);
-    handleMenuClose();
   };
 
   const handleDeleteClick = () => {
@@ -89,16 +86,20 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
       if (res?.success) {
         toast.success(res?.message, { id: toastId, duration: 200 });
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
+
   const getStatusColor = (isActive: TShop['isActive']) => {
-    const colors: Record<TShop['isActive'], 'success' | 'error' | 'warning'> = {
+    const colors: Record<
+      TShop['isActive'],
+      'success' | 'error' | 'warning' | 'secondary'
+    > = {
       APPROVED: 'success',
-      REJECT: 'error',
+      REJECT: 'secondary',
       PENDING: 'warning',
+      DELETE: 'error',
     };
     return colors[isActive];
   };
@@ -217,14 +218,74 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                         >
                           {review.reply ? 'Edit Reply' : 'Reply'}
                         </Button> */}
-              {shop.isActive === 'APPROVED' && (
+              {shop.isActive === 'APPROVED' ? (
                 <>
                   <Button
                     variant="contained"
                     color="success"
                     size="small"
                     startIcon={<FaCheck />}
-                    onClick={() => handleUpdateStatus(shop.id, 'approved')}
+                    onClick={() => handleUpdateStatus(shop.id, 'PENDING')}
+                  >
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'REJECT')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : shop?.isActive === 'PENDING' ? (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(shop.id, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'REJECT')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : shop?.isActive === 'REJECT' ? (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(shop.id, 'APPROVED')}
                   >
                     Approve
                   </Button>
@@ -233,9 +294,48 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                     color="error"
                     size="small"
                     startIcon={<FaTimes />}
-                    onClick={() => handleUpdateStatus(shop?.id, 'rejected')}
+                    onClick={() => handleUpdateStatus(shop?.id, 'PENDING')}
                   >
-                    Reject
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(shop.id, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'PENDING')}
+                  >
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'REJECT')}
+                  >
+                    reject
                   </Button>
                 </>
               )}
@@ -250,11 +350,13 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <Link to={`/dashboard/vendor/edit-shop/${shop?.id}`}>
-          <MenuItem>
-            <FaEdit className="mr-2" /> Edit Shop
-          </MenuItem>
-        </Link>
+        {user?.role === 'VENDOR' && (
+          <Link to={`/dashboard/vendor/edit-shop/${shop?.id}`}>
+            <MenuItem>
+              <FaEdit className="mr-2" /> Edit Shop
+            </MenuItem>
+          </Link>
+        )}
 
         <MenuItem onClick={handleDeleteClick} className="text-red-500">
           <FaTrash className="mr-2" /> Delete Shop

@@ -49,6 +49,7 @@ import { UserRole } from '../utils/UserRole';
 import OrderDetails from '../pages/dashboard/customer/OrderDetails';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import VendorEditShop from '../pages/dashboard/vendor/VendorEditShop';
+import AdminEditCategory from '../pages/dashboard/admin/AdminEditCategory';
 
 export const router = createBrowserRouter([
   {
@@ -181,6 +182,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
             <AdminAddCategory />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'admin/edit-category/:id',
+        element: (
+          <PrivateRoute roles={[UserRole.admin, UserRole.super_admin]}>
+            <AdminEditCategory />
           </PrivateRoute>
         ),
       },

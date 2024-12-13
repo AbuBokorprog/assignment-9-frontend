@@ -13,6 +13,7 @@ import { TCategory } from '../../../types/categories.type';
 import { FaEdit, FaEllipsisV, FaTrash } from 'react-icons/fa';
 import { useDeleteCategoryMutation } from '../../../redux/features/api/categories/catgeories.api';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 type CategoriesCardProps = {
   data: TCategory;
@@ -98,9 +99,11 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ data }) => {
             },
           }}
         >
-          <MenuItem onClick={handleEditProduct}>
-            <FaEdit className="mr-2" /> Edit Category
-          </MenuItem>
+          <Link to={`/dashboard/admin/edit-category/${data?.id}`}>
+            <MenuItem onClick={handleEditProduct}>
+              <FaEdit className="mr-2" /> Edit Category
+            </MenuItem>
+          </Link>
 
           <MenuItem
             onClick={() => handleDeleteClick(data.id)}

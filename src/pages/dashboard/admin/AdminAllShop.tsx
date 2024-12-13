@@ -9,8 +9,9 @@ import {
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
 import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCard';
-import { Shop } from '../../../types/shop.type';
+
 import Loader from '../../../components/ui/Loader';
+import { TShop } from '../../../types/shop.type';
 
 const AdminAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,7 +60,7 @@ const AdminAllShop: React.FC = () => {
         </div>
 
         <Grid container spacing={4}>
-          {filteredShops?.map((shop: Shop) => (
+          {filteredShops?.map((shop: TShop) => (
             <Grid item xs={12} key={shop.id}>
               <DashboardShopCard shop={shop} />
             </Grid>

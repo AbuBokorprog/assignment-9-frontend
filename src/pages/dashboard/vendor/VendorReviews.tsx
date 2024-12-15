@@ -124,38 +124,6 @@ const VendorReviews: React.FC = () => {
             </Typography>
           </div>
         )}
-
-        {/* Reply Dialog */}
-        {/* <Dialog
-          open={isReplyDialogOpen}
-          onClose={() => setIsReplyDialogOpen(false)}
-          maxWidth="sm"
-          fullWidth
-        >
-          <DialogTitle>Reply to Review</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              multiline
-              rows={4}
-              value={replyText}
-              onChange={(e) => setReplyText(e.target.value)}
-              fullWidth
-              placeholder="Type your reply..."
-              className="mt-4"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setIsReplyDialogOpen(false)}>Cancel</Button>
-            <Button
-              onClick={handleSaveReply}
-              variant="contained"
-              color="primary"
-            >
-              Save Reply
-            </Button>
-          </DialogActions>
-        </Dialog> */}
       </div>
     </div>
   );

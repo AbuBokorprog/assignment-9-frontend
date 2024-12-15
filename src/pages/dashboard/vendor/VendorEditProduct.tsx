@@ -32,21 +32,17 @@ import {
 } from '../../../redux/features/api/products/products.api';
 import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 type TCategorySchema = z.infer<typeof updateProductSchema>;
 
 const VendorEditProduct: React.FC = () => {
   const { id } = useParams();
-  const [category, setCategory] = React.useState('');
-  const [shop, setShop] = React.useState('');
-  const [status, setStatus] = React.useState('');
-
+  const navigate = useNavigate();
   const { data: product } = useGetProductByIdQuery(id);
 
   const {
     register,
-    reset,
     handleSubmit,
     control,
     formState: { errors },
@@ -54,16 +50,32 @@ const VendorEditProduct: React.FC = () => {
     resolver: zodResolver(updateProductSchema),
     mode: 'onBlur',
     defaultValues: {
-      images: [{}], // Assuming `file` is the field name
-      productColors: [{}],
-      productSize: [
-        {
-          size: product?.data?.product?.productSize?.size,
-          stock: product?.data?.product?.productSize?.stock,
-        },
-      ],
+      name: product?.data?.product?.name || '', // Product name
+      description: product?.data?.product?.description || '', // Description
+      regular_price: product?.data?.product?.regular_price || '', // Regular price
+      discount_price: product?.data?.product?.discount_price || '', // Discount price
+      inventory: product?.data?.product?.inventory || '', // Inventory
+
+      images: product?.data?.product?.images || [{}], // Array of image URLs
+      productColors: product?.data?.product?.colors?.map((color: any) => ({
+        color: color?.color,
+        code: color?.code,
+        stock: color?.stock,
+      })) || [{}], // Array of colors
+      productSize: product?.data?.product?.sizes?.map((size: any) => ({
+        size: size.size,
+        stock: size.stock,
+      })) || [{}],
     },
   });
+
+  const [category, setCategory] = React.useState(
+    product?.data?.product?.categoryId
+  );
+  const [shop, setShop] = React.useState(product?.data?.product?.shopId);
+  const [status, setStatus] = React.useState(
+    product?.data?.product?.productStatus
+  );
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -129,9 +141,12 @@ const VendorEditProduct: React.FC = () => {
 
     const formData = new FormData();
 
-    data.images.forEach((file: any) => {
-      formData.append('files[]', file.file);
-    });
+    if (data.images) {
+      data.images.forEach((file: any) => {
+        formData.append('files[]', file.file);
+      });
+    }
+
     formData.append('data', JSON.stringify(data));
     try {
       const res = await updateProduct({
@@ -139,14 +154,13 @@ const VendorEditProduct: React.FC = () => {
         data: formData,
       }).unwrap();
       if (res?.success) {
-        toast.success('Product updated successfully!', {
+        toast.success(res?.message, {
           id: toastId,
           duration: 200,
         });
-        reset();
+        navigate('/dashboard/vendor/all-products');
       }
     } catch (error: any) {
-      console.log(error);
       toast.error(error.data?.message, {
         id: toastId,
         duration: 200,
@@ -401,6 +415,11 @@ const VendorEditProduct: React.FC = () => {
                   {...register('productStatus')}
                   onChange={handleStatus}
                 >
+                  <MenuItem
+                    defaultValue={product?.data?.product?.productStatus}
+                  >
+                    {product?.data?.product?.productStatus}
+                  </MenuItem>
                   {productStatusOptions?.map((c: any, index: number) => (
                     <MenuItem key={index} value={c.value}>
                       {c.label}
@@ -420,6 +439,9 @@ const VendorEditProduct: React.FC = () => {
                   {...register('categoryId')}
                   onChange={handleCategory}
                 >
+                  <MenuItem defaultValue={product?.data?.product?.categoryId}>
+                    {product?.data?.product?.category?.name}
+                  </MenuItem>
                   {categoriesOptions?.map((c: any, index: number) => (
                     <MenuItem key={index} value={c.value}>
                       {c.label}
@@ -434,11 +456,14 @@ const VendorEditProduct: React.FC = () => {
                 <Select
                   labelId="shopId"
                   id="shopId"
-                  value={shop}
+                  value={product?.data?.product?.shopId || shop}
                   label="Shop"
                   {...register('shopId')}
                   onChange={handleShop}
                 >
+                  <MenuItem defaultValue={product?.data?.product?.shopId}>
+                    {product?.data?.product?.shop?.shopName}
+                  </MenuItem>
                   {shopOptions?.map((s: any, index: number) => (
                     <MenuItem key={index} value={s.value}>
                       {s.label}
@@ -520,7 +545,7 @@ const VendorEditProduct: React.FC = () => {
           </div>
           <div className="mx-auto text-center">
             <Button variant="contained" type="submit">
-              Create Product
+              Update Product
             </Button>
           </div>
         </form>

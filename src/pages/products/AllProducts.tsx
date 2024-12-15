@@ -1,51 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   FormControl,
   Grid,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Pagination,
   Select,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
-import { FilterList, Search } from '@mui/icons-material';
+
 import { useGetAllAvailableProductsQuery } from '../../redux/features/api/products/products.api';
 import ProductCard from '../../components/ui/ProductCard';
 import { useSearchParams } from 'react-router-dom';
-import { Product } from '../../types/product.type';
 import Loader from '../../components/ui/Loader';
+import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
+import { TCategory } from '../../types/categories.type';
 
 const AllProducts: React.FC = () => {
   const [searchParams] = useSearchParams();
   const categoryQuery = searchParams.get('category');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('rating');
+  const [sortBy, setSortBy] = useState('createdAt');
   const [category, setCategory] = useState<string | null>(
-    categoryQuery?.toLowerCase() || 'all'
+    categoryQuery?.toLowerCase() || null
   );
-  // const [priceRange, setPriceRange] = useState('all');
+  const [type, setType] = useState<string | null>(null);
+  const [stock, setStock] = useState<string | null>(null);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
   const [page, setPage] = React.useState(1);
   const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
-  const { data, isLoading } = useGetAllAvailableProductsQuery({});
+  const { data, isLoading, isFetching } = useGetAllAvailableProductsQuery([
+    { name: 'page', value: page },
+    { name: 'limit', value: 10 },
+    { name: 'sortBy', value: sortBy },
+    ...(category ? [{ name: 'category', value: category }] : []),
+    ...(type ? [{ name: 'productStatus', value: type }] : []),
+    ...(stock ? [{ name: 'stockStatus', value: stock }] : []),
+    ...(minPrice ? [{ name: 'minPrice', value: minPrice }] : []),
+    ...(maxPrice ? [{ name: 'maxPrice', value: maxPrice }] : []),
+  ]);
 
-  const categories = [
-    'All',
-    'Electronics',
-    'Fashion',
-    'Home & Living',
-    'Beauty',
-    'Food',
-    'Sports',
-  ];
+  const { data: allCategory } = useGetAllCategoriesQuery({});
+  console.log(data?.data?.data);
+  const categories = allCategory?.data?.map((category: TCategory) => ({
+    label: category?.name,
+    value: category?.name,
+  }));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -53,19 +59,9 @@ const AllProducts: React.FC = () => {
 
   const meta = data?.data?.meta;
 
-  const filterProducts = data?.data?.data?.filter((product: Product) => {
-    const matchedSearch = product.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchedCategory =
-      category === 'all' || product.category.name === categoryQuery;
-
-    return matchedSearch && matchedCategory;
-  });
-
   return (
     <div className="container mx-auto px-2  ">
-      {isLoading && <Loader />}
+      {isLoading || (isFetching && <Loader />)}
       <Typography
         variant="h4"
         className="text-center my-5 lg:my-10"
@@ -78,21 +74,6 @@ const AllProducts: React.FC = () => {
       <Card className="mb-8">
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                placeholder="Search shops or vendors..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
             <Grid item xs={12} md={2}>
               <FormControl fullWidth>
                 <InputLabel>Category</InputLabel>
@@ -101,12 +82,77 @@ const AllProducts: React.FC = () => {
                   onChange={(e) => setCategory(e.target.value)}
                   label="Category"
                 >
-                  {categories.map((cat) => (
-                    <MenuItem key={cat} value={cat.toLowerCase()}>
-                      {cat}
+                  <MenuItem value="">All</MenuItem>
+                  {categories?.map((cat: any, index: number) => (
+                    <MenuItem key={index} value={cat?.value?.toLowerCase()}>
+                      {cat?.label}
                     </MenuItem>
                   ))}
                 </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <FormControl fullWidth>
+                <InputLabel>Product Type</InputLabel>
+                <Select
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  label="Product Type"
+                >
+                  <MenuItem value="">All</MenuItem>
+                  <MenuItem value="REGULAR">Regular</MenuItem>
+                  <MenuItem value="FLASH_SALE">Flash Sale</MenuItem>
+                  <MenuItem value="HOT">Hot</MenuItem>
+                  <MenuItem value="NEW">New</MenuItem>
+                  <MenuItem value="FEATURED">Featured</MenuItem>
+                  <MenuItem value="DISCOUNT">Discount</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <FormControl fullWidth>
+                <InputLabel>Stock Type</InputLabel>
+                <Select
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  label="Stock Type"
+                >
+                  <MenuItem value="IN_STOCK">In Stock</MenuItem>
+                  <MenuItem value="LOW_STOCK">Low Stock</MenuItem>
+                  <MenuItem value="OUT_OF_STOCK">Out Of Stock</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <FormControl fullWidth>
+                <Box display="flex" alignItems="center" gap={2}>
+                  <FormControl fullWidth>
+                    <InputLabel>Min Price</InputLabel>
+                    <Select
+                      value={minPrice}
+                      onChange={(e) => setMinPrice(e.target.value)}
+                      label="Min price"
+                    >
+                      <MenuItem value="">All</MenuItem>
+                      <MenuItem value="100">100</MenuItem>
+                      <MenuItem value="200">200</MenuItem>
+                      <MenuItem value="500">500</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <InputLabel>Max Price</InputLabel>
+                    <Select
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(e.target.value)}
+                      label="Max Price"
+                    >
+                      <MenuItem value="">All</MenuItem>
+                      <MenuItem value="1000">1000</MenuItem>
+                      <MenuItem value="2000">2000</MenuItem>
+                      <MenuItem value="500">500</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
               </FormControl>
             </Grid>
             <Grid item xs={12} md={2}>
@@ -117,23 +163,11 @@ const AllProducts: React.FC = () => {
                   onChange={(e) => setSortBy(e.target.value)}
                   label="Sort By"
                 >
-                  <MenuItem value="rating">Top Rated</MenuItem>
-                  <MenuItem value="reviews">Most Reviews</MenuItem>
-                  <MenuItem value="products">Most Products</MenuItem>
-                  <MenuItem value="sales">Best Selling</MenuItem>
-                  <MenuItem value="newest">Newest Vendors</MenuItem>
+                  <MenuItem value="createdAt">Default</MenuItem>
+                  <MenuItem value="stockStatus">Stock By</MenuItem>
+                  <MenuItem value="reviews">Rate By</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<FilterList />}
-                className="h-[56px]"
-              >
-                More Filters
-              </Button>
             </Grid>
           </Grid>
         </CardContent>
@@ -142,7 +176,7 @@ const AllProducts: React.FC = () => {
       <div className="my-5 lg:my-10">
         <Box>
           <Grid container spacing={2}>
-            {filterProducts?.map((p: any, index: number) => (
+            {data?.data?.data?.map((p: any, index: number) => (
               <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
                 <ProductCard product={p} />
               </Grid>
@@ -150,6 +184,14 @@ const AllProducts: React.FC = () => {
           </Grid>
         </Box>
       </div>
+
+      {data?.data?.data?.length === 0 && (
+        <div className="text-center py-16">
+          <Typography variant="h6" color="textSecondary">
+            No products found
+          </Typography>
+        </div>
+      )}
 
       <Stack spacing={2} className="mx-auto text-center">
         <Pagination

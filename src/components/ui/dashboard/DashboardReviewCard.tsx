@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { TReview } from '../../../types/review.type';
-import { FaCheck, FaReply, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useUpdateReviewStatusMutation } from '../../../redux/features/api/reviews/reviews.api';
 import { toast } from 'sonner';
 
@@ -90,22 +90,11 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                     color={getStatusColor(review?.reviewStatus)}
                     size="small"
                   />
-                  {/* {review.reported && (
-                            <Chip
-                              icon={<FaFlag />}
-                              label="Reported"
-                              color="error"
-                              size="small"
-                            />
-                          )} */}
                 </div>
               </div>
 
               <div className="flex items-center gap-2 mb-2">
                 <Rating value={review.rating} readOnly size="small" />
-                {/* <Typography variant="body2" color="textSecondary">
-                          • {review.helpful} people found this helpful
-                        </Typography> */}
               </div>
 
               <Typography
@@ -116,30 +105,7 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                 {review.comment}
               </Typography>
 
-              {/* {review.reply && (
-                        <div className="bg-gray-50 p-3 rounded-lg mb-4">
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className="font-medium mb-1"
-                          >
-                            Your Reply:
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {review.reply}
-                          </Typography>
-                        </div>
-                      )} */}
-
               <div className="flex gap-2">
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<FaReply />}
-                  // onClick={() => handleReplyClick(review)}
-                >
-                  {/* {review.reply ? 'Edit Reply' : 'Reply'} */}
-                </Button>
                 {review.reviewStatus === 'PENDING' && (
                   <>
                     <Button

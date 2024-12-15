@@ -58,12 +58,6 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setAnchorEl(null);
   };
 
-  const handleEditProduct = () => {
-    // Implement edit product logic
-    console.log('Editing product:', selectedProduct?.id);
-    handleMenuClose();
-  };
-
   const handleDeleteClick = () => {
     setIsDeleteDialogOpen(true);
     handleMenuClose();
@@ -328,7 +322,7 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
         onClose={handleMenuClose}
       >
         <Link to={`/dashboard/vendor/edit-product/${product?.id}`}>
-          <MenuItem onClick={handleEditProduct}>
+          <MenuItem>
             <FaEdit className="mr-2" /> Edit Product
           </MenuItem>
         </Link>

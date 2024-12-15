@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../ui/ProductCard';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useGetAllAvailableProductsInfinityScrollQuery } from '../../redux/features/api/products/products.api';
 import Loader from '../ui/Loader';
 import useDebounce from '../../custome-hook/useDebounce';
@@ -37,7 +37,7 @@ const Products: React.FC = () => {
 
   return (
     <div ref={productsContainerRef}>
-      r{isLoading && <Loader />}
+      {isLoading && <Loader />}
       <Grid container spacing={2}>
         {products?.map((p: any, index: number) => (
           <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>

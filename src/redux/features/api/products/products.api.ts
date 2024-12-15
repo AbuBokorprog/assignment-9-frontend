@@ -53,7 +53,6 @@ export const productsApi = baseApi.injectEndpoints({
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
-        console.log(newItems);
         currentCache.results?.push(...newItems.results);
       },
       // Refetch when the page arg changes

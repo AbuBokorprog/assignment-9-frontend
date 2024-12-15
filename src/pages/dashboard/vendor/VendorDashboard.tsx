@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaBox, FaStore } from 'react-icons/fa';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
@@ -10,6 +10,10 @@ import Loader from '../../../components/ui/Loader';
 
 const VendorDashboard: React.FC = () => {
   const user = useAppSelector(currentUser);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const { data: orders, isLoading } = useGetVendorAllOrdersQuery({});
   const { data, isLoading: loading } = useGetVendorReportsQuery({});

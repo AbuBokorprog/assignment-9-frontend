@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -21,6 +21,10 @@ const AdminAllShop: React.FC = () => {
   const filteredShops = data?.data?.filter((shop: any) =>
     shop.shopName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

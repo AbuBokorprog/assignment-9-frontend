@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaStore } from 'react-icons/fa';
 import { z } from 'zod';
@@ -80,8 +80,7 @@ const VendorAddShop: React.FC = () => {
         });
       }
     } catch (error: any) {
-      console.error('Error creating category:', error);
-      toast.error(error.error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 
@@ -93,6 +92,10 @@ const VendorAddShop: React.FC = () => {
     label: item?.name,
     value: item?.id,
   }));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

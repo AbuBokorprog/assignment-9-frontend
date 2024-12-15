@@ -6,7 +6,7 @@ import {
   TextField,
   // Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllCouponsQuery } from '../../../redux/features/api/coupon/coupon.api';
 import CouponCard from '../../../components/ui/dashboard/CouponCard';
@@ -15,6 +15,9 @@ import Loader from '../../../components/ui/Loader';
 
 const AdminAllCoupon: React.FC = () => {
   const { data, isLoading } = useGetAllCouponsQuery({});
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}

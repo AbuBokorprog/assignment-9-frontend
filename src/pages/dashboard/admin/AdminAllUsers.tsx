@@ -11,7 +11,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import {
   useGetAllUsersQuery,
@@ -29,7 +29,9 @@ const AdminAllUsers = () => {
   const user = useAppSelector(currentUser);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { data, isLoading: isUserLoading } = useGetAllUsersQuery({});
 
   const handleChangePage = (_event: any, newPage: number) => {
@@ -57,36 +59,8 @@ const AdminAllUsers = () => {
       console.log(error);
     }
   };
-  const blockUserHandler = async (id: string, status: string) => {
-    const toastId = toast.loading('Loading...');
-    const data = { id, status };
 
-    try {
-      const res = await userStatusChange(data).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const suspendUserHandler = async (id: string, status: string) => {
-    const toastId = toast.loading('Loading...');
-    const data = { id, status };
-
-    try {
-      const res = await userStatusChange(data).unwrap();
-      if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
-      }
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const activeUserHandler = async (id: string, status: string) => {
+  const userActiveHandler = async (id: string, status: string) => {
     const toastId = toast.loading('Loading...');
     const data = { id, status };
 
@@ -156,14 +130,14 @@ const AdminAllUsers = () => {
               <Button
                 variant="contained"
                 color="warning"
-                onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+                onClick={() => userActiveHandler(row.id, userStatus.BLOCKED)}
               >
                 Block
               </Button>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+                onClick={() => userActiveHandler(row.id, userStatus.SUSPEND)}
               >
                 Suspend
               </Button>
@@ -181,14 +155,14 @@ const AdminAllUsers = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+                onClick={() => userActiveHandler(row.id, userStatus.SUSPEND)}
               >
                 Suspend
               </Button>
               <Button
                 variant="contained"
                 color="success"
-                onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+                onClick={() => userActiveHandler(row.id, userStatus.ACTIVE)}
               >
                 Active
               </Button>
@@ -198,21 +172,21 @@ const AdminAllUsers = () => {
               <Button
                 variant="contained"
                 color="warning"
-                onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+                onClick={() => userActiveHandler(row.id, userStatus.BLOCKED)}
               >
                 Block
               </Button>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => suspendUserHandler(row.id, userStatus.SUSPEND)}
+                onClick={() => userActiveHandler(row.id, userStatus.SUSPEND)}
               >
                 Suspend
               </Button>
               <Button
                 variant="contained"
                 color="success"
-                onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+                onClick={() => userActiveHandler(row.id, userStatus.ACTIVE)}
               >
                 Active
               </Button>
@@ -230,7 +204,7 @@ const AdminAllUsers = () => {
                 <Button
                   variant="contained"
                   color="warning"
-                  onClick={() => blockUserHandler(row.id, userStatus.BLOCKED)}
+                  onClick={() => userActiveHandler(row.id, userStatus.BLOCKED)}
                 >
                   Block
                 </Button>
@@ -238,7 +212,7 @@ const AdminAllUsers = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={() => activeUserHandler(row.id, userStatus.ACTIVE)}
+                  onClick={() => userActiveHandler(row.id, userStatus.ACTIVE)}
                 >
                   Active
                 </Button>

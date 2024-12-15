@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import { useGetAllMyCartsQuery } from '../redux/features/api/carts/carts.api';
 import { TCartProduct } from '../types/cart.type';
-import { z } from 'zod';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateOrderMutation } from '../redux/features/api/orders/orders.api';
@@ -27,26 +26,9 @@ import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import { useApplyCouponMutation } from '../redux/features/api/coupon/coupon.api';
+import { orderSchema } from '../schema/order';
 
 const steps = ['Shipping Details', 'Payment Method', 'Review Order'];
-
-const orderSchema = z.object({
-  city: z.string().nonempty('City is required.'),
-  deliveryAddress: z.string().nonempty('Delivery address is required.'),
-  deliveryArea: z.string().nonempty('Delivery area is required.'),
-  email: z.string().email('Email is required!'),
-  fullName: z.string().nonempty('Full name is required.'),
-  paymentType: z.enum(['COD', 'ADV']),
-  phoneNumber: z
-    .string()
-    .regex(
-      /^01[3-9]\d{8}$/,
-      'Phone number must be a valid Bangladeshi number.'
-    ),
-  postalCode: z
-    .string()
-    .regex(/^\d{4}$/, 'Postal code must be a 4-digit number.'),
-});
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -56,7 +38,6 @@ const Checkout = () => {
   const [saveMoney, setSaveMoney] = useState<number>(0);
   const [discountedAmount, setDiscountedAmount] = useState<number>(0);
   const [couponCode, setCouponCode] = useState<string>('');
-
   const [applyCouponCode] = useApplyCouponMutation();
   const [orderPlace] = useCreateOrderMutation();
   const { data, isLoading } = useGetAllMyCartsQuery({});
@@ -118,7 +99,7 @@ const Checkout = () => {
       toast.success(res?.message, { id: toastId, duration: 200 });
       // setDiscountDetails(response.data);
     } catch (error: any) {
-      toast.error(error.error || 'Failed to apply coupon', {
+      toast.error(error?.data?.message || 'Failed to apply coupon', {
         id: toastId,
         duration: 200,
       });
@@ -137,7 +118,7 @@ const Checkout = () => {
         : totalPrice + Number(deliveryCharge),
       quantity: totalQuantity,
     };
-    console.log(orderData);
+
     try {
       const res = await orderPlace(orderData).unwrap();
       console.log(res);
@@ -154,8 +135,7 @@ const Checkout = () => {
       }
       toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
-      console.log(error);
-      toast.error(error?.error);
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
 import { FaSearch, FaRegHeart } from 'react-icons/fa';
 import { useGetAllMyWishlistsQuery } from '../../../redux/features/api/wishlist/wishlistapi';
@@ -14,6 +14,10 @@ const CustomerWishlist: React.FC = () => {
   const filteredItems = data?.data.filter((item: TWishlist) =>
     item.product?.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

@@ -48,8 +48,7 @@ const ViewCart: React.FC = () => {
         });
       }
     } catch (error: any) {
-      console.log(error);
-      toast.success(error, { id: toastId, duration: 200 });
+      toast.success(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 

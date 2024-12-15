@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   TextField,
@@ -41,9 +41,13 @@ const CustomerComparison: React.FC = () => {
       const res = await deleteComparison(id).unwrap();
       toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
-      toast.error(error?.error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="container mx-auto px-2">

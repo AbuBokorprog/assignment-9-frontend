@@ -18,7 +18,7 @@ type TForgotPasswordProps = {
 };
 
 const ForgotPassword: React.FC<TForgotPasswordProps> = ({ open, setOpen }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const handleClose = () => {
     setOpen(false);
   };
@@ -30,8 +30,9 @@ const ForgotPassword: React.FC<TForgotPasswordProps> = ({ open, setOpen }) => {
     try {
       const res = await ForgotPassword(data).unwrap();
       toast.success(res?.message, { id: toastId, duration: 200 });
+      reset();
     } catch (error: any) {
-      toast.error(error?.message);
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 

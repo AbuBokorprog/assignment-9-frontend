@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   // FaEdit,
   // FaEye,
@@ -27,40 +27,8 @@ import Loader from '../../../components/ui/Loader';
 
 const AdminAllProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  // const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const { data, isLoading } = useGetAllProductsQuery({});
-
-  // const handleMenuOpen = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   product: Product
-  // ) => {
-  //   setAnchorEl(event.currentTarget);
-  //   setSelectedProduct(product);
-  // };
-
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // const handleEditProduct = () => {
-  //   // Implement edit product logic
-  //   console.log('Editing product:', selectedProduct?.id);
-  //   handleMenuClose();
-  // };
-
-  // const handleDeleteClick = () => {
-  //   setIsDeleteDialogOpen(true);
-  //   handleMenuClose();
-  // };
-
-  // const handleDeleteConfirm = () => {
-  //   // Implement delete product logic
-  //   console.log('Deleting product:', selectedProduct?.id);
-  //   setIsDeleteDialogOpen(false);
-  // };
 
   const filteredProducts = data?.data?.data?.filter((product: any) => {
     const matchesSearch = product.name
@@ -70,7 +38,9 @@ const AdminAllProducts: React.FC = () => {
     return matchesSearch;
   });
 
-  // const handleUpdateStatus = (id: string, status) => {};
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

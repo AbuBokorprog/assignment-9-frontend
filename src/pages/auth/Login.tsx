@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/features/auth-slice/AuthSlice';
 import { toast } from 'sonner';
 import Loader from '../../components/ui/Loader';
+import ForgotPassword from '../../components/ui/ForgotPassword';
 
 // Validation schema
 const loginSchema = z.object({
@@ -29,7 +30,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -42,6 +43,10 @@ const Login: React.FC = () => {
   });
 
   const [userLogin, { isLoading }] = useLoginMutation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onSubmit = async (data: LoginFormData) => {
     const tokenId = toast.loading('Loading...');
@@ -73,7 +78,10 @@ const Login: React.FC = () => {
         reset();
       }
     } catch (error: any) {
-      toast.error(error.error as string, { id: tokenId, duration: 200 });
+      toast.error(error?.data?.message as string, {
+        id: tokenId,
+        duration: 200,
+      });
     }
   };
 
@@ -165,7 +173,7 @@ const Login: React.FC = () => {
                   <div className="text-sm">
                     <Button
                       variant="text"
-                      // onClick={() => setOpen(true)}
+                      onClick={() => setOpen(true)}
                       className="font-medium text-primary-600 hover:text-primary-500"
                     >
                       Forgot your password?
@@ -183,6 +191,7 @@ const Login: React.FC = () => {
                 </Button>
               </form>
             </div>
+            <ForgotPassword open={open} setOpen={setOpen} />
           </div>
         </div>
       )}

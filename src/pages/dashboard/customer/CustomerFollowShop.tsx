@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Grid, TextField, InputAdornment } from '@mui/material';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import CustomerShopCard from '../../../components/ui/dashboard/CustomerShopCard';
@@ -14,6 +14,10 @@ const CustomerFollowShop: React.FC = () => {
   const filteredShops = data?.data?.filter((FShop: TFollowShop) =>
     FShop?.shop?.shopName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

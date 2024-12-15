@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Person } from '@mui/icons-material';
 import { Button, InputAdornment, TextField } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FaStore } from 'react-icons/fa';
 import { FcCalendar } from 'react-icons/fc';
@@ -50,6 +50,10 @@ const AdminEditCoupon: React.FC = () => {
       toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

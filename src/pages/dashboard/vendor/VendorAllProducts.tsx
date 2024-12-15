@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -18,6 +18,9 @@ import DashboardProductCard from '../../../components/ui/dashboard/DashboardProd
 import Loader from '../../../components/ui/Loader';
 
 const VendorAllProducts: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [stockStatusFilter, setStatusFilter] = useState('all');

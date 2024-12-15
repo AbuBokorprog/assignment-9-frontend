@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { editShopSchema } from '../../../schema/shop';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -90,8 +90,7 @@ const VendorEditShop: React.FC = () => {
         });
       }
     } catch (error: any) {
-      console.error('Error creating category:', error);
-      toast.error(error.error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 
@@ -103,6 +102,10 @@ const VendorEditShop: React.FC = () => {
     label: item?.name,
     value: item?.id,
   }));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

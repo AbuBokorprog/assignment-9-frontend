@@ -1,5 +1,5 @@
 import { Grid, InputAdornment, TextField } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
 import CategoriesCard from '../../../components/ui/dashboard/CategoriesCard';
@@ -8,7 +8,9 @@ import Loader from '../../../components/ui/Loader';
 
 const AdminAllCategories: React.FC = () => {
   const { data, isLoading } = useGetAllCategoriesQuery({});
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Grid,
@@ -41,6 +41,10 @@ const VendorReviews: React.FC = () => {
       ratingFilter === 'all' || review?.rating === Number(ratingFilter);
     return matchesSearch && matchesStatus && matchesRating;
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

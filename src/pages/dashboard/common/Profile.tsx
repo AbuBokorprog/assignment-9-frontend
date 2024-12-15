@@ -1,11 +1,15 @@
 import { Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { FaCamera, FaUserCircle } from 'react-icons/fa';
-import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
+import {
+  useMyProfileQuery,
+  useUpdateMyProfileMutation,
+} from '../../../redux/features/api/users/user.api';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Loader from '../../../components/ui/Loader';
+import { toast } from 'sonner';
 
 const Profile: React.FC = () => {
   const [avatar, setAvatar] = useState<any>();
@@ -14,7 +18,7 @@ const Profile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const { data, refetch, isLoading } = useMyProfileQuery({});
-
+  const [updateProfile] = useUpdateMyProfileMutation();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       name: data?.data?.name,
@@ -33,22 +37,32 @@ const Profile: React.FC = () => {
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAvatar(reader.result);
+        setAvatar(reader.result); // Display the image preview
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading('Loading...');
     const formData = new FormData();
-    formData.append('file', image);
+    if (image) {
+      formData.append('file', image);
+    }
     formData.append('data', JSON.stringify(data));
-    console.log(data);
+
+    try {
+      const res = await updateProfile(formData).unwrap();
+      toast.success(res?.message, { id: toastId, duration: 200 });
+    } catch (error: any) {
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
+    }
 
     setIsEditing(false);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     refetch();
   }, [email]);
 
@@ -66,12 +80,15 @@ const Profile: React.FC = () => {
                 {/* Profile Picture Section */}
                 <div className="flex flex-col items-center mb-8">
                   <div className="relative">
-                    {data?.data.profilePhoto ? (
+                    {avatar ? (
                       <img
-                        src={avatar ? avatar : data?.data.profilePhoto}
-                        alt="Profile"
-                        className="w-32 h-32 rounded-full object-cover"
+                        src={avatar as string}
+                        alt="Preview"
+                        width="100"
+                        className="rounded-full"
                       />
+                    ) : data?.data?.profilePhoto ? (
+                      <img src={data?.data?.profilePhoto} alt="" />
                     ) : (
                       <FaUserCircle className="w-32 h-32 text-gray-400" />
                     )}

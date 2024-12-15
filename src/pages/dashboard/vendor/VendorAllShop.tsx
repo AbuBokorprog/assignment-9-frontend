@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -19,7 +19,9 @@ const VendorAllShop: React.FC = () => {
   const filteredShops = data?.data?.filter((shop: any) =>
     shop.shopName.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       {isLoading ? (

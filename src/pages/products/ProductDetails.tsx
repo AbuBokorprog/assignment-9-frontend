@@ -70,7 +70,7 @@ const ProductDetails = () => {
 
   const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
-  const { data } = useGetProductByIdQuery(id);
+  const { data, isLoading: loadingData } = useGetProductByIdQuery(id);
   const [addReview] = useCreateReviewMutation();
   const product = data?.data?.product;
   const relatedProducts = data?.data?.relatedProducts;
@@ -99,6 +99,7 @@ const ProductDetails = () => {
       const productData = { productId: id };
       try {
         await createRecentProduct(productData).unwrap();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         // console.log(error);
       }
@@ -160,7 +161,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || loadingData ? (
         <Loader />
       ) : (
         <Container maxWidth="xl" sx={{ py: 4 }}>

@@ -29,7 +29,7 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
     price: data?.discount_price ? data?.discount_price : data?.regular_price,
   };
   const QuickOrderHandler = async () => {
-    if (!user) {
+    if (!user?.email) {
       navigate('/login');
     }
     const toastId = toast.loading('Loading...');
@@ -47,8 +47,7 @@ const QuickOrder: React.FC<QuickOrderProps> = ({ data, variant }) => {
         setOpen(true);
       }
     } catch (error: any) {
-      console.log(error);
-      toast.success(error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 

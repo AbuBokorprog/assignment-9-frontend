@@ -1,5 +1,5 @@
 import { Grid, InputAdornment, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
 import Loader from '../../../components/ui/Loader';
@@ -8,6 +8,9 @@ import { TReview } from '../../../types/review.type';
 
 const AdminAllReviews: React.FC = () => {
   const { data, isLoading } = useGetAllReviewsQuery({});
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
       {isLoading && <Loader />}

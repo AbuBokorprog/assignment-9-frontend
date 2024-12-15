@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Controller,
   FieldValues,
@@ -36,6 +36,7 @@ const VendorAddProduct: React.FC = () => {
   const [category, setCategory] = React.useState('');
   const [shop, setShop] = React.useState('');
   const [status, setStatus] = React.useState('');
+
   const {
     register,
     reset,
@@ -148,6 +149,10 @@ const VendorAddProduct: React.FC = () => {
   const handleStatus = (event: SelectChangeEvent) => {
     setStatus(event.target.value as string);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

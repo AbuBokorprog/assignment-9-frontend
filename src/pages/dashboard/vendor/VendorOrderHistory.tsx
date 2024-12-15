@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -50,6 +50,10 @@ const VendorOrderHistory: React.FC = () => {
       paymentFilter === 'all' || order.payment.status === paymentFilter;
     return matchesSearch && matchesStatus && matchesPayment;
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

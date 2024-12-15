@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FaBox,
   FaHeart,
@@ -19,6 +19,10 @@ const CustomerDashboardHome: React.FC = () => {
   const { data } = useGetUserReportsQuery({});
   const { data: order, isLoading } = useGetAllMyOrdersQuery({});
   const user = useAppSelector(currentUser);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

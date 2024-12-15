@@ -51,6 +51,7 @@ import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import VendorEditShop from '../pages/dashboard/vendor/VendorEditShop';
 import AdminEditCategory from '../pages/dashboard/admin/AdminEditCategory';
 import AdminEditCoupon from '../pages/dashboard/admin/AdminEditCoupon';
+import VendorEditProduct from '../pages/dashboard/vendor/VendorEditProduct';
 
 export const router = createBrowserRouter([
   {
@@ -354,6 +355,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute roles={[UserRole.vendor]}>
             <VendorAddProduct />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'vendor/edit-product/:id',
+        element: (
+          <PrivateRoute roles={[UserRole.vendor]}>
+            <VendorEditProduct />
           </PrivateRoute>
         ),
       },

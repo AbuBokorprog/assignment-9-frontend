@@ -34,16 +34,16 @@ const CartAlertDialog: React.FC<CartAlertDialogProps> = ({
       const res = await replaceCart(orderData).unwrap();
 
       if (res?.success) {
+        setOpen(false);
         toast.success('Add to cart successfully!', {
           id: toastId,
           duration: 200,
         });
       } else if (res?.status === 409) {
-        setOpen(true);
+        setOpen(false);
       }
     } catch (error: any) {
-      console.log(error);
-      toast.success(error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 
@@ -63,8 +63,10 @@ const CartAlertDialog: React.FC<CartAlertDialogProps> = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => replaceCartHandler}>Replace Cart</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button type="button" onClick={() => replaceCartHandler()}>
+            Replace Cart
+          </Button>
+          <Button type="button" onClick={handleClose} autoFocus>
             Retain Cart
           </Button>
         </DialogActions>

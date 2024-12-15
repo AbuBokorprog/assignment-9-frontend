@@ -134,8 +134,9 @@ const ProductDetails = () => {
         setOpen(true);
       }
     } catch (error: any) {
-      console.log(error);
-      toast.success(error, { id: toastId, duration: 200 });
+      setOpen(true);
+
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 
@@ -150,10 +151,10 @@ const ProductDetails = () => {
     try {
       const res = await addReview(reviewData).unwrap();
       toast.success(res?.message, { id: toastId, duration: 200 });
+
       reset();
     } catch (error: any) {
-      console.log(error);
-      toast.error(error?.error, { id: toastId, duration: 200 });
+      toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
 

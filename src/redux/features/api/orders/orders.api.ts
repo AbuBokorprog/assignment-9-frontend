@@ -59,6 +59,7 @@ export const ordersApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['orders'],
     }),
   }),
 });

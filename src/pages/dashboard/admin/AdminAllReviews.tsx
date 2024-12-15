@@ -1,8 +1,10 @@
-import { InputAdornment, TextField } from '@mui/material';
+import { Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllReviewsQuery } from '../../../redux/features/api/reviews/reviews.api';
 import Loader from '../../../components/ui/Loader';
+import DashboardReviewCard from '../../../components/ui/dashboard/DashboardReviewCard';
+import { TReview } from '../../../types/review.type';
 
 const AdminAllReviews: React.FC = () => {
   const { data, isLoading } = useGetAllReviewsQuery({});
@@ -34,6 +36,21 @@ const AdminAllReviews: React.FC = () => {
             />
           </div>
         </div>
+        <Grid container spacing={4}>
+          {data?.data?.map((review: TReview) => (
+            <Grid item xs={12} key={review.id}>
+              <DashboardReviewCard review={review} />
+            </Grid>
+          ))}
+        </Grid>
+        {data?.data?.length === 0 && (
+          <div className="text-center py-16">
+            <Typography variant="h6" color="textSecondary">
+              No reviews found
+            </Typography>
+            <Typography color="textSecondary"></Typography>
+          </div>
+        )}
       </div>
     </div>
   );

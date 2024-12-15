@@ -327,9 +327,11 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleEditProduct}>
-          <FaEdit className="mr-2" /> Edit Product
-        </MenuItem>
+        <Link to={`/dashboard/vendor/edit-product/${product?.id}`}>
+          <MenuItem onClick={handleEditProduct}>
+            <FaEdit className="mr-2" /> Edit Product
+          </MenuItem>
+        </Link>
         <Link to={`/product-details/${product?.id}`}>
           <MenuItem>
             <FaEye className="mr-2" /> View Details

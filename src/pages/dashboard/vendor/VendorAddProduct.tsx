@@ -131,7 +131,7 @@ const VendorAddProduct: React.FC = () => {
       }
     } catch (error: any) {
       console.log(error);
-      toast.error(error.error, {
+      toast.error(error.data?.message, {
         id: toastId,
         duration: 200,
       });

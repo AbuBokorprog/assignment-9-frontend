@@ -71,7 +71,7 @@ const Header: React.FC = () => {
             <img
               src="/images/bazaar-bridge.png"
               alt="logo"
-              className="size-28"
+              className="size-24"
             />
           </Link>
           <div className="">

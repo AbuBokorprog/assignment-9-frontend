@@ -6,7 +6,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Button,
   Chip,
   IconButton,
   Collapse,
@@ -14,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import OrderMenu from './OrderMenu';
 // import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
 // import { toast } from 'sonner';
 // import { useAppSelector } from '../../../redux/hooks/hooks';
@@ -128,20 +128,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
         </TableCell>
         <TableCell className="space-y-2">
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => console.log('Update status:', order?.id)}
-          >
-            Update Status
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => console.log('Update status:', order?.id)}
-          >
-            Update payment Status
-          </Button>
+          <OrderMenu orderId={order?.id} paymentId={order?.payment?.id} />
         </TableCell>
       </TableRow>
       <TableRow>

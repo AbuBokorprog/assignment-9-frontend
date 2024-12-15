@@ -108,6 +108,7 @@ const VendorRegistration: React.FC = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log('Hello');
     const vendorData = {
       ...data,
       name: `${data.firstName} ${data.lastName},`,
@@ -131,7 +132,7 @@ const VendorRegistration: React.FC = () => {
         navigate('/login');
       }
     } catch (error: any) {
-      // console.error('Error creating category:', error);
+      console.error('Error creating category:', error);
       toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };

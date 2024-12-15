@@ -17,10 +17,49 @@ export const productsApi = baseApi.injectEndpoints({
       providesTags: ['products'],
     }),
     getAllAvailableProducts: builder.query({
-      query: () => ({
-        url: '/products/all-products/available',
-        method: 'GET',
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args?.forEach((item: any) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: '/products/all-products/available',
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: ['products'],
+    }),
+    getAllAvailableProductsInfinityScroll: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args?.forEach((item: any) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: '/products/all-products/available',
+          method: 'GET',
+          params: params,
+        };
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        console.log(newItems);
+        currentCache.results?.push(...newItems.results);
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
       providesTags: ['products'],
     }),
     getAllFlashSaleProducts: builder.query({
@@ -80,5 +119,7 @@ export const {
   useDeleteProductMutation,
   useUpdateProductStatusMutation,
   useGetAllAvailableProductsQuery,
+  useLazyGetAllAvailableProductsQuery,
   useGetAllFlashSaleProductsQuery,
+  useGetAllAvailableProductsInfinityScrollQuery,
 } = productsApi;

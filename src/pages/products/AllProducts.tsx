@@ -31,7 +31,6 @@ const AllProducts: React.FC = () => {
     categoryQuery?.toLowerCase() || 'all'
   );
   // const [priceRange, setPriceRange] = useState('all');
-  const [shippingTime, setShippingTime] = useState('all');
   const [page, setPage] = React.useState(1);
   const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -123,21 +122,6 @@ const AllProducts: React.FC = () => {
                   <MenuItem value="products">Most Products</MenuItem>
                   <MenuItem value="sales">Best Selling</MenuItem>
                   <MenuItem value="newest">Newest Vendors</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Shipping Time</InputLabel>
-                <Select
-                  value={shippingTime}
-                  onChange={(e) => setShippingTime(e.target.value)}
-                  label="Shipping Time"
-                >
-                  <MenuItem value="all">All</MenuItem>
-                  <MenuItem value="1-2">1-2 Days</MenuItem>
-                  <MenuItem value="3-5">3-5 Days</MenuItem>
-                  <MenuItem value="5+">5+ Days</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

@@ -12,9 +12,7 @@ import { RootState } from '../../store';
 // Define a service using a base URL and expected endpoints
 
 const baseQuery = fetchBaseQuery({
-  // https://bazaar-bridge.vercel.app/
-  // http://localhost:3000/api
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: 'https://bazaar-bridge.vercel.app/api',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;

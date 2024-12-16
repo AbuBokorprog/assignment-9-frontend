@@ -2,6 +2,7 @@ import { TCategory } from './categories.type';
 import { TOrder } from './order.type';
 import { Product } from './product.type';
 import { TReview } from './review.type';
+import { TActive } from './type';
 import { TAdmin } from './user.type';
 
 export interface TShop {
@@ -14,7 +15,7 @@ export interface TShop {
   products: Product[];
   reviews: TReview[];
   address: string;
-  isActive: string;
+  isActive: TActive;
   createdAt: string;
   category: TCategory;
   followers: any[];

@@ -35,6 +35,7 @@ import { TShop } from '../../../types/shop.type';
 import { useAppSelector } from '../../../redux/hooks/hooks';
 import { currentUser } from '../../../redux/store';
 import Loader from '../Loader';
+import { activeStatusColor, getStatusColor } from '../../../utils/constaints';
 
 type dashboardShopCardProps = {
   shop: TShop;
@@ -92,19 +93,6 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
     }
   };
 
-  const getStatusColor = (isActive: TShop['isActive']) => {
-    const colors: Record<
-      TShop['isActive'],
-      'success' | 'error' | 'warning' | 'secondary'
-    > = {
-      APPROVED: 'success',
-      REJECT: 'secondary',
-      PENDING: 'warning',
-      DELETE: 'error',
-    };
-    return colors[isActive];
-  };
-
   const totalRating = shop?.reviews?.reduce(
     (sum, item) => sum + item.rating,
     0
@@ -132,7 +120,7 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
           <div className="absolute top-4 right-4 flex gap-2">
             <Chip
               label={shop.isActive}
-              color={getStatusColor(shop.isActive)}
+              color={getStatusColor(shop.isActive, activeStatusColor)}
               size="small"
             />
             <IconButton

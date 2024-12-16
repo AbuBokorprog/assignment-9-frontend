@@ -14,6 +14,11 @@ import {
 } from '@mui/material';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import OrderMenu from './OrderMenu';
+import {
+  getStatusColor,
+  orderStatusColors,
+  paymentStatusColors,
+} from '../../../utils/constaints';
 // import { useUpdateOrderStatusMutation } from '../../../redux/features/api/orders/orders.api';
 // import { toast } from 'sonner';
 // import { useAppSelector } from '../../../redux/hooks/hooks';
@@ -33,29 +38,6 @@ const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   // const user: any = useAppSelector(currentUser);
   // const [updateOrderStatus] = useUpdateOrderStatusMutation();
-
-  const orderStatusColors = {
-    PENDING: 'warning',
-    PROCESSING: 'info',
-    SHIPPED: 'primary',
-    DELIVERED: 'success',
-    CANCELLED: 'error',
-  } as const;
-
-  const paymentStatusColors = {
-    PAID: 'success',
-    UNPAID: 'error',
-    FAILED: 'warning',
-    REFUNDED: 'primary',
-  } as const;
-
-  const getStatusColor = (status: keyof typeof orderStatusColors) => {
-    return orderStatusColors[status] || 'default';
-  };
-
-  const getPaymentStatusColor = (status: keyof typeof paymentStatusColors) => {
-    return paymentStatusColors[status];
-  };
 
   // const orderStatusChangeHandler = async (id: string, status: string) => {
   //   const toastId = toast.loading('Loading...');
@@ -112,7 +94,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
         <TableCell>
           <Chip
             label={order?.status}
-            color={getStatusColor(order?.status)}
+            color={getStatusColor(order?.status, orderStatusColors)}
             size="small"
           />
         </TableCell>
@@ -120,7 +102,10 @@ const OrderCard: React.FC<OrderCardProps> = ({
           {order?.payment?.status ? (
             <Chip
               label={order?.payment?.status}
-              color={getPaymentStatusColor(order?.payment?.status)}
+              color={getStatusColor(
+                order?.payment?.status,
+                paymentStatusColors
+              )}
               size="small"
             />
           ) : (

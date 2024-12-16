@@ -29,6 +29,7 @@ import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories
 import { useCreateProductMutation } from '../../../redux/features/api/products/products.api';
 import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
+import { TShop } from '../../../types/shop.type';
 
 type TCategorySchema = z.infer<typeof productSchema>;
 
@@ -79,10 +80,15 @@ const VendorAddProduct: React.FC = () => {
   const { data, isLoading } = useGetAllShopsByVendorQuery({});
   const { data: categories } = useGetAllCategoriesQuery({});
 
-  const shopOptions = data?.data?.map((s: any) => ({
+  const activeShop = data?.data?.filter(
+    (item: TShop) => item.isActive === 'APPROVED'
+  );
+
+  const shopOptions = activeShop?.map((s: any) => ({
     label: s.shopName,
     value: s.id,
   }));
+
   const categoriesOptions = categories?.data?.map((c: any) => ({
     label: c.name,
     value: c.id,

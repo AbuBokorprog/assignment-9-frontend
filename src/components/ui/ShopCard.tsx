@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  Rating,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -18,6 +19,14 @@ interface ShopCardProps {
 }
 
 const ShopCard: React.FC<ShopCardProps> = ({ shop }) => {
+  const totalRating = shop?.reviews?.reduce(
+    (sum, item) => sum + item.rating,
+    0
+  );
+
+  const reviewCount = shop?.reviews?.length || 0;
+  const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
+
   return (
     <Card className="h-full hover:shadow-lg transition-shadow duration-300">
       <Box className="relative">
@@ -28,16 +37,7 @@ const ShopCard: React.FC<ShopCardProps> = ({ shop }) => {
           alt={shop.shopName}
           className="h-48 object-cover"
         />
-        {/* <IconButton
-          className="absolute top-2 right-2 bg-white hover:bg-gray-100"
-          onClick={() => onFavorite(shop.id)}
-        >
-          {isFavorite ? (
-            <Favorite className="text-red-500" />
-          ) : (
-            <FavoriteBorder />
-          )}
-        </IconButton> */}
+
         {shop.isActive === 'APPROVED' && (
           <Tooltip title="Verified Seller">
             <Chip
@@ -64,12 +64,12 @@ const ShopCard: React.FC<ShopCardProps> = ({ shop }) => {
           </div>
         </div>
 
-        {/* <div className="flex items-center mb-2">
-          <Rating value={shop.rating} readOnly precision={0.5} size="small" />
+        <div className="flex items-center mb-2">
+          <Rating value={avgRating} readOnly precision={0.5} size="small" />
           <Typography variant="body2" color="text.secondary" className="ml-2">
-            ({shop.reviews} reviews)
+            ({shop.reviews?.length} reviews)
           </Typography>
-        </div> */}
+        </div>
 
         <div className="grid grid-cols-2 gap-2 mb-2">
           <Chip

@@ -44,6 +44,10 @@ const theme = createTheme({
       main: '#e11d3f', // Similar to primary[600]
       contrastText: '#ffffff',
     },
+    info: {
+      main: '#000000', // BLACK
+      contrastText: '#ffffff',
+    },
     background: {
       default: '#f6f7f9',
       paper: '#ffffff',

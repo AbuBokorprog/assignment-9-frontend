@@ -11,9 +11,8 @@ import React from 'react';
 import { FaHeart, FaMapMarkerAlt, FaPhoneAlt, FaStore } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useShopFollowToggleMutation } from '../../../redux/features/api/shops/shops.api';
-// import { useAppSelector } from '../../../redux/hooks/hooks';
-// import { currentUser } from '../../../redux/store';
 import { TFollowShop } from '../../../types/shop.type';
+import { activeStatusColor, getStatusColor } from '../../../utils/constaints';
 
 type CustomerShopCardProps = {
   data: TFollowShop;
@@ -49,7 +48,7 @@ const CustomerShopCard: React.FC<CustomerShopCardProps> = ({ data }) => {
           <div className="absolute top-4 right-4">
             <Chip
               label={data.shop.isActive}
-              color={data.shop.isActive === 'APPROVED' ? 'success' : 'error'}
+              color={getStatusColor(data?.shop?.isActive, activeStatusColor)}
               size="small"
             />
           </div>

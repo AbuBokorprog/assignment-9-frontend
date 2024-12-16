@@ -47,7 +47,7 @@ const AllProducts: React.FC = () => {
   ]);
 
   const { data: allCategory } = useGetAllCategoriesQuery({});
-  console.log(data?.data?.data);
+
   const categories = allCategory?.data?.map((category: TCategory) => ({
     label: category?.name,
     value: category?.name,

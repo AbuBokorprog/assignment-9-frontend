@@ -9,6 +9,23 @@ export const shopsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['shops'],
     }),
+    getAllAvailableShops: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args?.forEach((item: any) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+
+        return {
+          url: '/shop/all-products',
+          method: 'GET',
+          params: params,
+        };
+      },
+      providesTags: ['shops'],
+    }),
     getAllShopsByVendor: builder.query({
       query: () => ({
         url: '/shop/vendor-shops',
@@ -83,4 +100,5 @@ export const {
   useUpdateShopStatusMutation,
   useShopFollowToggleMutation,
   useGetMyFollowingShopQuery,
+  useGetAllAvailableShopsQuery,
 } = shopsApi;

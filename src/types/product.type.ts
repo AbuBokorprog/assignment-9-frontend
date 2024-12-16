@@ -1,5 +1,6 @@
 import { TCategory } from './categories.type';
 import { TReview } from './review.type';
+import { TActive } from './type';
 import { TAdmin } from './user.type';
 import { TWishlist } from './wishlist.type';
 
@@ -20,7 +21,7 @@ export interface Product {
   wishlist?: TWishlist[];
   featured: boolean;
   productStatus: string;
-  isActive: string;
+  isActive: TActive;
   reviews: TReview[];
 }
 

@@ -38,7 +38,7 @@ const ShopDetails: React.FC = () => {
   }, []);
 
   const isFollowingShop = shop?.followers?.some(
-    (f) => f.customerId === user?.id
+    (f) => f?.customerId === user?.id
   );
 
   const toggleFollowShopHandler = async (shopId: string) => {

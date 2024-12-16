@@ -11,6 +11,7 @@ import { TReview } from '../../../types/review.type';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useUpdateReviewStatusMutation } from '../../../redux/features/api/reviews/reviews.api';
 import { toast } from 'sonner';
+import { activeStatusColor, getStatusColor } from '../../../utils/constaints';
 
 type DashboardReviewCardProps = {
   review: TReview;
@@ -19,17 +20,6 @@ type DashboardReviewCardProps = {
 const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
   review,
 }): any => {
-  const colors = {
-    APPROVED: 'success',
-    PENDING: 'warning',
-    REJECT: 'error',
-    DELETE: 'error',
-  } as const;
-
-  const getStatusColor = (reviewStatus: keyof typeof colors) => {
-    return colors[reviewStatus] || 'default';
-  };
-
   const [updateStatus] = useUpdateReviewStatusMutation();
 
   const handleUpdateStatus = async (
@@ -87,7 +77,10 @@ const DashboardReviewCard: React.FC<DashboardReviewCardProps> = ({
                 <div className="flex items-center gap-2">
                   <Chip
                     label={review?.reviewStatus}
-                    color={getStatusColor(review?.reviewStatus)}
+                    color={getStatusColor(
+                      review?.reviewStatus,
+                      activeStatusColor
+                    )}
                     size="small"
                   />
                 </div>

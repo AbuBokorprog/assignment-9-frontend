@@ -32,6 +32,11 @@ import {
 } from '../../../redux/features/api/products/products.api';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader';
+import {
+  activeStatusColor,
+  getStatusColor,
+  stockColors,
+} from '../../../utils/constaints';
 
 type ProductCardProps = {
   product: Product;
@@ -74,16 +79,6 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
       console.log(error);
     }
     setIsDeleteDialogOpen(false);
-  };
-
-  const colors = {
-    IN_STOCK: 'success',
-    LOW_STOCK: 'warning',
-    OUT_OF_STOCK: 'error',
-  } as const;
-
-  const getStatusColor = (stockStatus: keyof typeof colors) => {
-    return colors[stockStatus] || 'default';
   };
 
   const handleUpdateStatus = async (id: string, status: string) => {
@@ -131,16 +126,15 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
         </div>
-        <CardContent className="">
+        <CardContent>
           <Typography variant="h6" component="h3" className="mb-2">
             {product.name}
           </Typography>
-          <div className="">
+          <div>
             <Chip
               label={product?.isActive}
-              color="primary"
+              color={getStatusColor(product?.isActive, activeStatusColor)}
               size="small"
-              className=""
             />
           </div>
           <div className="flex justify-between items-center mb-2">
@@ -170,7 +164,7 @@ const DashboardProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </div>
             <Chip
               label={product.stockStatus.replace('-', ' ')}
-              color={getStatusColor(product?.stockStatus)}
+              color={getStatusColor(product?.stockStatus, stockColors)}
               size="small"
             />
           </div>

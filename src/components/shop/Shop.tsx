@@ -6,35 +6,43 @@ import {
   TextField,
   InputAdornment,
   Grid,
-  Button,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  Stack,
+  Pagination,
 } from '@mui/material';
-import { Search, FilterList } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import ShopCard from '../ui/ShopCard';
-import { useGetAllShopsQuery } from '../../redux/features/api/shops/shops.api';
+import { useGetAllAvailableShopsQuery } from '../../redux/features/api/shops/shops.api';
 import { TShop } from '../../types/shop.type';
 import Loader from '../ui/Loader';
+import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
+import { TCategory } from '../../types/categories.type';
 
 const Shop: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('rating');
+  const [sortBy, setSortBy] = useState('');
+  const [rating, setRating] = useState<string | null>('');
   const [category, setCategory] = useState('all');
-  const [shippingTime, setShippingTime] = useState('all');
 
-  const categories = [
-    'All',
-    'Electronics',
-    'Fashion',
-    'Home & Living',
-    'Beauty',
-    'Food',
-    'Sports',
-  ];
+  const { data: allCategory } = useGetAllCategoriesQuery({});
 
-  const { data, isLoading } = useGetAllShopsQuery({});
+  const categories = allCategory?.data?.map((category: TCategory) => ({
+    label: category?.name,
+    value: category?.name,
+  }));
+
+  const { data, isLoading } = useGetAllAvailableShopsQuery([
+    { name: 'page', value: currentPage },
+    { name: 'limit', value: 10 },
+    { name: 'sortBy', value: sortBy },
+    ...(category ? [{ name: 'category', value: category }] : []),
+    ...(rating ? [{ name: 'rating', value: rating }] : []),
+    ...(searchTerm ? [{ name: 'searchTerm', value: searchTerm }] : []),
+  ]);
 
   return (
     <>
@@ -77,9 +85,13 @@ const Shop: React.FC = () => {
                         onChange={(e) => setCategory(e.target.value)}
                         label="Category"
                       >
-                        {categories.map((cat) => (
-                          <MenuItem key={cat} value={cat.toLowerCase()}>
-                            {cat}
+                        <MenuItem value="">All</MenuItem>
+                        {categories?.map((cat: any, index: number) => (
+                          <MenuItem
+                            key={index}
+                            value={cat?.value?.toLowerCase()}
+                          >
+                            {cat?.label}
                           </MenuItem>
                         ))}
                       </Select>
@@ -103,28 +115,21 @@ const Shop: React.FC = () => {
                   </Grid>
                   <Grid item xs={12} md={2}>
                     <FormControl fullWidth>
-                      <InputLabel>Shipping Time</InputLabel>
+                      <InputLabel>Rating</InputLabel>
                       <Select
-                        value={shippingTime}
-                        onChange={(e) => setShippingTime(e.target.value)}
-                        label="Shipping Time"
+                        value={rating}
+                        onChange={(e) => setRating(e.target.value)}
+                        label="Rating"
                       >
-                        <MenuItem value="all">All</MenuItem>
-                        <MenuItem value="1-2">1-2 Days</MenuItem>
-                        <MenuItem value="3-5">3-5 Days</MenuItem>
-                        <MenuItem value="5+">5+ Days</MenuItem>
+                        <MenuItem value="">All</MenuItem>
+                        <MenuItem value="5">5</MenuItem>
+                        <MenuItem value="4.5">4.5</MenuItem>
+                        <MenuItem value="4">4</MenuItem>
+                        <MenuItem value="3">3</MenuItem>
+                        <MenuItem value="2">2</MenuItem>
+                        <MenuItem value="1">1</MenuItem>
                       </Select>
                     </FormControl>
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      startIcon={<FilterList />}
-                      className="h-[56px]"
-                    >
-                      More Filters
-                    </Button>
                   </Grid>
                 </Grid>
               </CardContent>
@@ -143,6 +148,25 @@ const Shop: React.FC = () => {
                 ))}
               </Grid>
             </div>
+
+            {data?.data?.length === 0 && (
+              <div className="text-center py-16">
+                <Typography variant="h6" color="textSecondary">
+                  No shops found
+                </Typography>
+              </div>
+            )}
+
+            <Stack spacing={2} className="mx-auto text-center">
+              <Pagination
+                // count={Math.round(meta?.total / 10) || 1}
+                count={10}
+                page={currentPage}
+                color="primary"
+                onChange={() => setCurrentPage(currentPage + 1)}
+                className="mx-auto my-5"
+              />
+            </Stack>
           </div>
         </div>
       )}

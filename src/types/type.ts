@@ -1,1 +1,1 @@
-export type TActive = 'APPROVED' | 'REJECT' | 'PENDING' | 'DELETE';
+export type TActive = 'APPROVED' | 'REJECT' | 'PENDING' | 'DELETE' | 'BLOCK';

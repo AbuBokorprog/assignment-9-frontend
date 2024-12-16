@@ -8,8 +8,9 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PaymentIcon from '@mui/icons-material/Payment';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { Card } from '@mui/material';
+import { Button, Card } from '@mui/material';
 import './Banner.css';
+import { Link } from 'react-router-dom';
 // Banner images data
 const bannerImages = [
   {
@@ -92,9 +93,11 @@ const Banner: React.FC = () => {
                     {banner.title}
                   </h2>
                   <p className="text-xl md:text-2xl mb-6">{banner.subtitle}</p>
-                  <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-full transition duration-300">
-                    Shop Now
-                  </button>
+                  <Link to={'offer'}>
+                    <Button variant="contained" color="error">
+                      Shop Now
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

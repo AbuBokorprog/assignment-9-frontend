@@ -52,6 +52,7 @@ import VendorEditShop from '../pages/dashboard/vendor/VendorEditShop';
 import AdminEditCategory from '../pages/dashboard/admin/AdminEditCategory';
 import AdminEditCoupon from '../pages/dashboard/admin/AdminEditCoupon';
 import VendorEditProduct from '../pages/dashboard/vendor/VendorEditProduct';
+import AllCoupon from '../pages/AllCoupon';
 
 export const router = createBrowserRouter([
   {
@@ -110,6 +111,10 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         element: <Registration />,
+      },
+      {
+        path: '/offer',
+        element: <AllCoupon />,
       },
       {
         path: '/become-vendor',

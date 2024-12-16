@@ -20,13 +20,12 @@ import { TShop } from '../../types/shop.type';
 import Loader from '../ui/Loader';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
+import useDebounce from '../../custome-hook/useDebounce';
 
 const Shop: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('');
-  const [rating, setRating] = useState<string | null>('');
-  const [category, setCategory] = useState('all');
+  const [category, setCategory] = useState<string | null>('');
 
   const { data: allCategory } = useGetAllCategoriesQuery({});
 
@@ -35,34 +34,38 @@ const Shop: React.FC = () => {
     value: category?.name,
   }));
 
-  const { data, isLoading } = useGetAllAvailableShopsQuery([
+  const searchResult = useDebounce(searchTerm);
+
+  const { data, isLoading, isFetching } = useGetAllAvailableShopsQuery([
     { name: 'page', value: currentPage },
     { name: 'limit', value: 10 },
-    { name: 'sortBy', value: sortBy },
     ...(category ? [{ name: 'category', value: category }] : []),
-    ...(rating ? [{ name: 'rating', value: rating }] : []),
-    ...(searchTerm ? [{ name: 'searchTerm', value: searchTerm }] : []),
+    ...(searchTerm ? [{ name: 'searchTerm', value: searchResult }] : []),
   ]);
+
+  const meta = data?.data?.meta;
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <Loader />
       ) : (
         <div className="min-h-screen bg-gray-50 py-8">
           <div className="container mx-auto px-4 sm:px-6 ">
             {/* Hero Section */}
-            <div className="text-center mb-12">
-              <Typography variant="h3" className="font-bold mb-4">
-                All Shops
-              </Typography>
-            </div>
+            <Typography
+              variant="h4"
+              className="text-center mb-5 lg:mb-10"
+              gutterBottom
+            >
+              All Shops
+            </Typography>
 
             {/* Advanced Search and Filter Section */}
             <Card className="mb-8">
               <CardContent>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} md={4}>
+                  <Grid item xs={12} md={6}>
                     <TextField
                       fullWidth
                       placeholder="Search shops or vendors..."
@@ -77,7 +80,7 @@ const Shop: React.FC = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={2}>
+                  <Grid item xs={12} md={6}>
                     <FormControl fullWidth>
                       <InputLabel>Category</InputLabel>
                       <Select
@@ -97,40 +100,6 @@ const Shop: React.FC = () => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={2}>
-                    <FormControl fullWidth>
-                      <InputLabel>Sort By</InputLabel>
-                      <Select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        label="Sort By"
-                      >
-                        <MenuItem value="rating">Top Rated</MenuItem>
-                        <MenuItem value="reviews">Most Reviews</MenuItem>
-                        <MenuItem value="products">Most Products</MenuItem>
-                        <MenuItem value="sales">Best Selling</MenuItem>
-                        <MenuItem value="newest">Newest Vendors</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    <FormControl fullWidth>
-                      <InputLabel>Rating</InputLabel>
-                      <Select
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        label="Rating"
-                      >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value="5">5</MenuItem>
-                        <MenuItem value="4.5">4.5</MenuItem>
-                        <MenuItem value="4">4</MenuItem>
-                        <MenuItem value="3">3</MenuItem>
-                        <MenuItem value="2">2</MenuItem>
-                        <MenuItem value="1">1</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
                 </Grid>
               </CardContent>
             </Card>
@@ -141,7 +110,7 @@ const Shop: React.FC = () => {
                 All Shops
               </Typography>
               <Grid container spacing={4}>
-                {data?.data.map((shop: TShop) => (
+                {data?.data?.data?.map((shop: TShop) => (
                   <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
                     <ShopCard shop={shop} />
                   </Grid>
@@ -149,7 +118,7 @@ const Shop: React.FC = () => {
               </Grid>
             </div>
 
-            {data?.data?.length === 0 && (
+            {data?.data?.data?.length === 0 && (
               <div className="text-center py-16">
                 <Typography variant="h6" color="textSecondary">
                   No shops found
@@ -159,8 +128,7 @@ const Shop: React.FC = () => {
 
             <Stack spacing={2} className="mx-auto text-center">
               <Pagination
-                // count={Math.round(meta?.total / 10) || 1}
-                count={10}
+                count={Math.round(meta?.total / 10) || 1}
                 page={currentPage}
                 color="primary"
                 onChange={() => setCurrentPage(currentPage + 1)}

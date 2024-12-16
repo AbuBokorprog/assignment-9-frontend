@@ -53,6 +53,7 @@ import AdminEditCategory from '../pages/dashboard/admin/AdminEditCategory';
 import AdminEditCoupon from '../pages/dashboard/admin/AdminEditCoupon';
 import VendorEditProduct from '../pages/dashboard/vendor/VendorEditProduct';
 import AllCoupon from '../pages/AllCoupon';
+import SearchProducts from '../pages/products/SearchProducts';
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: '/all-products',
         element: <AllProducts />,
+      },
+      {
+        path: '/all-products/:searchTerm',
+        element: <SearchProducts />,
       },
       {
         path: '/product-details/:id',

@@ -19,7 +19,7 @@ export const shopsApi = baseApi.injectEndpoints({
         }
 
         return {
-          url: '/shop/all-products',
+          url: '/shop/all-available',
           method: 'GET',
           params: params,
         };

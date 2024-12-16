@@ -55,7 +55,8 @@ const Header: React.FC = () => {
     e.preventDefault();
 
     const search = e.target.search.value;
-    navigate(`/product-search/${search}`);
+
+    navigate(`/all-products/${search}`);
   };
 
   const { data, isLoading } = useGetAllMyCartsQuery({});

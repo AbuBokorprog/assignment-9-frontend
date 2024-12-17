@@ -237,7 +237,9 @@ Runs ESLint to analyze and fix code quality issues.
 
 ## Known Issues/Bugs
 
-- None reported as of now.
+- Admin or vendor cannot reply user review.
+- In dashboard have some static data
+- Admin or Vendor cannot edit or update overall order details, They can just order status change and payment status change.
 
 ---
 

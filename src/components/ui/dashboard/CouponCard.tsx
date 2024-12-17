@@ -58,18 +58,20 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
     <div>
       {isLoading && <Loader />}
       <Card className="relative">
-        <div className="absolute top-0 right-0">
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls={open ? 'long-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <FaEllipsisV />
-          </IconButton>
-        </div>
+        {(user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') && (
+          <div className="absolute top-0 right-0">
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? 'long-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <FaEllipsisV />
+            </IconButton>
+          </div>
+        )}
         <CardContent>
           <Typography variant="h4" component={'h4'}>
             {coupon?.name}
@@ -91,41 +93,41 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
           </Typography>
         </CardContent>
       </Card>
-      {user?.role === 'ADMIN' ||
-        (user?.role === 'SUPER_ADMIN' && (
-          <div>
-            <Menu
-              id="long-menu"
-              MenuListProps={{
-                'aria-labelledby': 'long-button',
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              slotProps={{
-                paper: {
-                  style: {
-                    maxHeight: 100,
-                    width: '20ch',
-                  },
-                },
-              }}
-            >
-              <Link to={`/dashboard/admin/edit-coupon/${coupon?.id}`}>
-                <MenuItem>
-                  <FaEdit className="mr-2" /> Edit Coupon
-                </MenuItem>
-              </Link>
 
-              <MenuItem
-                onClick={() => handleDeleteClick(coupon.id)}
-                className="text-red-500"
-              >
-                <FaTrash className="mr-2" /> Delete Coupon
+      {(user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') && (
+        <div>
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'long-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            slotProps={{
+              paper: {
+                style: {
+                  maxHeight: 100,
+                  width: '20ch',
+                },
+              },
+            }}
+          >
+            <Link to={`/dashboard/admin/edit-coupon/${coupon?.id}`}>
+              <MenuItem>
+                <FaEdit className="mr-2" /> Edit Coupon
               </MenuItem>
-            </Menu>
-          </div>
-        ))}
+            </Link>
+
+            <MenuItem
+              onClick={() => handleDeleteClick(coupon.id)}
+              className="text-red-500"
+            >
+              <FaTrash className="mr-2" /> Delete Coupon
+            </MenuItem>
+          </Menu>
+        </div>
+      )}
     </div>
   );
 };

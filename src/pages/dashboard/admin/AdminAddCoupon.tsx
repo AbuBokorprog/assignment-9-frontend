@@ -35,9 +35,9 @@ const AdminAddCoupon: React.FC = () => {
     try {
       const res = await createCoupon(data).unwrap();
       if (res?.success) {
-        toast.success(res?.message, { id: toastId, duration: 200 });
         reset();
       }
+      toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
       toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }

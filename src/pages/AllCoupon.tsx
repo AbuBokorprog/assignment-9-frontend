@@ -9,7 +9,7 @@ const AllCoupon: React.FC = () => {
   const { data, isLoading } = useGetAllCouponsQuery({});
 
   return (
-    <section className="">
+    <section className="container mx-auto">
       {isLoading && <Loader />}
       <div className=" mx-auto">
         <h3 className="text-xl lg:text-3xl font-semibold my-5 lg:my-10 text-center uppercase">

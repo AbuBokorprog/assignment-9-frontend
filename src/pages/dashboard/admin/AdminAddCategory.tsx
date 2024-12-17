@@ -48,11 +48,11 @@ const AdminAddCategory: React.FC = () => {
     const toastId = toast.loading('Loading...');
     try {
       const response = await createCategory(formData).unwrap();
+      toast.success(response?.message, {
+        id: toastId,
+        duration: 200,
+      });
       if (response.success) {
-        toast.success('Category created successfully!', {
-          id: toastId,
-          duration: 200,
-        });
         reset();
       }
     } catch (error: any) {

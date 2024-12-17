@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Title from '../../components/helmet/Title';
 
 const TermsCondition: React.FC = () => {
   useEffect(() => {
@@ -7,6 +8,10 @@ const TermsCondition: React.FC = () => {
 
   return (
     <section className="container mx-auto my-5 lg:my-10 px-4 lg:px-0">
+      <Title
+        title="Terms & Condition"
+        content="This is terms & condition page."
+      />
       <h2 className="text-center text-2xl lg:text-4xl font-semibold mb-6">
         Terms & Conditions
       </h2>

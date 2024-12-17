@@ -5,6 +5,7 @@ import { useGetAllCouponsQuery } from '../../../redux/features/api/coupon/coupon
 import CouponCard from '../../../components/ui/dashboard/CouponCard';
 import { TCoupon } from '../../../types/coupon.type';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const AdminAllCoupon: React.FC = () => {
   const { data, isLoading } = useGetAllCouponsQuery({});
@@ -14,6 +15,7 @@ const AdminAllCoupon: React.FC = () => {
   }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="All Coupon" content="This is all coupon page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

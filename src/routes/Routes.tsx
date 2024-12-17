@@ -33,7 +33,6 @@ import AdminAddCoupon from '../pages/dashboard/admin/AdminAddCoupon';
 import AdminAllCoupon from '../pages/dashboard/admin/AdminAllCoupon';
 import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
 import MyRecentProducts from '../pages/products/MyRecentProducts';
-import BecomeVendor from '../pages/BecomeVendor';
 import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
 import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 import AdminAllOrders from '../pages/dashboard/admin/AdminAllOrders';
@@ -120,10 +119,6 @@ export const router = createBrowserRouter([
       {
         path: '/offer',
         element: <AllCoupon />,
-      },
-      {
-        path: '/become-vendor',
-        element: <BecomeVendor />,
       },
       {
         path: '/about',

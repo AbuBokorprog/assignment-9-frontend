@@ -30,6 +30,7 @@ import { useCreateProductMutation } from '../../../redux/features/api/products/p
 import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
 import { TShop } from '../../../types/shop.type';
+import Title from '../../../components/helmet/Title';
 
 type TCategorySchema = z.infer<typeof productSchema>;
 
@@ -162,6 +163,7 @@ const VendorAddProduct: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Add Product" content="This is add product page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

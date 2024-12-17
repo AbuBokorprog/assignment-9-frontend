@@ -116,9 +116,6 @@ const Header: React.FC = () => {
               </Button>
             </form>
           </div>
-          {/* <Link to={'/become-vendor'} className="">
-            <Button variant="contained">Become a vendor</Button>
-          </Link> */}
           <div
             className="relative inline-block text-left"
             onMouseLeave={() => setIsOpenCart(false)}

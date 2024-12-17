@@ -33,6 +33,7 @@ import {
 import { toast } from 'sonner';
 import Loader from '../../../components/ui/Loader';
 import { useNavigate, useParams } from 'react-router-dom';
+import Title from '../../../components/helmet/Title';
 
 type TCategorySchema = z.infer<typeof updateProductSchema>;
 
@@ -185,6 +186,7 @@ const VendorEditProduct: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Edit Product" content="This is edit product page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

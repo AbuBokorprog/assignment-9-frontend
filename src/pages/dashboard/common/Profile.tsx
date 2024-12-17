@@ -10,6 +10,7 @@ import { currentUser } from '../../../redux/store';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Loader from '../../../components/ui/Loader';
 import { toast } from 'sonner';
+import Title from '../../../components/helmet/Title';
 
 const Profile: React.FC = () => {
   const [avatar, setAvatar] = useState<any>();
@@ -68,6 +69,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
+      <Title title="My Profile" content="This is my profile page." />
       {isLoading ? (
         <Loader />
       ) : (

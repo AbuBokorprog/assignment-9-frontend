@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ResetPassword from '../../components/ui/ResetPassword';
+import Title from '../../components/helmet/Title';
 
 const ResetPasswordPage: React.FC = () => {
   useEffect(() => {
@@ -7,6 +8,7 @@ const ResetPasswordPage: React.FC = () => {
   }, []);
   return (
     <div>
+      <Title title="Password Reset" content="This is password reset page." />
       <ResetPassword />
     </div>
   );

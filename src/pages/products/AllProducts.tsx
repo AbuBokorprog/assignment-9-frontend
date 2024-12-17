@@ -19,6 +19,7 @@ import { useSearchParams } from 'react-router-dom';
 import Loader from '../../components/ui/Loader';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
+import Title from '../../components/helmet/Title';
 
 const AllProducts: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -61,6 +62,7 @@ const AllProducts: React.FC = () => {
 
   return (
     <div className="container mx-auto px-2  ">
+      <Title title="All Products" content="This is all products page." />
       {isLoading || (isFetching && <Loader />)}
       <Typography
         variant="h4"

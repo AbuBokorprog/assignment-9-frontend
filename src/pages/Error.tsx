@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Title from '../components/helmet/Title';
 
 //* This is Error or 404 page
 const Error: React.FC = () => {
@@ -9,6 +10,7 @@ const Error: React.FC = () => {
   }, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary-100 px-4 md:px-0">
+      <Title title="Not Found" content="This is not found page." />
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
         <h1 className="text-4xl font-bold text-red-500 mb-4">404</h1>
         <h2 className="text-2xl font-semibold mb-4">Page Not Found</h2>

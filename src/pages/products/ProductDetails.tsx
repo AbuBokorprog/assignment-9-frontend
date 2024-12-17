@@ -34,6 +34,7 @@ import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { TReview } from '../../types/review.type';
 import ReviewCard from '../../components/ui/ReviewCard';
+import Title from '../../components/helmet/Title';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -158,9 +159,19 @@ const ProductDetails = () => {
       toast.error(error?.data?.message, { id: toastId, duration: 200 });
     }
   };
+  const totalRating = product?.reviews?.reduce(
+    (sum: number, item: TReview) => sum + item.rating,
+    0
+  );
 
+  const reviewCount = product?.reviews?.length || 0;
+  const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
   return (
     <>
+      <Title
+        title={product?.name}
+        content={`This is ${product?.name} details page.`}
+      />
       {isLoading || loadingData ? (
         <Loader />
       ) : (
@@ -180,12 +191,16 @@ const ProductDetails = () => {
                 </Typography>
 
                 {/* ratings */}
-                {/* <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <Rating value={data?.data?.rating} precision={0.5} readOnly />
-              <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                ({data?.data?.rating} rating)
-              </Typography>
-            </Box> */}
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Rating value={avgRating} precision={0.5} readOnly />
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ ml: 1 }}
+                  >
+                    ({avgRating} rating)
+                  </Typography>
+                </Box>
 
                 {product?.discount_price ? (
                   <div className="mt-2 flex items-center gap-2">

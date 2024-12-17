@@ -8,15 +8,18 @@ import theme from './providers/ThemeProvider.ts';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/Routes.tsx';
 import { Toaster } from 'sonner';
+import { HelmetProvider } from 'react-helmet-async';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Toaster />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Toaster />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </Provider>
+    </HelmetProvider>
   </StrictMode>
 );

@@ -21,6 +21,7 @@ import { useGetVendorAllOrdersQuery } from '../../../redux/features/api/orders/o
 import { TOrder } from '../../../types/order.type';
 import OrderCard from '../../../components/ui/dashboard/OrderCard';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const VendorOrderHistory: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,6 +58,7 @@ const VendorOrderHistory: React.FC = () => {
 
   return (
     <>
+      <Title title="Order History" content="This is order history page." />
       {isLoading ? (
         <Loader />
       ) : (

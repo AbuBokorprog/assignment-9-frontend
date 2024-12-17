@@ -10,6 +10,7 @@ import { FaSearch, FaStore } from 'react-icons/fa';
 import { useGetAllShopsByVendorQuery } from '../../../redux/features/api/shops/shops.api';
 import Loader from '../../../components/ui/Loader';
 import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCard';
+import Title from '../../../components/helmet/Title';
 
 const VendorAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +25,7 @@ const VendorAllShop: React.FC = () => {
   }, []);
   return (
     <>
+      <Title title="All Shop" content="This is all shop page." />
       {isLoading ? (
         <Loader />
       ) : (

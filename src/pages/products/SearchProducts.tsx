@@ -4,6 +4,7 @@ import { useGetAllAvailableProductsQuery } from '../../redux/features/api/produc
 import { Box, Grid, Pagination, Stack, Typography } from '@mui/material';
 import ProductCard from '../../components/ui/ProductCard';
 import Loader from '../../components/ui/Loader';
+import Title from '../../components/helmet/Title';
 
 const SearchProducts = () => {
   const { searchTerm } = useParams();
@@ -22,6 +23,10 @@ const SearchProducts = () => {
   };
   return (
     <div className="px-2">
+      <Title
+        title={`${searchTerm} products`}
+        content={`This is ${searchTerm} products page.`}
+      />
       {(isLoading || isFetching) && <Loader />}
       <div className="my-5 lg:my-10">
         <Box>

@@ -5,6 +5,7 @@ import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories
 import CategoriesCard from '../../../components/ui/dashboard/CategoriesCard';
 import { TCategory } from '../../../types/categories.type';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const AdminAllCategories: React.FC = () => {
   const { data, isLoading } = useGetAllCategoriesQuery({});
@@ -13,6 +14,7 @@ const AdminAllCategories: React.FC = () => {
   }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="All Categories" content="This is all category page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

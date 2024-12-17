@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import { useGetOrderByIdQuery } from '../../../redux/features/api/orders/orders.api';
 import { TProductOrder } from '../../../types/order.type';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const OrderDetails: React.FC = () => {
   const { orderId } = useParams();
@@ -33,6 +34,7 @@ const OrderDetails: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Order Details" content="This is order details page." />
       {isLoading && <Loader />}
       <Box className="p-4 bg-gray-50">
         <div className="mb-4">

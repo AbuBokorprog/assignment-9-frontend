@@ -41,6 +41,8 @@ import { useGetAllOrdersQuery } from '../../../redux/features/api/orders/orders.
 import { TOrder } from '../../../types/order.type';
 import { Link } from 'react-router-dom';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
+import { getStatusColor } from '../../../utils/constaints';
 
 const AdminDashboard: React.FC = () => {
   const { data: AdminReports } = useGetAdminReportsQuery({});
@@ -72,10 +74,6 @@ const AdminDashboard: React.FC = () => {
     CANCELLED: 'error',
   } as const;
 
-  const getStatusColor = (status: keyof typeof orderStatusColors) => {
-    return orderStatusColors[status] || 'default';
-  };
-
   const alerts = [
     'Low stock alert: 15 products below threshold',
     'Payment gateway error reported',
@@ -88,6 +86,7 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Admin Dashboard" content="This is admin dashboard page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
@@ -232,7 +231,10 @@ const AdminDashboard: React.FC = () => {
                           <TableCell>
                             <Chip
                               label={order?.status}
-                              color={getStatusColor(order?.status)}
+                              color={getStatusColor(
+                                order?.status,
+                                orderStatusColors
+                              )}
                               size="small"
                             />
                           </TableCell>

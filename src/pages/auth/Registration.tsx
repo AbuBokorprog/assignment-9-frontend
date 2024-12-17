@@ -11,6 +11,7 @@ import {
 import { Person, Store } from '@mui/icons-material';
 import UserRegistration from '../../components/auth/UserRegistration';
 import VendorRegistration from '../../components/auth/VendorRegistration';
+import Title from '../../components/helmet/Title';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -44,6 +45,7 @@ const Registration: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Title title="Register" content="This is register page." />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
           <Typography

@@ -12,6 +12,7 @@ import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCar
 
 import Loader from '../../../components/ui/Loader';
 import { TShop } from '../../../types/shop.type';
+import Title from '../../../components/helmet/Title';
 
 const AdminAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,6 +29,7 @@ const AdminAllShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="All Shops" content="This is all shops page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Title from '../../components/helmet/Title';
 
 const PrivacyPolicy: React.FC = () => {
   useEffect(() => {
@@ -7,6 +8,7 @@ const PrivacyPolicy: React.FC = () => {
 
   return (
     <section className="my-5 lg:my-10 container mx-auto px-5">
+      <Title title="Privacy Policy" content="This is privacy policy page." />
       <h2 className="text-center text-xl lg:text-4xl font-medium mb-6">
         Privacy Policy
       </h2>

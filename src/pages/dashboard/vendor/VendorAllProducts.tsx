@@ -17,6 +17,7 @@ import { Product } from '../../../types/product.type';
 import DashboardProductCard from '../../../components/ui/dashboard/DashboardProductCard';
 import Loader from '../../../components/ui/Loader';
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
+import Title from '../../../components/helmet/Title';
 
 const VendorAllProducts: React.FC = () => {
   useEffect(() => {
@@ -54,6 +55,7 @@ const VendorAllProducts: React.FC = () => {
 
   return (
     <>
+      <Title title="All Products" content="This is all products page." />
       {isLoading ? (
         <Loader />
       ) : (

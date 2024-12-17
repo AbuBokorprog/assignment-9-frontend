@@ -5,6 +5,7 @@ import { useGetAllReviewsQuery } from '../../../redux/features/api/reviews/revie
 import Loader from '../../../components/ui/Loader';
 import DashboardReviewCard from '../../../components/ui/dashboard/DashboardReviewCard';
 import { TReview } from '../../../types/review.type';
+import Title from '../../../components/helmet/Title';
 
 const AdminAllReviews: React.FC = () => {
   const { data, isLoading } = useGetAllReviewsQuery({});
@@ -13,6 +14,7 @@ const AdminAllReviews: React.FC = () => {
   }, []);
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="All Reviews" content="This is all reviews page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

@@ -28,6 +28,7 @@ import { useParams } from 'react-router-dom';
 import { TShop } from '../../../types/shop.type';
 import { TCategory } from '../../../types/categories.type';
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
+import Title from '../../../components/helmet/Title';
 
 type TCategorySchema = z.infer<typeof editShopSchema>;
 
@@ -109,6 +110,7 @@ const VendorEditShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Edit Shop" content="This is edit shop page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

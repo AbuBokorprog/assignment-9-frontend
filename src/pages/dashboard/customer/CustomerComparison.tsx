@@ -22,6 +22,7 @@ import Loader from '../../../components/ui/Loader';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TComparison } from '../../../types/comparison.type';
 import { toast } from 'sonner';
+import Title from '../../../components/helmet/Title';
 
 const CustomerComparison: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,6 +52,7 @@ const CustomerComparison: React.FC = () => {
 
   return (
     <div className="container mx-auto px-2">
+      <Title title="Comparison" content="This is comparison page." />
       {isLoading && <Loader />}
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2">

@@ -4,6 +4,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SecurityIcon from '@mui/icons-material/Security';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PaymentIcon from '@mui/icons-material/Payment';
+import Title from '../../components/helmet/Title';
 
 // Team members data
 const teamMembers = [
@@ -71,6 +72,7 @@ const About: React.FC = () => {
   }, []);
   return (
     <div className="container mx-auto py-5 lg:py-10">
+      <Title title="About" content="This is about page." />
       {/* Hero Section */}
       <div className="text-center mb-16">
         <Typography variant="h4" className="font-bold mb-4">

@@ -21,6 +21,7 @@ import {
 import { TCartProduct } from '../types/cart.type';
 import { toast } from 'sonner';
 import Loader from '../components/ui/Loader';
+import Title from '../components/helmet/Title';
 
 const ViewCart: React.FC = () => {
   const { data, isLoading } = useGetAllMyCartsQuery({});
@@ -54,6 +55,7 @@ const ViewCart: React.FC = () => {
 
   return (
     <>
+      <Title title="Cart" content="This is cart page." />
       {isLoading ? (
         <Loader />
       ) : (

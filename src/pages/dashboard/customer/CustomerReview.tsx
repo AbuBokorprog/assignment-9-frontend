@@ -19,6 +19,7 @@ import { useGetMyAllReviewsQuery } from '../../../redux/features/api/reviews/rev
 import { TReview } from '../../../types/review.type';
 import { MdOutlineRateReview } from 'react-icons/md';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const CustomerReview: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -75,6 +76,7 @@ const CustomerReview: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="My Reviews" content="This is my reviews page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

@@ -1,18 +1,13 @@
 import React, { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
+import Title from '../../components/helmet/Title';
 
 const ContactUs: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const {
-    register,
-    handleSubmit,
-    // reset,
-    // eslint-disable-next-line no-unused-vars
-    // formState: { error },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data);
@@ -20,6 +15,7 @@ const ContactUs: React.FC = () => {
 
   return (
     <>
+      <Title title="Contact us" content="This is contact us page." />
       {/* <!-- contact us section --> */}
       <section className="my-5 lg:my-10 container mx-auto">
         <h2 className="text-center text-xl lg:text-5xl font-medium">

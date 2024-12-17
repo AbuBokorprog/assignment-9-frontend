@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useGetAllFlashSaleProductsQuery } from '../redux/features/api/products/products.api';
 import ProductCard from '../components/ui/ProductCard';
 import Loader from '../components/ui/Loader';
+import Title from '../components/helmet/Title';
 
 const FlashSale: React.FC = () => {
   const { data, isLoading } = useGetAllFlashSaleProductsQuery({});
@@ -13,6 +14,7 @@ const FlashSale: React.FC = () => {
 
   return (
     <>
+      <Title title="Flash Sale" content="This is flash sale page." />
       {isLoading ? (
         <Loader />
       ) : (

@@ -7,6 +7,7 @@ import { useGetVendorReportsQuery } from '../../../redux/features/api/reports/re
 import DashboardCard from '../../../components/ui/dashboard/DashboardCard';
 import { TOrder } from '../../../types/order.type';
 import Loader from '../../../components/ui/Loader';
+import Title from '../../../components/helmet/Title';
 
 const VendorDashboard: React.FC = () => {
   const user = useAppSelector(currentUser);
@@ -26,6 +27,10 @@ const VendorDashboard: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title
+        title="Vendor Dashboard"
+        content="This is vendor dashboard page."
+      />
       {isLoading || (loading && <Loader />)}
       <h2 className="text-3xl font-bold mb-8">Welcome Back, {user?.name}!</h2>
 

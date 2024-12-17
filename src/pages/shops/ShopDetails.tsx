@@ -24,6 +24,7 @@ import { Product } from '../../types/product.type';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { currentUser } from '../../redux/store';
 import Loader from '../../components/ui/Loader';
+import Title from '../../components/helmet/Title';
 
 const ShopDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -64,6 +65,10 @@ const ShopDetails: React.FC = () => {
 
   return (
     <>
+      <Title
+        title={shop?.shopName}
+        content={`This is ${shop?.shopName} details page.`}
+      />
       {isLoading ? (
         <Loader />
       ) : (

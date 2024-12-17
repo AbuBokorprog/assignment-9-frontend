@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import { useApplyCouponMutation } from '../redux/features/api/coupon/coupon.api';
 import { orderSchema } from '../schema/order';
+import Title from '../components/helmet/Title';
 
 const steps = ['Shipping Details', 'Payment Method', 'Review Order'];
 
@@ -141,6 +142,7 @@ const Checkout = () => {
 
   return (
     <>
+      <Title title="Checkout" content="This is Checkout page." />
       {isLoading ? (
         <Loader />
       ) : (

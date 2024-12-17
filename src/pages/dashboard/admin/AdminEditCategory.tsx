@@ -12,6 +12,7 @@ import { FaStore } from 'react-icons/fa';
 import { Button, InputAdornment, TextField } from '@mui/material';
 import { Person } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
+import Title from '../../../components/helmet/Title';
 
 const categorySchema = z.object({
   name: z.string().optional(),
@@ -77,6 +78,7 @@ const AdminEditCategory: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Edit Category" content="This is edit category page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

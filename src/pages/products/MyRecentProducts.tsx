@@ -5,6 +5,7 @@ import { useGetMyAllRecentProductsQuery } from '../../redux/features/api/recentl
 import ProductCard from '../../components/ui/ProductCard';
 import { TRecentProduct } from '../../types/product.type';
 import Loader from '../../components/ui/Loader';
+import Title from '../../components/helmet/Title';
 
 const MyRecentProducts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +22,10 @@ const MyRecentProducts: React.FC = () => {
   }, []);
   return (
     <>
+      <Title
+        title="Recent Viewed Products"
+        content="This is recent viewed products page."
+      />
       {isLoading ? (
         <Loader />
       ) : (

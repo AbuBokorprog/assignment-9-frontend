@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Shop from '../../components/shop/Shop';
+import Title from '../../components/helmet/Title';
 
 const AllShop: React.FC = () => {
   useEffect(() => {
@@ -7,6 +8,7 @@ const AllShop: React.FC = () => {
   }, []);
   return (
     <div>
+      <Title title="All Shop" content="This is all shop page." />
       <Shop />
     </div>
   );

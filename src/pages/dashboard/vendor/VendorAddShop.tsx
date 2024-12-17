@@ -23,6 +23,7 @@ import { useCreateShopMutation } from '../../../redux/features/api/shops/shops.a
 import Loader from '../../../components/ui/Loader';
 import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../../types/categories.type';
+import Title from '../../../components/helmet/Title';
 
 type TCategorySchema = z.infer<typeof shopSchema>;
 
@@ -99,6 +100,7 @@ const VendorAddShop: React.FC = () => {
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">
+      <Title title="Add Shop" content="This is add shop page." />
       {isLoading && <Loader />}
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">

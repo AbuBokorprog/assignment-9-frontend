@@ -18,6 +18,7 @@ import { login } from '../../redux/features/auth-slice/AuthSlice';
 import { toast } from 'sonner';
 import Loader from '../../components/ui/Loader';
 import ForgotPassword from '../../components/ui/ForgotPassword';
+import Title from '../../components/helmet/Title';
 
 // Validation schema
 const loginSchema = z.object({
@@ -87,6 +88,7 @@ const Login: React.FC = () => {
 
   return (
     <>
+      <Title title="Login" content="This is login page." />
       {isLoading ? (
         <Loader />
       ) : (

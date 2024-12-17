@@ -4,6 +4,7 @@ import { useGetAllCouponsQuery } from '../redux/features/api/coupon/coupon.api';
 import Loader from '../components/ui/Loader';
 import CouponCard from '../components/ui/dashboard/CouponCard';
 import { TCoupon } from '../types/coupon.type';
+import Title from '../components/helmet/Title';
 
 const AllCoupon: React.FC = () => {
   const { data, isLoading } = useGetAllCouponsQuery({});
@@ -14,6 +15,7 @@ const AllCoupon: React.FC = () => {
 
   return (
     <section className="container mx-auto">
+      <Title title="All Coupon" content="This is all coupon page." />
       {isLoading && <Loader />}
       <div className=" mx-auto">
         <h3 className="text-xl lg:text-3xl font-semibold my-5 lg:my-10 text-center uppercase">

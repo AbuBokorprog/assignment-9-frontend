@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/features/auth-slice/AuthSlice';
 import { LuGitCompare } from 'react-icons/lu';
 import { FaProductHunt } from 'react-icons/fa';
+import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ interface UserDropdownProps {
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
   const user: any = useAppSelector(currentUser);
+  const { data } = useMyProfileQuery({});
   const dispatch = useDispatch();
   const toggleDrawer = (newOpen: boolean) => () => {
     setIsOpen(newOpen);
@@ -31,14 +33,24 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
   };
 
+  const profilePhoto = data?.data?.customer
+    ? data?.data?.customer?.profilePhoto
+    : data?.data?.vendor
+    ? data?.data?.vendor?.profilePhoto
+    : data?.data?.admin?.profilePhoto;
+
   return (
     <div className="relative">
-      <Button
-        onClick={toggleDrawer(true)}
-        className="min-w-0 p-2 border rounded-full bg-gray-200"
-        color="inherit"
-      >
-        <PersonIcon className="h-8 w-8" />
+      <Button onClick={toggleDrawer(true)} color="inherit" variant="text">
+        {profilePhoto ? (
+          <img
+            src={profilePhoto}
+            alt={user?.name}
+            className="size-16 rounded-full border"
+          />
+        ) : (
+          <PersonIcon className="size-14 min-w-0 rounded-full bg-gray-200" />
+        )}
       </Button>
 
       <Drawer
@@ -69,7 +81,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                 <div className="p-4 bg-gray-50">
                   <div className="flex items-center space-x-3">
                     <img
-                      src={user.email}
+                      src={profilePhoto}
                       alt={user.name}
                       className="w-12 h-12 rounded-full"
                     />

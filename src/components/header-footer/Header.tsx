@@ -24,6 +24,7 @@ import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api';
 import Loader from '../ui/Loader';
+// import { useMyProfileQuery } from '../../redux/features/api/users/user.api';
 
 const Header: React.FC = () => {
   const user: any = useAppSelector(currentUser);
@@ -60,6 +61,12 @@ const Header: React.FC = () => {
   };
 
   const { data, isLoading } = useGetAllMyCartsQuery({});
+  // const { data: profile, refetch } = useMyProfileQuery({});
+  // const profilePhoto = profile?.data?.customer
+  //   ? profile?.data?.customer?.profilePhoto
+  //   : profile?.data?.vendor
+  //   ? profile?.data?.vendor?.profilePhoto
+  //   : profile?.data?.admin?.profilePhoto;
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">

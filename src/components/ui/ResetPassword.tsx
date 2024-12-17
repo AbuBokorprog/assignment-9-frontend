@@ -24,7 +24,8 @@ const ResetPassword: React.FC = () => {
 
   const [resetPassword] = useResetPasswordMutation();
   const onSubmit: SubmitHandler<ResetPasswordFormInputs> = async (data) => {
-    const authData = { ...data, email: email };
+    const authData = { ...data, email: email, token: token };
+
     if (!token) {
       setServerError('Invalid or expired token.');
       return;
@@ -36,7 +37,7 @@ const ResetPassword: React.FC = () => {
         navigate('/login');
       }
     } catch (error: any) {
-      setServerError(error.response?.data?.message || 'Something went wrong.');
+      setServerError(error.response?.data?.message || 'Token expired!');
       setServerMessage('');
     }
   };

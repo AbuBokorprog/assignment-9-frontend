@@ -54,6 +54,7 @@ const Profile: React.FC = () => {
 
     try {
       const res = await updateProfile(formData).unwrap();
+
       toast.success(res?.message, { id: toastId, duration: 200 });
     } catch (error: any) {
       toast.error(error?.data?.message, { id: toastId, duration: 200 });
@@ -67,6 +68,12 @@ const Profile: React.FC = () => {
     refetch();
   }, [email]);
 
+  const profilePhoto = data?.data?.customer
+    ? data?.data?.customer?.profilePhoto
+    : data?.data?.vendor
+    ? data?.data?.vendor?.profilePhoto
+    : data?.data?.admin?.profilePhoto;
+  console.log(profilePhoto);
   return (
     <>
       <Title title="My Profile" content="This is my profile page." />
@@ -89,8 +96,12 @@ const Profile: React.FC = () => {
                         width="100"
                         className="rounded-full"
                       />
-                    ) : data?.data?.profilePhoto ? (
-                      <img src={data?.data?.profilePhoto} alt="" />
+                    ) : profilePhoto ? (
+                      <img
+                        src={profilePhoto}
+                        alt=""
+                        className="w-32 h-32 rounded-full"
+                      />
                     ) : (
                       <FaUserCircle className="w-32 h-32 text-gray-400" />
                     )}
@@ -103,6 +114,7 @@ const Profile: React.FC = () => {
                         type="file"
                         id="profilePhoto"
                         className="hidden"
+                        disabled={!isEditing}
                         accept="image/*"
                         onChange={handleImageUpload}
                       />

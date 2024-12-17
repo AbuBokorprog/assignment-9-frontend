@@ -11,12 +11,18 @@ import Loader from '../../../components/ui/Loader';
 const VendorDashboard: React.FC = () => {
   const user = useAppSelector(currentUser);
 
+  const {
+    data: orders,
+    isLoading,
+    refetch: reportRefetch,
+  } = useGetVendorAllOrdersQuery({});
+  const { data, isLoading: loading, refetch } = useGetVendorReportsQuery({});
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  const { data: orders, isLoading } = useGetVendorAllOrdersQuery({});
-  const { data, isLoading: loading } = useGetVendorReportsQuery({});
+    refetch();
+    reportRefetch();
+  }, [user?.email, reportRefetch, refetch]);
 
   return (
     <div className="flex-1 px-8 py-6 ml-0 lg:ml-64">

@@ -27,7 +27,7 @@ const AdminAllCoupon: React.FC = () => {
 
         <Grid container spacing={3}>
           {data?.data?.map((coupon: TCoupon, index: number) => (
-            <Grid item sm={4} xs={6} key={index}>
+            <Grid item sm={6} md={4} lg={3} key={index}>
               <CouponCard coupon={coupon} />
             </Grid>
           ))}

@@ -144,6 +144,26 @@ const OrderCard: React.FC<OrderCardProps> = ({
                     </div>
                   )}
                 </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Typography variant="subtitle2" color="textSecondary">
+                      Payment Method
+                    </Typography>
+                    <Typography>
+                      {order?.paymentType === 'ADV'
+                        ? 'Advanced payment'
+                        : 'Cash on Delivery (COD)'}
+                    </Typography>
+                  </div>
+                  {order?.payment?.transactionId && (
+                    <div>
+                      <Typography variant="subtitle2" color="textSecondary">
+                        Transaction Number
+                      </Typography>
+                      <Typography>{order?.payment?.transactionId}</Typography>
+                    </div>
+                  )}
+                </div>
               </div>
               <Typography variant="h6" className="mb-2">
                 Items

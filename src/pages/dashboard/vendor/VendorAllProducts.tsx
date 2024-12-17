@@ -16,6 +16,7 @@ import { useGetAllProductsByVendorQuery } from '../../../redux/features/api/prod
 import { Product } from '../../../types/product.type';
 import DashboardProductCard from '../../../components/ui/dashboard/DashboardProductCard';
 import Loader from '../../../components/ui/Loader';
+import { useGetAllCategoriesQuery } from '../../../redux/features/api/categories/catgeories.api';
 
 const VendorAllProducts: React.FC = () => {
   useEffect(() => {
@@ -44,6 +45,12 @@ const VendorAllProducts: React.FC = () => {
       stockStatusFilter === 'all' || product.stockStatus === stockStatusFilter;
     return matchesSearch && matchesCategory && matchesStatus;
   });
+
+  const { data: categories } = useGetAllCategoriesQuery({});
+  const categoryOptions = categories?.data?.map((c: any) => ({
+    label: c?.name,
+    value: c?.id,
+  }));
 
   return (
     <>
@@ -98,9 +105,11 @@ const VendorAllProducts: React.FC = () => {
                   }
                 >
                   <MenuItem value="all">All Categories</MenuItem>
-                  <MenuItem value="Electronics">Electronics</MenuItem>
-                  <MenuItem value="Fashion">Fashion</MenuItem>
-                  <MenuItem value="Home">Home</MenuItem>
+                  {categoryOptions?.map((cat: any, index: number) => (
+                    <MenuItem key={index} value={cat?.value?.toLowerCase()}>
+                      {cat?.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl size="small">
@@ -111,16 +120,16 @@ const VendorAllProducts: React.FC = () => {
                   onChange={handleStatusChange}
                 >
                   <MenuItem value="all">All Status</MenuItem>
-                  <MenuItem value="in-stock">In Stock</MenuItem>
-                  <MenuItem value="low-stock">Low Stock</MenuItem>
-                  <MenuItem value="out-of-stock">Out of Stock</MenuItem>
+                  <MenuItem value="IN_STOCK">In Stock</MenuItem>
+                  <MenuItem value="LOW_STOCK">Low Stock</MenuItem>
+                  <MenuItem value="OUT_OF_STOCK">Out of Stock</MenuItem>
                 </Select>
               </FormControl>
             </div>
             {/* all products */}
             <Grid container spacing={4}>
               {filteredProducts?.map((product: Product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.id}>
+                <Grid item sm={6} md={4} lg={3} key={product.id}>
                   <DashboardProductCard product={product} />
                 </Grid>
               ))}

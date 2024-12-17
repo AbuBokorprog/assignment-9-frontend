@@ -161,9 +161,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <CardContent className="p-4">
         <Link
           to={`/product-details/${product?.id}`}
-          className="text-lg font-medium text-gray-800 h-10 hover:text-primary-500 line-clamp-2"
+          className="text-lg font-medium text-gray-800 h-14 hover:text-primary-500 line-clamp-2"
         >
-          {product?.name}
+          {product?.name?.length > 25
+            ? product?.name?.slice(0, 25)
+            : product?.name}
         </Link>
 
         <div className="flex items-center mt-2">

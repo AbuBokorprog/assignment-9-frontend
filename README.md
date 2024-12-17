@@ -237,8 +237,9 @@ Runs ESLint to analyze and fix code quality issues.
 
 ## Known Issues/Bugs
 
+- User cannot see overall product details throw modal by click view icon.
 - Admin or vendor cannot reply user review.
-- In dashboard have some static data
+- In dashboard have some static data.
 - Admin or Vendor cannot edit or update overall order details, They can just order status change and payment status change.
 
 ---
@@ -252,6 +253,33 @@ Runs ESLint to analyze and fix code quality issues.
 - Integrated third-party services for payments and image uploads.
 
 ---
+
+## Authentication and Authorization
+
+#### Admin Or Super Admin:
+
+- superadmin@gmail.com
+- pass: super@admin
+- admin@gmail.com
+- pass: 12345678
+
+#### Vendor:
+
+- alex@gmail.com
+- pass: 12345678
+- clara@gmail.com
+- pass: 12345678
+- jake@gmail.com
+- pass: 12345678
+- olivia@gmail.com
+- pass: 12345678
+
+#### User(Customer):
+
+- abubokor1066@gmail.com
+- pass: 12345678
+- customer@gmail.com
+- pass: 12345678
 
 ## Contribution
 

@@ -74,7 +74,7 @@ const AdminAllProducts: React.FC = () => {
         {/* all products */}
         <Grid container spacing={4}>
           {filteredProducts?.map((product: any) => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
+            <Grid item sm={6} md={4} lg={3} key={product.id}>
               <DashboardProductCard product={product} />
             </Grid>
           ))}

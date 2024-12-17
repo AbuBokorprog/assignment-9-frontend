@@ -307,7 +307,7 @@ const VendorRegistration: React.FC = () => {
       </Grid>
       <Grid item xs={6}>
         <div className="w-full">
-          <label htmlFor="image">Image</label>
+          <label htmlFor="image">Shop Logo</label>
           <TextField
             fullWidth
             name="image"
@@ -319,7 +319,7 @@ const VendorRegistration: React.FC = () => {
       </Grid>
       <Grid item xs={6}>
         <div>
-          <label htmlFor="image">Image</label>
+          <label htmlFor="image">Shop Cover</label>
           <TextField
             fullWidth
             name="image"

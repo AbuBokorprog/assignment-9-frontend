@@ -73,11 +73,11 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
           </div>
         )}
         <CardContent>
-          <Typography variant="h4" component={'h4'}>
+          <Typography variant="h4" component={'h4'} className="h-10">
             {coupon?.name}
           </Typography>
           <Typography variant="h6" component={'h6'}>
-            {coupon?.discount} TK.
+            {coupon?.discount}%.
           </Typography>
           <Typography
             variant="h6"

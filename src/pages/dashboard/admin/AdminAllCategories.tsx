@@ -43,7 +43,7 @@ const AdminAllCategories: React.FC = () => {
         <div className="my-5 lg:my-10">
           <Grid container spacing={3}>
             {data?.data?.map((c: TCategory, index: number) => (
-              <Grid item sm={4} xs={6} key={index}>
+              <Grid item sm={6} md={4} lg={3} key={index}>
                 <CategoriesCard data={c} />
               </Grid>
             ))}

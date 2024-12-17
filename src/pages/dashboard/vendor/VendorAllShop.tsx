@@ -7,14 +7,14 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { FaSearch, FaStore } from 'react-icons/fa';
-import { useGetAllShopsQuery } from '../../../redux/features/api/shops/shops.api';
+import { useGetAllShopsByVendorQuery } from '../../../redux/features/api/shops/shops.api';
 import Loader from '../../../components/ui/Loader';
 import DashboardShopCard from '../../../components/ui/dashboard/DashboardShopCard';
 
 const VendorAllShop: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data, isLoading } = useGetAllShopsQuery({});
+  const { data, isLoading } = useGetAllShopsByVendorQuery({});
 
   const filteredShops = data?.data?.filter((shop: any) =>
     shop.shopName.toLowerCase().includes(searchTerm.toLowerCase())

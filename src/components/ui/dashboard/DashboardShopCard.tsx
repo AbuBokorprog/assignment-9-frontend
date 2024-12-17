@@ -233,6 +233,15 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                     color="error"
                     size="small"
                     startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'BLOCK')}
+                  >
+                    block
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
                     onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
                   >
                     delete
@@ -263,12 +272,60 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                     color="error"
                     size="small"
                     startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'BLOCK')}
+                  >
+                    block
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
                     onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
                   >
                     delete
                   </Button>
                 </>
               ) : shop?.isActive === 'REJECT' ? (
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    startIcon={<FaCheck />}
+                    onClick={() => handleUpdateStatus(shop.id, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'PENDING')}
+                  >
+                    pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'BLOCK')}
+                  >
+                    block
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'DELETE')}
+                  >
+                    delete
+                  </Button>
+                </>
+              ) : shop?.isActive === 'BLOCK' ? (
                 <>
                   <Button
                     variant="contained"
@@ -317,6 +374,15 @@ const DashboardShopCard: React.FC<dashboardShopCardProps> = ({ shop }) => {
                     onClick={() => handleUpdateStatus(shop?.id, 'PENDING')}
                   >
                     pending
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    startIcon={<FaTimes />}
+                    onClick={() => handleUpdateStatus(shop?.id, 'BLOCK')}
+                  >
+                    block
                   </Button>
                   <Button
                     variant="contained"

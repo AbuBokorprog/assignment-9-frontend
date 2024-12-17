@@ -343,7 +343,7 @@ const VendorAddProduct: React.FC = () => {
                     render={({ field }) => (
                       <TextField
                         {...field}
-                        label="Code"
+                        label="Code (000000)"
                         variant="outlined"
                         fullWidth
                       />

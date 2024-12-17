@@ -89,7 +89,7 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
             component={'h6'}
             onClick={() => couponCopyHandler(coupon?.code)}
           >
-            {coupon?.code} {isCopy ? <ContentPasteIcon /> : <CheckIcon />}
+            {coupon?.code} {isCopy ? <CheckIcon /> : <ContentPasteIcon />}
           </Typography>
         </CardContent>
       </Card>

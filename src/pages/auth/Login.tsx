@@ -86,6 +86,46 @@ const Login: React.FC = () => {
     }
   };
 
+  const easyLoginHandler = async (data: {
+    email: string;
+    password: string;
+  }) => {
+    const tokenId = toast.loading('Loading...');
+    try {
+      const res = await userLogin(data).unwrap();
+
+      if (res?.success) {
+        dispatch(
+          login({
+            user: {
+              email: res?.data.email,
+              role: res?.data?.role,
+              name: res?.data.name,
+              id: res?.data?.id,
+            },
+            token: res?.data?.token,
+          })
+        );
+        toast.success(res?.message, { id: tokenId, duration: 200 });
+
+        if (res?.data?.role === 'ADMIN' || res?.data?.role === 'SUPER_ADMIN') {
+          navigate('/dashboard/admin-dashboard');
+        } else if (res?.data?.role === 'VENDOR') {
+          navigate('/dashboard/vendor-dashboard');
+        } else {
+          navigate('/');
+        }
+
+        reset();
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message as string, {
+        id: tokenId,
+        duration: 200,
+      });
+    }
+  };
+
   return (
     <>
       <Title title="Login" content="This is login page." />
@@ -110,6 +150,41 @@ const Login: React.FC = () => {
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+              <div className="my-5 mx-auto flex items-center justify-center gap-4">
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    easyLoginHandler({
+                      email: 'customer@gmail.com',
+                      password: '12345678',
+                    })
+                  }
+                >
+                  User
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    easyLoginHandler({
+                      email: 'admin@gmail.com',
+                      password: '12345678',
+                    })
+                  }
+                >
+                  Admin
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    easyLoginHandler({
+                      email: 'alex@gmail.com',
+                      password: '12345678',
+                    })
+                  }
+                >
+                  Vendor
+                </Button>
+              </div>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
                   <TextField

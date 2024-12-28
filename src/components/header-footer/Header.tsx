@@ -11,6 +11,7 @@ import {
   ListItemText,
   InputBase,
   Divider,
+  TextField,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -24,6 +25,9 @@ import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api';
 import Loader from '../ui/Loader';
+import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
+import { TCategory } from '../../types/categories.type';
+import CallIcon from '@mui/icons-material/Call';
 // import { useMyProfileQuery } from '../../redux/features/api/users/user.api';
 
 const Header: React.FC = () => {
@@ -35,21 +39,10 @@ const Header: React.FC = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
-  const categories = [
-    'Electronics',
-    'Fashion',
-    'Home & Living',
-    'Beauty',
-    'Books',
-    'Sports',
-  ];
-
   const menuItems = [
     { title: 'Home', path: '/' },
     { title: 'All Products', path: '/all-products' },
     { title: 'Shop', path: '/shop' },
-    { title: 'Flash Sale', path: '/flash-sale' },
-    { title: 'About', path: '/about' },
   ];
 
   const searchHandler = (e: any) => {
@@ -61,6 +54,8 @@ const Header: React.FC = () => {
   };
 
   const { data, isLoading } = useGetAllMyCartsQuery({});
+  const { data: categories, isLoading: categoryLoading } =
+    useGetAllCategoriesQuery({});
   // const { data: profile, refetch } = useMyProfileQuery({});
   // const profilePhoto = profile?.data?.customer
   //   ? profile?.data?.customer?.profilePhoto
@@ -91,7 +86,7 @@ const Header: React.FC = () => {
                 Search
               </label>
               <div className="relative">
-                <input
+                <TextField
                   type="text"
                   id="search"
                   className="xl:w-[600px] lg:w-[400px] bg-secondary-50 border border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5"
@@ -102,7 +97,7 @@ const Header: React.FC = () => {
               <Button
                 type="submit"
                 variant="outlined"
-                className="inline-flex items-center py-2 px-3 ms-2"
+                className="inline-flex items-center py-3.5 px-3 ms-2"
               >
                 <svg
                   className="w-4 h-4 me-2"
@@ -123,13 +118,20 @@ const Header: React.FC = () => {
               </Button>
             </form>
           </div>
+          <div className="flex items-center gap-4">
+            <CallIcon className="size-8" />
+            <div>
+              <p>Hotline Number</p>
+              <p>+8801885236058</p>
+            </div>
+          </div>
           <div
             className="relative inline-block text-left"
             onMouseLeave={() => setIsOpenCart(false)}
           >
             <button onMouseEnter={() => setIsOpenCart(true)}>
               <Badge badgeContent={data?.data?.length} color="primary">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon className="size-8" />
               </Badge>
             </button>
             <div className="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
@@ -224,14 +226,15 @@ const Header: React.FC = () => {
         <div className=" bg-white border">
           <div className="w-full flex items-center px-2 py-2 justify-between ">
             <button onClick={() => setMobileMenuOpen(true)}>
-              <MenuIcon />
+              <MenuIcon className="size-8" />
             </button>
-            <Link to={'/'}>
-              <img
+            <Link to={'/'} className="text-primary-500">
+              {/* <img
                 src="/images/bazaar-bridge.png"
                 alt="logo"
                 className="size-24"
-              />
+              /> */}
+              Bazar Bridge
             </Link>
             <div className="px-2 pb-2 hidden sm:block">
               <form
@@ -274,7 +277,7 @@ const Header: React.FC = () => {
               </form>
             </div>
             <div className="flex items-center gap-4 ">
-              <div
+              {/* <div
                 className="relative inline-block text-left"
                 onMouseLeave={() => setIsOpenCart(false)}
               >
@@ -286,15 +289,23 @@ const Header: React.FC = () => {
                 <div className="origin-top-right absolute right-0 w-60 md:w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
                   <CartDropdown isOpen={isOpenCart} setIsOpen={setIsOpenCart} />
                 </div>
-              </div>
-              <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                <div className="">
-                  <UserDropdown
-                    isOpen={isUserDropdownOpen}
-                    setIsOpen={setIsUserDropdownOpen}
-                  />
+              </div> */}
+              {user?.email ? (
+                <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
+                  <div className="">
+                    <UserDropdown
+                      isOpen={isUserDropdownOpen}
+                      setIsOpen={setIsUserDropdownOpen}
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Link to={'/login'}>
+                  <Button variant="outlined" color="primary">
+                    Login
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
           <div className="px-2 pb-2 block sm:hidden">
@@ -377,18 +388,15 @@ const Header: React.FC = () => {
           open={mobileMenuOpen}
           onClose={() => setMobileMenuOpen(false)}
         >
-          <Box className="w-72">
+          <Box className="w-72 overflow-y-scroll">
+            <Link to={'/'} className="text-primary-500 mx-auto">
+              <img
+                src="/images/bazaar-bridge.png"
+                alt="logo"
+                className="w-32 text-center mx-auto"
+              />
+            </Link>
             <List>
-              <ListItem className="px-4 py-2">
-                <InputBase
-                  placeholder="Search products..."
-                  className="w-full px-4 py-1 border border-gray-300 rounded-md"
-                />
-              </ListItem>
-
-              <ListItem>
-                <ListItemText primary="Menu" className="font-bold" />
-              </ListItem>
               {menuItems.map((item) => (
                 <ListItem
                   button
@@ -403,31 +411,29 @@ const Header: React.FC = () => {
 
               <Divider className="my-2" />
 
-              <ListItem>
-                <ListItemText primary="Categories" className="font-bold" />
-              </ListItem>
-              {categories.map((category) => (
-                <ListItem button key={category} className="pl-8">
-                  <ListItemText primary={category} />
+              {categories?.data?.map((category: TCategory) => (
+                <ListItem button key={category.id} className="">
+                  <Link to={`/all-products/?category=${category?.name}`}>
+                    <ListItemText primary={category.name} />
+                  </Link>
                 </ListItem>
               ))}
 
-              <Divider className="my-2" />
-
-              <ListItem button>
-                <ListItemText primary="Become a Vendor" />
+              <ListItem
+                button
+                component={Link}
+                to={'/flash-sale'}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <ListItemText primary={'Flash Sale'} />
               </ListItem>
-              <ListItem button>
-                <ListItemText primary="Dashboard" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Wishlist" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Settings" />
-              </ListItem>
-              <ListItem button>
-                <ListItemText primary="Logout" />
+              <ListItem
+                button
+                component={Link}
+                to={'/about'}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <ListItemText primary={'About'} />
               </ListItem>
             </List>
           </Box>

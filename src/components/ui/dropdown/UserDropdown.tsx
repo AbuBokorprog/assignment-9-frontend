@@ -49,7 +49,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
             className="size-16 rounded-full border"
           />
         ) : (
-          <PersonIcon className="size-14 min-w-0 rounded-full bg-gray-200" />
+          <PersonIcon className="size-10 min-w-0 rounded-full bg-gray-200" />
         )}
       </Button>
 

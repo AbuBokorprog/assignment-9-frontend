@@ -68,6 +68,13 @@ export const productsApi = baseApi.injectEndpoints({
       }),
       providesTags: ['products'],
     }),
+    getAllHomeProducts: builder.query({
+      query: () => ({
+        url: '/products/all-products/home-products',
+        method: 'GET',
+      }),
+      providesTags: ['products'],
+    }),
     getProductById: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
@@ -120,5 +127,6 @@ export const {
   useGetAllAvailableProductsQuery,
   useLazyGetAllAvailableProductsQuery,
   useGetAllFlashSaleProductsQuery,
+  useGetAllHomeProductsQuery,
   useGetAllAvailableProductsInfinityScrollQuery,
 } = productsApi;

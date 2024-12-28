@@ -24,7 +24,10 @@ import { useGetProductByIdQuery } from '../../redux/features/api/products/produc
 import QuickOrder from '../../components/products/QuickOrder';
 import { useCreateCartMutation } from '../../redux/features/api/carts/carts.api';
 import { toast } from 'sonner';
-import { useCreateRecentProductsMutation } from '../../redux/features/api/recently-viewed/recently-viewed.api';
+import {
+  useCreateRecentProductsMutation,
+  useGetMyAllRecentProductsQuery,
+} from '../../redux/features/api/recently-viewed/recently-viewed.api';
 import Loader from '../../components/ui/Loader';
 import ProductCard from '../../components/ui/ProductCard';
 import CartAlertDialog from '../../components/ui/CartAlertDialog';
@@ -72,6 +75,7 @@ const ProductDetails = () => {
   const [createRecentProduct] = useCreateRecentProductsMutation();
   const [addToCart, { isLoading }] = useCreateCartMutation();
   const { data, isLoading: loadingData } = useGetProductByIdQuery(id);
+  const { data: RecentProducts } = useGetMyAllRecentProductsQuery({});
   const [addReview] = useCreateReviewMutation();
   const product = data?.data?.product;
   const relatedProducts = data?.data?.relatedProducts;
@@ -452,6 +456,26 @@ const ProductDetails = () => {
 
               <Grid container spacing={2} className="mb-5 lg:mb-10">
                 {relatedProducts?.map((product: any, index: number) => (
+                  <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
+                    <ProductCard product={product} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+          {/* Related products */}
+          {RecentProducts?.data?.length > 0 && (
+            <Box>
+              <Typography
+                variant="h4"
+                component={'h4'}
+                className="my-5 lg:my-10"
+              >
+                Recently viewed Products
+              </Typography>
+
+              <Grid container spacing={2} className="mb-5 lg:mb-10">
+                {RecentProducts?.data?.map((product: any, index: number) => (
                   <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
                     <ProductCard product={product} />
                   </Grid>

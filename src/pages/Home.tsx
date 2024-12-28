@@ -1,25 +1,47 @@
 import { Box } from '@mui/material';
 import React, { useEffect } from 'react';
-import Products from '../components/home/Products';
 import Banner from '../components/home/Banner';
 import Categories from '../components/home/Categories';
-import FlashSale from '../components/home/FlashSale';
 import Title from '../components/helmet/Title';
+import { useGetAllHomeProductsQuery } from '../redux/features/api/products/products.api';
+import HomeProducts from '../components/home/HomeProducts';
+import Promotional from '../components/home/Promotional';
 
 const Home: React.FC = () => {
+  const { data, isLoading } = useGetAllHomeProductsQuery({});
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <Box className="container mx-auto">
       <Title title="Home" content="This is home page." />
       <Banner />
       <div className="px-2">
         <Categories />
-        <FlashSale />
-        <div className="my-5 lg:my-10">
-          <Products />
-        </div>
+        <HomeProducts
+          isLoading={isLoading}
+          title="Featured Products"
+          product={data?.data?.allFeaturedProducts}
+        />
+        <HomeProducts
+          isLoading={isLoading}
+          title="Hot Products"
+          product={data?.data?.allHotProducts}
+        />
+
+        <Promotional />
+        <HomeProducts
+          isLoading={isLoading}
+          title="New Products"
+          product={data?.data?.allNewProducts}
+        />
+        <HomeProducts
+          isLoading={isLoading}
+          title="Discount Products"
+          product={data?.data?.allDiscountProducts}
+        />
       </div>
     </Box>
   );

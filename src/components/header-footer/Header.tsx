@@ -9,7 +9,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  InputBase,
   Divider,
   TextField,
 } from '@mui/material';
@@ -45,6 +44,15 @@ const Header: React.FC = () => {
     { title: 'Shop', path: '/shop' },
   ];
 
+  const menuItems2 = [
+    { title: 'Home', path: '/' },
+    { title: 'All Products', path: '/all-products' },
+    { title: 'Shop', path: '/shop' },
+    { title: 'Flash Sale', path: '/flash-sale' },
+    { title: 'About us', path: '/about' },
+    { title: 'Refund Policy', path: '/refund' },
+  ];
+
   const searchHandler = (e: any) => {
     e.preventDefault();
 
@@ -65,7 +73,7 @@ const Header: React.FC = () => {
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
-      {isLoading && <Loader />}
+      {isLoading || (categoryLoading && <Loader />)}
       {/* Large device */}
       <nav className="border-y hidden lg:block bg-secondary-50 text-black">
         {/* 1st layer */}
@@ -183,7 +191,7 @@ const Header: React.FC = () => {
             {/* menu items */}
             <div>
               <ul className="flex items-center mx-auto gap-5 font-medium">
-                {menuItems?.map((n) => (
+                {menuItems2?.map((n) => (
                   <li key={n?.title}>
                     <NavLink
                       className={({ isActive }) =>

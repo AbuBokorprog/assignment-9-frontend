@@ -45,7 +45,6 @@ const Products: React.FC = () => {
           </Grid>
         ))}
       </Grid>
-      {isFetching && <p className="text-center">Loading...</p>}
     </div>
   );
 };

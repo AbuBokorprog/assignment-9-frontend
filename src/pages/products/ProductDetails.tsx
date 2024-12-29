@@ -38,6 +38,7 @@ import { useAppSelector } from '../../redux/hooks/hooks';
 import { TReview } from '../../types/review.type';
 import ReviewCard from '../../components/ui/ReviewCard';
 import Title from '../../components/helmet/Title';
+import { TRecentProduct } from '../../types/product.type';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -464,7 +465,7 @@ const ProductDetails = () => {
             </Box>
           )}
           {/* Related products */}
-          {RecentProducts?.data?.length > 0 && (
+          {RecentProducts?.data?.length > 0 && user?.role === 'CUSTOMER' && (
             <Box>
               <Typography
                 variant="h4"
@@ -474,10 +475,10 @@ const ProductDetails = () => {
                 Recently viewed Products
               </Typography>
 
-              <Grid container spacing={2} className="mb-5 lg:mb-10">
-                {RecentProducts?.data?.map((product: any, index: number) => (
-                  <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
-                    <ProductCard product={product} />
+              <Grid container spacing={4}>
+                {RecentProducts?.data?.map((RP: TRecentProduct) => (
+                  <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={RP.id}>
+                    <ProductCard product={RP?.product} />
                   </Grid>
                 ))}
               </Grid>

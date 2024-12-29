@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -70,6 +69,7 @@ export const baseApi = createApi({
     'reports',
     'recent-products',
     'wishlist',
+    'newsletter',
   ],
   endpoints: () => ({}),
 });

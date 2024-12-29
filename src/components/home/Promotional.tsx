@@ -2,7 +2,7 @@ import React from 'react';
 
 const Promotional: React.FC = () => {
   return (
-    <div className=" bg-gradient-to-r from-black to-pink-500 text-white py-8 px-5 lg:px-10">
+    <div className=" bg-gradient-to-r from-black to-pink-500 text-white py-6 px-2">
       <div className="container mx-auto lg:flex items-center justify-between">
         <div className="text-center lg:text-left">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">

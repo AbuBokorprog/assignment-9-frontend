@@ -74,7 +74,7 @@ const Header: React.FC = () => {
       {/* Large device */}
       <nav className="border-y hidden lg:block bg-secondary-50 text-black">
         {/* 1st layer */}
-        <div className="flex items-center justify-between mx-auto container px-4 gap-4 py-2">
+        <div className="flex items-center justify-between mx-auto container px-2 gap-4 py-2">
           <Link to={'/'}>
             <img
               src="/images/bazaar-bridge.png"
@@ -131,7 +131,7 @@ const Header: React.FC = () => {
             </div>
           </div>
           <div
-            className="relative inline-block text-left"
+            className="relative inline-block text-left px-2"
             onMouseLeave={() => setIsOpenCart(false)}
           >
             <button onMouseEnter={() => setIsOpenCart(true)}>
@@ -145,8 +145,8 @@ const Header: React.FC = () => {
           </div>
         </div>
         {/* 2nd layer */}
-        <div className="bg-primary-500 py-3">
-          <div className="container mx-auto flex items-center justify-between gap-10 px-2">
+        <div className="bg-primary-500 py-3 px-2">
+          <div className="container mx-auto flex items-center justify-between gap-10">
             {/* categories list dropdown */}
             <div
               className="relative"
@@ -206,7 +206,7 @@ const Header: React.FC = () => {
             </div>
             {/* user dropdown */}
             {user?.email ? (
-              <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
+              <div className="flex items-center md:order-2 rtl:space-x-reverse ">
                 <div className="">
                   <UserDropdown
                     isOpen={isUserDropdownOpen}
@@ -229,9 +229,9 @@ const Header: React.FC = () => {
       <nav className="block lg:hidden text-black">
         {/* top navbar */}
         <div className=" bg-white border">
-          <div className="w-full flex items-center px-2 py-2 justify-between ">
+          <div className="w-full flex items-center py-2 justify-between ">
             <button onClick={() => setMobileMenuOpen(true)}>
-              <MenuIcon className="size-8" />
+              <MenuIcon className="size-12" />
             </button>
             <Link to={'/'} className="text-primary-500">
               {/* <img
@@ -296,7 +296,7 @@ const Header: React.FC = () => {
                 </div>
               </div> */}
               {user?.email ? (
-                <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
+                <div className="flex items-center md:order-2 rtl:space-x-reverse ">
                   <div className="">
                     <UserDropdown
                       isOpen={isUserDropdownOpen}

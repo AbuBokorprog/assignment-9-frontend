@@ -26,7 +26,7 @@ const Newsletter: React.FC = () => {
     }
   };
   return (
-    <div className="bg-primary-500 py-10 px-5 lg:px-10 text-white my-5 lg:my-10">
+    <div className="bg-primary-600 py-8 px-2 text-white my-5 lg:my-10">
       <div className="mx-auto container">
         <div className="lg:flex items-center w-full justify-between gap-5 mx-auto">
           <div className="lg:flex items-center gap-4 w-full lg:w-1/2 text-center lg:text-left">

@@ -34,13 +34,13 @@ const Home: React.FC = () => {
       <Promotional />
       <HomeProducts
         isLoading={isLoading}
-        title="New Products"
-        product={data?.data?.allNewProducts}
+        title="Discount Products"
+        product={data?.data?.allDiscountProducts}
       />
       <HomeProducts
         isLoading={isLoading}
-        title="Discount Products"
-        product={data?.data?.allDiscountProducts}
+        title="New Products"
+        product={data?.data?.allNewProducts}
       />
     </Box>
   );

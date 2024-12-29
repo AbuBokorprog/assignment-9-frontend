@@ -7,7 +7,7 @@ const PaymentPolicy: React.FC = () => {
   }, []);
 
   return (
-    <section className="my-5 lg:my-10 container mx-auto px-5">
+    <section className="my-5 lg:my-10 container mx-auto px-2">
       <Title title="Payment Policy" content="This is payment policy page." />
       <h2 className="text-center text-xl lg:text-4xl font-medium mb-6">
         Payment Policy

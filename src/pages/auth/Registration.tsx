@@ -46,7 +46,7 @@ const Registration: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Title title="Register" content="This is register page." />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-2 lg:px-8 py-8">
         <div className="text-center mb-8">
           <Typography
             variant="h3"

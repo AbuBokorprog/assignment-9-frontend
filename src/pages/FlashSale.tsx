@@ -2,8 +2,8 @@ import { Box, Grid, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useGetAllFlashSaleProductsQuery } from '../redux/features/api/products/products.api';
 import ProductCard from '../components/ui/ProductCard';
-import Loader from '../components/ui/Loader';
 import Title from '../components/helmet/Title';
+import ProductsSkeleton from '../components/Skeleton/ProductsSkeleton';
 
 const FlashSale: React.FC = () => {
   const { data, isLoading } = useGetAllFlashSaleProductsQuery({});
@@ -13,12 +13,12 @@ const FlashSale: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="px-2">
       <Title title="Flash Sale" content="This is flash sale page." />
       {isLoading ? (
-        <Loader />
+        <ProductsSkeleton />
       ) : (
-        <div className="container mx-auto px-2  ">
+        <div className="container mx-auto">
           <Typography
             variant="h4"
             className="text-center my-5 lg:my-10"
@@ -46,7 +46,7 @@ const FlashSale: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Container,
   Grid,
   Typography,
   Box,
@@ -173,7 +172,7 @@ const ProductDetails = () => {
   const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
 
   return (
-    <>
+    <div className="mt-5 lg:mt-10">
       <Title
         title={product?.name}
         content={`This is ${product?.name} details page.`}
@@ -181,11 +180,11 @@ const ProductDetails = () => {
       {isLoading || loadingData ? (
         <DetailsSkeleton />
       ) : (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <div className="container mx-auto px-2">
           {/* Product Main Section */}
           <Grid container spacing={4}>
             {/* Product Image */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} className="">
               <ImageGallery items={images} autoPlay={true} />
             </Grid>
 
@@ -476,7 +475,7 @@ const ProductDetails = () => {
                 Recently viewed Products
               </Typography>
 
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 {RecentProducts?.data?.map((RP: TRecentProduct) => (
                   <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={RP.id}>
                     <ProductCard product={RP?.product} />
@@ -493,9 +492,9 @@ const ProductDetails = () => {
             setOpen={setOpen}
             orderData={orderData}
           />
-        </Container>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

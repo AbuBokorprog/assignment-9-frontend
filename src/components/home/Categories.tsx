@@ -17,7 +17,7 @@ const Categories: React.FC = () => {
         <TopCategoriesSkeleton />
       ) : (
         data?.data?.length > 0 && (
-          <div className="my-5 lg:my-10 container mx-auto px-2 xl:px-0">
+          <div className="my-5 lg:my-10 container mx-auto px-2">
             <h3 className="my-5 lg:my-10 text-center uppercase text-xl lg:text-3xl font-semibold">
               Top Categories
             </h3>
@@ -77,7 +77,7 @@ const Categories: React.FC = () => {
                         <img
                           src={c?.image}
                           alt={c?.name}
-                          className="h-40 mx-auto rounded-md"
+                          className="h-40 w-full mx-auto rounded-md"
                         />
                         <div className="text-center py-1">
                           <h3 className="text-lg font-medium h-12">

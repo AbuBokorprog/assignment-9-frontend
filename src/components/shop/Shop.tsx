@@ -48,11 +48,11 @@ const Shop: React.FC = () => {
 
   return (
     <>
-      <div className="container mx-auto px-4 sm:px-6 ">
+      <div className="container mx-auto px-2 ">
         {/* Hero Section */}
         <Typography
           variant="h4"
-          className="text-center font-bold mb-5 lg:mb-10"
+          className="text-center font-bold my-5 lg:my-10"
           gutterBottom
         >
           All Shops

@@ -17,7 +17,7 @@ const ContactUs: React.FC = () => {
     <>
       <Title title="Contact us" content="This is contact us page." />
       {/* <!-- contact us section --> */}
-      <section className="my-5 lg:my-10 container mx-auto">
+      <section className="my-5 lg:my-10 container mx-auto px-2">
         <h2 className="text-center text-xl lg:text-5xl font-medium">
           Contact Us
         </h2>
@@ -95,7 +95,7 @@ const ContactUs: React.FC = () => {
             </label>
             <textarea
               cols={50}
-              rows={30}
+              rows={10}
               placeholder="Type your message"
               className="bg-primary-50 border border-base_300 text-dark rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               {...register('message', { required: true })}

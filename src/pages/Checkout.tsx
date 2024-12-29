@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Container,
   Typography,
   Box,
   Card,
@@ -146,8 +145,12 @@ const Checkout = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          <Typography variant="h4" gutterBottom>
+        <div className="container px-2 mx-auto">
+          <Typography
+            variant="h4"
+            gutterBottom
+            className="text-center my-5 lg:my-10"
+          >
             Checkout
           </Typography>
 
@@ -423,7 +426,7 @@ const Checkout = () => {
               </Card>
             </Grid>
           </Grid>
-        </Container>
+        </div>
       )}
     </>
   );

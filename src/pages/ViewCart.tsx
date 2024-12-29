@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  Container,
   Typography,
   Box,
   Card,
@@ -60,8 +59,12 @@ const ViewCart: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          <Typography variant="h4" gutterBottom>
+        <div className="container mx-auto px-2">
+          <Typography
+            variant="h4"
+            gutterBottom
+            className="text-center my-5 lg:my-10"
+          >
             Shopping Cart
           </Typography>
 
@@ -174,7 +177,7 @@ const ViewCart: React.FC = () => {
               </Card>
             </Grid>
           </Grid>
-        </Container>
+        </div>
       )}
     </>
   );

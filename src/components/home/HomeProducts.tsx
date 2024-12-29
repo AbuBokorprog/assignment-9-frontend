@@ -20,7 +20,7 @@ const HomeProducts: React.FC<THomeProductProps> = ({
       {product?.length > 0 && (
         <>
           {isLoading && <Loader />}
-          <div className="my-5 lg:my-10">
+          <div className="my-5 lg:my-10 container mx-auto">
             <Typography variant="h4" component={'h4'} className="text-bold">
               {title}
             </Typography>

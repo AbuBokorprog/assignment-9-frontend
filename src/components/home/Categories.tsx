@@ -14,7 +14,7 @@ const Categories: React.FC = () => {
   return (
     <>
       {data?.data && (
-        <div className="my-5 lg:my-10">
+        <div className="my-5 lg:my-10 container mx-auto">
           {isLoading && <Loader />}
           <h3 className="my-5 lg:my-10 text-center uppercase text-xl lg:text-3xl font-semibold">
             Top Categories

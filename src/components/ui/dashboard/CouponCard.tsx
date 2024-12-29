@@ -73,7 +73,7 @@ const CouponCard: React.FC<TCouponProps> = ({ coupon }) => {
           </div>
         )}
         <CardContent>
-          <Typography variant="h4" component={'h4'} className="h-10">
+          <Typography variant="h5" component={'h5'} className="h-12">
             {coupon?.name}
           </Typography>
           <Typography variant="h6" component={'h6'}>

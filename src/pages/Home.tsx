@@ -15,34 +15,33 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <Box className="container mx-auto">
+    <Box className="">
       <Title title="Home" content="This is home page." />
       <Banner />
-      <div className="px-2">
-        <Categories />
-        <HomeProducts
-          isLoading={isLoading}
-          title="Featured Products"
-          product={data?.data?.allFeaturedProducts}
-        />
-        <HomeProducts
-          isLoading={isLoading}
-          title="Hot Products"
-          product={data?.data?.allHotProducts}
-        />
 
-        <Promotional />
-        <HomeProducts
-          isLoading={isLoading}
-          title="New Products"
-          product={data?.data?.allNewProducts}
-        />
-        <HomeProducts
-          isLoading={isLoading}
-          title="Discount Products"
-          product={data?.data?.allDiscountProducts}
-        />
-      </div>
+      <Categories />
+      <HomeProducts
+        isLoading={isLoading}
+        title="Featured Products"
+        product={data?.data?.allFeaturedProducts}
+      />
+      <HomeProducts
+        isLoading={isLoading}
+        title="Hot Products"
+        product={data?.data?.allHotProducts}
+      />
+
+      <Promotional />
+      <HomeProducts
+        isLoading={isLoading}
+        title="New Products"
+        product={data?.data?.allNewProducts}
+      />
+      <HomeProducts
+        isLoading={isLoading}
+        title="Discount Products"
+        product={data?.data?.allDiscountProducts}
+      />
     </Box>
   );
 };

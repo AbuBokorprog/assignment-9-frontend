@@ -5,12 +5,14 @@ import Footer from '../../components/header-footer/Footer';
 import { animateScroll as scroll } from 'react-scroll';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 import { Button } from '@mui/material';
+import Newsletter from '../../components/home/Newsletter';
 
 const Main: React.FC = () => {
   return (
     <div className="relative">
       <Header />
       <Outlet />
+      <Newsletter />
       <Footer />
       <div className="fixed bottom-0 right-0">
         <Button color="secondary" onClick={() => scroll.scrollTo(1)}>

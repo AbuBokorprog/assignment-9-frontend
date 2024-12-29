@@ -21,15 +21,16 @@ import { useSearchParams } from 'react-router-dom';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
 import Title from '../../components/helmet/Title';
+import FilteringModal from '../../components/ui/FilteringModal';
 
 const AllProducts: React.FC = () => {
+  const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryQuery = searchParams.get('category');
   const [sortBy, setSortBy] = useState('createdAt');
   const [category, setCategory] = useState<string | null>(
     categoryQuery?.toLowerCase() || null
   );
-
   const [type, setType] = useState<string | null>(null);
   const [stock, setStock] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState('');
@@ -87,7 +88,7 @@ const AllProducts: React.FC = () => {
         All Products
       </Typography>
 
-      <div className="lg:hidden block">
+      <div className="lg:hidden block  my-5 lg:my-10">
         <div className="flex items-center justify-between">
           <Typography
             variant="h5"
@@ -96,7 +97,11 @@ const AllProducts: React.FC = () => {
           >
             All Products
           </Typography>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(true)}
+          >
             Filter
           </Button>
         </div>
@@ -239,6 +244,24 @@ const AllProducts: React.FC = () => {
           </div>
         )}
       </div>
+
+      <FilteringModal
+        categories={categories}
+        setSortBy={setSortBy}
+        sortBy={sortBy}
+        category={category}
+        setCategory={setCategory}
+        maxPrice={maxPrice}
+        setMaxPrice={setMaxPrice}
+        setMinPrice={setMinPrice}
+        minPrice={minPrice}
+        open={open}
+        setOpen={setOpen}
+        setStock={setStock}
+        setType={setType}
+        stock={stock}
+        type={type}
+      />
 
       <Stack spacing={2} className="mx-auto text-center">
         <Pagination

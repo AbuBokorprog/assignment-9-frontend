@@ -27,10 +27,11 @@ const ViewCart: React.FC = () => {
   const { data, isLoading } = useGetAllMyCartsQuery({});
   const [deleteCart] = useDeleteCartMutation();
   // Calculate total price
-  const totalPrice = data?.data?.reduce(
-    (sum: number, item: TCartProduct) => sum + item.price * item.qty,
-    0
-  );
+  const totalPrice =
+    data?.data?.reduce(
+      (sum: number, item: TCartProduct) => sum + item.price * item.qty,
+      0
+    ) || 0;
 
   useEffect(() => {
     window.scrollTo(0, 0);

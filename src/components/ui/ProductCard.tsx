@@ -85,7 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
 
   return (
-    <Card className="relative group h-full transition-all duration-300 hover:shadow-lg border border-primary-500">
+    <Card className="relative group h-full transition-all duration-300 hover:shadow-lg ">
       {/* Product badges */}
       <div className="absolute top-2 left-2 z-10 flex flex-col gap-2">
         {product?.productStatus && (

@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from '../ui/ProductCard';
 import { Grid, Typography } from '@mui/material';
 import { Product } from '../../types/product.type';
-import Loader from '../ui/Loader';
+import ProductsSkeleton from '../Skeleton/ProductsSkeleton';
 
 type THomeProductProps = {
   product: Product[];
@@ -19,8 +19,8 @@ const HomeProducts: React.FC<THomeProductProps> = ({
     <div>
       {product?.length > 0 && (
         <>
-          {isLoading && <Loader />}
-          <div className="my-5 lg:my-10 container mx-auto">
+          {isLoading && <ProductsSkeleton />}
+          <div className="my-5 lg:my-10 container mx-auto px-2 xl:px-0">
             <Typography variant="h4" component={'h4'} className="text-bold">
               {title}
             </Typography>

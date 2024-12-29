@@ -16,10 +16,10 @@ import {
 import { useGetAllAvailableProductsQuery } from '../../redux/features/api/products/products.api';
 import ProductCard from '../../components/ui/ProductCard';
 import { useSearchParams } from 'react-router-dom';
-import Loader from '../../components/ui/Loader';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
 import Title from '../../components/helmet/Title';
+import ProductsSkeleton from '../../components/Skeleton/ProductsSkeleton';
 
 const AllProducts: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -61,9 +61,8 @@ const AllProducts: React.FC = () => {
   const meta = data?.data?.meta;
 
   return (
-    <div className="container mx-auto px-2  ">
+    <div className="container mx-auto  px-4 sm:px-6  ">
       <Title title="All Products" content="This is all products page." />
-      {isLoading || (isFetching && <Loader />)}
       <Typography
         variant="h4"
         className="text-center my-5 lg:my-10"
@@ -175,17 +174,21 @@ const AllProducts: React.FC = () => {
         </CardContent>
       </Card>
 
-      <div className="my-5 lg:my-10">
-        <Box>
-          <Grid container spacing={2}>
-            {data?.data?.data?.map((p: any, index: number) => (
-              <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
-                <ProductCard product={p} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </div>
+      {isLoading || isFetching ? (
+        <ProductsSkeleton />
+      ) : (
+        <div className="my-5 lg:my-10">
+          <Box>
+            <Grid container spacing={2}>
+              {data?.data?.data?.map((p: any, index: number) => (
+                <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
+                  <ProductCard product={p} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </div>
+      )}
 
       {data?.data?.data?.length === 0 && (
         <div className="text-center py-16">

@@ -32,7 +32,6 @@ import AdminAddCategory from '../pages/dashboard/admin/AdminAddCategory';
 import AdminAddCoupon from '../pages/dashboard/admin/AdminAddCoupon';
 import AdminAllCoupon from '../pages/dashboard/admin/AdminAllCoupon';
 import AdminAllReviews from '../pages/dashboard/admin/AdminAllReviews';
-import MyRecentProducts from '../pages/products/MyRecentProducts';
 import VendorAddProduct from '../pages/dashboard/vendor/VendorAddProduct';
 import VendorAddShop from '../pages/dashboard/vendor/VendorAddShop';
 import AdminAllOrders from '../pages/dashboard/admin/AdminAllOrders';
@@ -95,10 +94,6 @@ export const router = createBrowserRouter([
       {
         path: '/checkout',
         element: <Checkout />,
-      },
-      {
-        path: '/my-recent-products',
-        element: <MyRecentProducts />,
       },
       {
         path: '/comparison',

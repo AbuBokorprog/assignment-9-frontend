@@ -8,6 +8,7 @@ import {
   Divider,
   Grid,
   Rating,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -23,8 +24,9 @@ import ProductCard from '../../components/ui/ProductCard';
 import { Product } from '../../types/product.type';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { currentUser } from '../../redux/store';
-import Loader from '../../components/ui/Loader';
 import Title from '../../components/helmet/Title';
+import { Verified } from '@mui/icons-material';
+import ShopDetailsSkeleton from '../../components/Skeleton/ShopDetailsSkeleton';
 
 const ShopDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -55,10 +57,8 @@ const ShopDetails: React.FC = () => {
     }
   };
 
-  const totalRating = shop?.reviews?.reduce(
-    (sum, item) => sum + item.rating,
-    0
-  );
+  const totalRating =
+    shop?.reviews?.reduce((sum, item) => sum + item.rating, 0) || 0;
 
   const reviewCount = shop?.reviews?.length || 0;
   const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
@@ -70,7 +70,7 @@ const ShopDetails: React.FC = () => {
         content={`This is ${shop?.shopName} details page.`}
       />
       {isLoading ? (
-        <Loader />
+        <ShopDetailsSkeleton />
       ) : (
         <Box className="container mx-auto px-2">
           <Card className="hover:shadow-lg transition-shadow">
@@ -86,13 +86,16 @@ const ShopDetails: React.FC = () => {
                   className="border-4 border-white shadow-md"
                 />
               </div>
-              <div className="absolute top-4 right-4">
-                <Chip
-                  label={shop?.isActive}
-                  color={shop?.isActive === 'APPROVED' ? 'success' : 'error'}
-                  size="small"
-                />
-              </div>
+              {shop.isActive === 'APPROVED' && (
+                <Tooltip title="Verified Seller">
+                  <Chip
+                    icon={<Verified className="text-primary-500" />}
+                    label="Verified"
+                    size="small"
+                    className="absolute top-4 right-4 bg-white"
+                  />
+                </Tooltip>
+              )}
             </div>
             <CardContent className="pt-8">
               <div className="flex justify-between items-start">

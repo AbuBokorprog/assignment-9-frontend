@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   return (
     <Box className="">
       <Title title="Home" content="This is home page." />
-      <Banner />
+      <Banner isLoading={isLoading} />
 
       <Categories />
       <HomeProducts

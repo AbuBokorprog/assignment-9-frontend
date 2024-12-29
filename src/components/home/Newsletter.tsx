@@ -7,7 +7,7 @@ const Newsletter: React.FC = () => {
       <div className="mx-auto container">
         <div className="lg:flex items-center w-full justify-between gap-5 mx-auto">
           <div className="lg:flex items-center gap-4 w-full lg:w-1/2 text-center lg:text-left">
-            <CiMail className="size-14 mx-auto" />
+            <CiMail className="size-14 mx-auto lg:mx-0" />
             <div>
               <h5 className="text-xl font-semibold">
                 Join our newsletter and get 20% discount for your first order

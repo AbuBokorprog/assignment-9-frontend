@@ -11,6 +11,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { Button, Card } from '@mui/material';
 import './Banner.css';
 import { Link } from 'react-router-dom';
+import BannerSkeleton from '../Skeleton/BannerSkeleton';
 // Banner images data
 const bannerImages = [
   {
@@ -63,63 +64,78 @@ const trustFeatures = [
   },
 ];
 
-const Banner: React.FC = () => {
+type TBannerProps = {
+  isLoading: boolean;
+};
+
+const Banner: React.FC<TBannerProps> = ({ isLoading }) => {
   return (
     <div className="container mx-auto">
       {/* Main Banner Slider */}
-      <div className="mb-5 lg:mb-10">
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={0}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          className=" overflow-hidden h-[300px] md:h-[500px]"
-        >
-          {bannerImages.map((banner) => (
-            <SwiperSlide key={banner.id}>
-              <div className="relative w-full h-full">
-                <img
-                  src={banner.image}
-                  alt={banner.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-white">
-                  <h2 className="text-4xl md:text-6xl font-bold mb-4">
-                    {banner.title}
-                  </h2>
-                  <p className="text-xl md:text-2xl mb-6">{banner.subtitle}</p>
-                  <Link to={'offer'}>
-                    <Button variant="contained" color="error">
-                      Shop Now
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
 
-      {/* Trust Features Section */}
-      <div className="hidden lg:block px-2">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4 ">
-          {trustFeatures.map((feature, index) => (
-            <Card
-              key={index}
-              className="flex flex-col items-center text-center p-4 transition-transform hover:transform hover:scale-105"
+      {isLoading ? (
+        <BannerSkeleton />
+      ) : (
+        <>
+          {' '}
+          <div className="mb-5 lg:mb-10">
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={0}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              className=" overflow-hidden h-[300px] md:h-[500px]"
             >
-              <div className="mb-3">{feature.icon}</div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-600 text-sm">{feature.description}</p>
-            </Card>
-          ))}
-        </div>
-      </div>
+              {bannerImages.map((banner) => (
+                <SwiperSlide key={banner.id}>
+                  <div className="relative w-full h-full">
+                    <img
+                      src={banner.image}
+                      alt={banner.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-white">
+                      <h2 className="text-4xl md:text-6xl font-bold mb-4">
+                        {banner.title}
+                      </h2>
+                      <p className="text-xl md:text-2xl mb-6">
+                        {banner.subtitle}
+                      </p>
+                      <Link to={'offer'}>
+                        <Button variant="contained" color="error">
+                          Shop Now
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          {/* Trust Features Section */}
+          <div className="hidden lg:block px-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4 ">
+              {trustFeatures.map((feature, index) => (
+                <Card
+                  key={index}
+                  className="flex flex-col items-center text-center p-4 transition-transform hover:transform hover:scale-105"
+                >
+                  <div className="mb-3">{feature.icon}</div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm">{feature.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

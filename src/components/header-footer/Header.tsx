@@ -23,7 +23,6 @@ import UserDropdown from '../ui/dropdown/UserDropdown';
 import { currentUser } from '../../redux/store';
 import { useAppSelector } from '../../redux/hooks/hooks';
 import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api';
-import Loader from '../ui/Loader';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
 import CallIcon from '@mui/icons-material/Call';
@@ -61,9 +60,8 @@ const Header: React.FC = () => {
     navigate(`/all-products/${search}`);
   };
 
-  const { data, isLoading } = useGetAllMyCartsQuery({});
-  const { data: categories, isLoading: categoryLoading } =
-    useGetAllCategoriesQuery({});
+  const { data } = useGetAllMyCartsQuery({});
+  const { data: categories } = useGetAllCategoriesQuery({});
   // const { data: profile, refetch } = useMyProfileQuery({});
   // const profilePhoto = profile?.data?.customer
   //   ? profile?.data?.customer?.profilePhoto
@@ -73,7 +71,6 @@ const Header: React.FC = () => {
 
   return (
     <AppBar position="sticky" className="bg-white shadow-md">
-      {isLoading || (categoryLoading && <Loader />)}
       {/* Large device */}
       <nav className="border-y hidden lg:block bg-secondary-50 text-black">
         {/* 1st layer */}

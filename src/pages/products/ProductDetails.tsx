@@ -28,7 +28,6 @@ import {
   useCreateRecentProductsMutation,
   useGetMyAllRecentProductsQuery,
 } from '../../redux/features/api/recently-viewed/recently-viewed.api';
-import Loader from '../../components/ui/Loader';
 import ProductCard from '../../components/ui/ProductCard';
 import CartAlertDialog from '../../components/ui/CartAlertDialog';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -39,6 +38,7 @@ import { TReview } from '../../types/review.type';
 import ReviewCard from '../../components/ui/ReviewCard';
 import Title from '../../components/helmet/Title';
 import { TRecentProduct } from '../../types/product.type';
+import DetailsSkeleton from '../../components/Skeleton/DetailsSkeleton';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -171,6 +171,7 @@ const ProductDetails = () => {
 
   const reviewCount = product?.reviews?.length || 0;
   const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
+
   return (
     <>
       <Title
@@ -178,7 +179,7 @@ const ProductDetails = () => {
         content={`This is ${product?.name} details page.`}
       />
       {isLoading || loadingData ? (
-        <Loader />
+        <DetailsSkeleton />
       ) : (
         <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Product Main Section */}

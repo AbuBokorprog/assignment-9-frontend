@@ -195,14 +195,14 @@ const Header: React.FC = () => {
             </div>
             {/* menu items */}
             <div>
-              <ul className="flex items-center mx-auto gap-5 font-medium">
+              <ul className="flex items-center mx-auto gap-5 text-xl font-medium">
                 {menuItems2?.map((n) => (
                   <li key={n?.title}>
                     <NavLink
                       className={({ isActive }) =>
                         isActive
-                          ? 'text-primary-400 bg-white px-4 py-2 rounded-md shadow-md'
-                          : 'px-4 py-2 rounded-md shadow-md bg-white text-secondary-950'
+                          ? ' text-black font-medium'
+                          : 'font-medium text-white'
                       }
                       to={n?.path}
                     >

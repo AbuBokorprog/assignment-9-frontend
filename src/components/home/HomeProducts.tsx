@@ -16,14 +16,14 @@ const HomeProducts: React.FC<THomeProductProps> = ({
   title,
 }) => {
   return (
-    <div className="px-2">
+    <div className="px-2 my-5 lg:my-10 container mx-auto">
       {isLoading ? (
         <ProductsSkeleton />
       ) : (
         <>
           {product?.length > 0 && (
             <>
-              <div className="my-5 lg:my-10 container mx-auto ">
+              <div className=" ">
                 <Typography variant="h4" component={'h4'} className="text-bold">
                   {title}
                 </Typography>

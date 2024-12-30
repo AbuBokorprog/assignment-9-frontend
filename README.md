@@ -8,6 +8,7 @@ The E-Commerce Application is a scalable, high-performance platform for online s
 
 - [Backend](https://bazaar-bridge.vercel.app/)
 - [Frontend](https://bazaar-bridge-front.vercel.app/)
+- [Dashboard](https://bazaar-bridge-front.vercel.app/)
 
 ---
 

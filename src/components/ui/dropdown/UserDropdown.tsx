@@ -76,7 +76,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto">
-            {user?.role === 'CUSTOMER' ? (
+            {user?.email && (
               <>
                 {/* User Profile Section */}
                 <div className="p-4 bg-gray-50">
@@ -131,81 +131,6 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
                   </Link>
                   <Link
                     to="/settings"
-                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <SettingsIcon className="mr-3 h-5 w-5 text-gray-500" />
-                    <span>Settings</span>
-                  </Link>
-                </div>
-              </>
-            ) : user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? (
-              <>
-                {/* User Profile Section */}
-                <div className="p-4 bg-gray-50">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src={user.email}
-                      alt={user.name}
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Menu Items */}
-                <div className="p-2">
-                  <Link
-                    to="/dashboard/my-profile"
-                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <PersonIcon className="mr-3 h-5 w-5 text-gray-500" />
-                    <span>My Profile</span>
-                  </Link>
-
-                  <Link
-                    to="/dashboard/admin-dashboard"
-                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <SettingsIcon className="mr-3 h-5 w-5 text-gray-500" />
-                    <span>Settings</span>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* User Profile Section */}
-                <div className="p-4 bg-gray-50">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src={user?.email}
-                      alt={user?.name}
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                      <p className="font-medium text-gray-900">{user?.name}</p>
-                      <p className="text-sm text-gray-500">{user?.email}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Menu Items */}
-                <div className="p-2">
-                  <Link
-                    to="/dashboard/my-profile"
-                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    // onClick={() => setIsOpen(false)}
-                  >
-                    <PersonIcon className="mr-3 h-5 w-5 text-gray-500" />
-                    <span>My Profile</span>
-                  </Link>
-
-                  <Link
-                    to="/dashboard/vendor-dashboard"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
                     onClick={() => setIsOpen(false)}
                   >

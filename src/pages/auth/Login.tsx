@@ -68,13 +68,7 @@ const Login: React.FC = () => {
         );
         toast.success(res?.message, { id: tokenId, duration: 200 });
 
-        if (res?.data?.role === 'ADMIN' || res?.data?.role === 'SUPER_ADMIN') {
-          navigate('/dashboard/admin-dashboard');
-        } else if (res?.data?.role === 'VENDOR') {
-          navigate('/dashboard/vendor-dashboard');
-        } else {
-          navigate('/');
-        }
+        navigate('/');
 
         reset();
       }
@@ -108,13 +102,7 @@ const Login: React.FC = () => {
         );
         toast.success(res?.message, { id: tokenId, duration: 200 });
 
-        if (res?.data?.role === 'ADMIN' || res?.data?.role === 'SUPER_ADMIN') {
-          navigate('/dashboard/admin-dashboard');
-        } else if (res?.data?.role === 'VENDOR') {
-          navigate('/dashboard/vendor-dashboard');
-        } else {
-          navigate('/');
-        }
+        navigate('/');
 
         reset();
       }
@@ -129,149 +117,146 @@ const Login: React.FC = () => {
   return (
     <>
       <Title title="Login" content="This is login page." />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-md">
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Sign in to your account
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Or{' '}
-              <Link
-                to="/register"
-                className="font-medium text-primary-600 hover:text-primary-500"
-              >
-                create a new account
-              </Link>
-            </p>
-          </div>
-
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-              <div className="my-5 mx-auto flex items-center justify-center gap-4">
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    easyLoginHandler({
-                      email: 'customer@gmail.com',
-                      password: '12345678',
-                    })
-                  }
-                >
-                  User
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    easyLoginHandler({
-                      email: 'admin@gmail.com',
-                      password: '12345678',
-                    })
-                  }
-                >
-                  Admin
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() =>
-                    easyLoginHandler({
-                      email: 'alex@gmail.com',
-                      password: '12345678',
-                    })
-                  }
-                >
-                  Vendor
-                </Button>
-              </div>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <TextField
-                    fullWidth
-                    label="Email address"
-                    {...register('email')}
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Email className="text-gray-400" />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <TextField
-                    fullWidth
-                    label="Password"
-                    type={showPassword ? 'text' : 'password'}
-                    {...register('password')}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Lock className="text-gray-400" />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-2 block text-sm text-gray-900"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-
-                  <div className="text-sm">
-                    <Button
-                      variant="text"
-                      onClick={() => setOpen(true)}
-                      className="font-medium text-primary-600 hover:text-primary-500"
-                    >
-                      Forgot your password?
-                    </Button>
-                  </div>
-                </div>
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  className="bg-primary-600 hover:bg-primary-700 text-white py-2"
-                >
-                  Sign in
-                </Button>
-              </form>
-            </div>
-            <ForgotPassword open={open} setOpen={setOpen} />
-          </div>
+      {isLoading && <Loader />}
+      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{' '}
+            <Link
+              to="/register"
+              className="font-medium text-primary-600 hover:text-primary-500"
+            >
+              create a new account
+            </Link>
+          </p>
         </div>
-      )}
+
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
+          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="my-5 mx-auto flex items-center justify-center gap-4">
+              <Button
+                variant="contained"
+                onClick={() =>
+                  easyLoginHandler({
+                    email: 'customer@gmail.com',
+                    password: '12345678',
+                  })
+                }
+              >
+                User
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  easyLoginHandler({
+                    email: 'admin@gmail.com',
+                    password: '12345678',
+                  })
+                }
+              >
+                Admin
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  easyLoginHandler({
+                    email: 'alex@gmail.com',
+                    password: '12345678',
+                  })
+                }
+              >
+                Vendor
+              </Button>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <TextField
+                  fullWidth
+                  label="Email address"
+                  {...register('email')}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Email className="text-gray-400" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+
+              <div>
+                <TextField
+                  fullWidth
+                  label="Password"
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock className="text-gray-400" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  />
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Remember me
+                  </label>
+                </div>
+
+                <div className="text-sm">
+                  <Button
+                    variant="text"
+                    onClick={() => setOpen(true)}
+                    className="font-medium text-primary-600 hover:text-primary-500"
+                  >
+                    Forgot your password?
+                  </Button>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className="bg-primary-600 hover:bg-primary-700 text-white py-2"
+              >
+                Sign in
+              </Button>
+            </form>
+          </div>
+          <ForgotPassword open={open} setOpen={setOpen} />
+        </div>
+      </div>
     </>
   );
 };

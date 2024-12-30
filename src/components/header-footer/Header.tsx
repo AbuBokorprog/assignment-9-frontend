@@ -130,6 +130,12 @@ const Header: React.FC = () => {
               <p>+8801885236058</p>
             </div>
           </div>
+          <Link
+            to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
+            target="_blank"
+          >
+            <Button variant="contained">Become a vendor</Button>
+          </Link>
           <div
             className="relative inline-block text-left px-2"
             onMouseLeave={() => setIsOpenCart(false)}
@@ -439,6 +445,16 @@ const Header: React.FC = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <ListItemText primary={'About'} />
+              </ListItem>
+              <ListItem>
+                <Link
+                  to={
+                    'https://bazaar-bridge-dashboard.vercel.app/become-vendor'
+                  }
+                  target="_blank"
+                >
+                  <Button variant="contained">Become a vendor</Button>
+                </Link>
               </ListItem>
             </List>
           </Box>

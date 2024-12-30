@@ -45,7 +45,7 @@ const ShopDetailsSkeleton: React.FC = () => {
       <Divider />
       {/* Products */}
       <Box>
-        <Skeleton width={250} className="text-center my-5 lg:my-10" />
+        <Skeleton width={250} className="text-center my-10 lg:my-16" />
 
         <ProductsSkeleton />
       </Box>

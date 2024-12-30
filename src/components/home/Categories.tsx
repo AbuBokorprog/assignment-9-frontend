@@ -17,8 +17,8 @@ const Categories: React.FC = () => {
         <TopCategoriesSkeleton />
       ) : (
         data?.data?.length > 0 && (
-          <div className="my-5 lg:my-10 container mx-auto px-2">
-            <h3 className="my-5 lg:my-10 text-center uppercase text-xl lg:text-3xl font-semibold">
+          <div className="my-10 lg:my-16 container mx-auto px-2">
+            <h3 className="my-10 lg:my-16 text-center uppercase text-xl lg:text-3xl font-semibold">
               Top Categories
             </h3>
 

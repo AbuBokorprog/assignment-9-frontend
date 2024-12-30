@@ -149,7 +149,7 @@ const Checkout = () => {
           <Typography
             variant="h4"
             gutterBottom
-            className="text-center my-5 lg:my-10"
+            className="text-center my-10 lg:my-16"
           >
             Checkout
           </Typography>

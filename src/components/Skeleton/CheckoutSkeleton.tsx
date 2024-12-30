@@ -3,7 +3,7 @@ import { Skeleton } from '@mui/material';
 
 const CheckoutSkeleton = () => {
   return (
-    <section className="my-5 lg:my-10 container mx-auto">
+    <section className="my-10 lg:my-16 container mx-auto">
       <form className="lg:flex justify-between items-start gap-5 mx-auto min-h-full">
         <div className="w-full xl:w-2/3 rounded-md bg-white shadow-xl py-2 lg:py-10 px-2 lg:px-6 my-6 lg:my-0">
           <h3 className="text-xl lg:text-2xl font-semibold py-2">

@@ -6,8 +6,8 @@ import { Skeleton } from '@mui/material';
 
 const TopCategoriesSkeleton = () => {
   return (
-    <div className="my-5 lg:my-10 container mx-auto">
-      <Skeleton width={200} height={60} className="my-5 lg:my-10 mx-auto" />
+    <div className="my-10 lg:my-16 container mx-auto">
+      <Skeleton width={200} height={60} className="my-10 lg:my-16 mx-auto" />
 
       <div>
         <>

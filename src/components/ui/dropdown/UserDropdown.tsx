@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../../redux/features/auth-slice/AuthSlice';
 import { LuGitCompare } from 'react-icons/lu';
 import { useMyProfileQuery } from '../../../redux/features/api/users/user.api';
+import { UserRole } from '../../../utils/UserRole';
+import { Dashboard } from '@mui/icons-material';
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -95,6 +97,17 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, setIsOpen }) => {
 
                 {/* Menu Items */}
                 <div className="p-2">
+                  {user?.role !== UserRole.customer && (
+                    <Link
+                      to={
+                        'https://bazaar-bridge-dashboard.vercel.app/become-vendor'
+                      }
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <Dashboard className="mr-3 h-5 w-5 text-gray-500" />
+                      <span>Dashboard</span>
+                    </Link>
+                  )}
                   <Link
                     to="/dashboard/my-profile"
                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"

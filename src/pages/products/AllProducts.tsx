@@ -82,13 +82,13 @@ const AllProducts: React.FC = () => {
       <Title title="All Products" content="This is all products page." />
       <Typography
         variant="h4"
-        className="hidden lg:block text-center my-5 lg:my-10"
+        className="hidden lg:block text-center my-10 lg:my-16"
         gutterBottom
       >
         All Products
       </Typography>
 
-      <div className="lg:hidden block  my-5 lg:my-10">
+      <div className="lg:hidden block  my-10 lg:my-16">
         <div className="flex items-center justify-between">
           <Typography
             variant="h5"

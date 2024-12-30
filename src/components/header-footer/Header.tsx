@@ -134,7 +134,9 @@ const Header: React.FC = () => {
             to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
             target="_blank"
           >
-            <Button variant="contained">Become a vendor</Button>
+            <Button variant="contained" size="small">
+              Become a vendor
+            </Button>
           </Link>
           <div
             className="relative inline-block text-left px-2"
@@ -453,7 +455,9 @@ const Header: React.FC = () => {
                   }
                   target="_blank"
                 >
-                  <Button variant="contained">Become a vendor</Button>
+                  <Button variant="contained" size="small">
+                    Become a vendor
+                  </Button>
                 </Link>
               </ListItem>
             </List>

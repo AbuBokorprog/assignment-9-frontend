@@ -450,7 +450,7 @@ const ProductDetails = () => {
               <Typography
                 variant="h4"
                 component={'h4'}
-                className="my-5 lg:my-10"
+                className="my-10 lg:my-16"
               >
                 Related Products
               </Typography>
@@ -470,7 +470,7 @@ const ProductDetails = () => {
               <Typography
                 variant="h4"
                 component={'h4'}
-                className="my-5 lg:my-10"
+                className="my-10 lg:my-16"
               >
                 Recently viewed Products
               </Typography>

@@ -17,7 +17,7 @@ const ContactUs: React.FC = () => {
     <>
       <Title title="Contact us" content="This is contact us page." />
       {/* <!-- contact us section --> */}
-      <section className="my-5 lg:my-10 container mx-auto px-2">
+      <section className="my-10 lg:my-16 container mx-auto px-2">
         <h2 className="text-center text-xl lg:text-5xl font-medium">
           Contact Us
         </h2>

@@ -65,7 +65,7 @@ const trustFeatures = [
 
 const Banner: React.FC = () => {
   return (
-    <div className="container mx-auto">
+    <div className=" mx-auto">
       <div className="mb-5 lg:mb-10">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}

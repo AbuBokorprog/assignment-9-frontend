@@ -18,7 +18,7 @@ const AllCoupon: React.FC = () => {
       <Title title="All Coupon" content="This is all coupon page." />
       {isLoading && <Loader />}
       <div className=" mx-auto">
-        <h3 className="text-xl lg:text-3xl font-semibold my-5 lg:my-10 text-center uppercase">
+        <h3 className="text-xl lg:text-3xl font-semibold my-10 lg:my-16 text-center uppercase">
           Exclusive Discounts & Coupons.
         </h3>
         <div className="mb-5 lg:mb-10">

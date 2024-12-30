@@ -7,7 +7,7 @@ const TermsCondition: React.FC = () => {
   }, []);
 
   return (
-    <section className="container mx-auto my-5 lg:my-10 px-2">
+    <section className="container mx-auto my-10 lg:my-16 px-2">
       <Title
         title="Terms & Condition"
         content="This is terms & condition page."

@@ -16,14 +16,14 @@ const HomeProducts: React.FC<THomeProductProps> = ({
   title,
 }) => {
   return (
-    <div className="px-2 my-5 lg:my-10 container mx-auto">
+    <div className="px-2 container mx-auto">
       {isLoading ? (
         <ProductsSkeleton />
       ) : (
         <>
           {product?.length > 0 && (
             <>
-              <div className=" ">
+              <div className="my-10 lg:my-16">
                 <Typography variant="h4" component={'h4'} className="text-bold">
                   {title}
                 </Typography>
@@ -34,7 +34,7 @@ const HomeProducts: React.FC<THomeProductProps> = ({
                     <ProductCard product={p} />
                   </Grid>
                 ))}
-              </Grid>{' '}
+              </Grid>
             </>
           )}
         </>

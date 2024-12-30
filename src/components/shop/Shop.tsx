@@ -52,7 +52,7 @@ const Shop: React.FC = () => {
         {/* Hero Section */}
         <Typography
           variant="h4"
-          className="text-center font-bold my-5 lg:my-10"
+          className="text-center font-bold my-10 lg:my-16"
           gutterBottom
         >
           All Shops
@@ -102,7 +102,7 @@ const Shop: React.FC = () => {
         {isLoading || isFetching ? (
           <ShopsSkeleton />
         ) : (
-          <div className="my-5 lg:my-10">
+          <div className="my-10 lg:my-16">
             <Box>
               <Grid container spacing={2}>
                 {data?.data?.data?.map((shop: TShop, index: number) => (

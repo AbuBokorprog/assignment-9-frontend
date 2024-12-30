@@ -28,7 +28,7 @@ const SearchProducts = () => {
         content={`This is ${searchTerm} products page.`}
       />
       {(isLoading || isFetching) && <Loader />}
-      <div className="my-5 lg:my-10">
+      <div className="my-10 lg:my-16">
         <Box>
           <Grid container spacing={2}>
             {data?.data?.data?.map((p: any, index: number) => (

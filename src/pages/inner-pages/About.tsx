@@ -71,7 +71,7 @@ const About: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="container mx-auto my-5 lg:my-10 px-2">
+    <div className="container mx-auto my-10 lg:my-16 px-2">
       <Title title="About" content="This is about page." />
       {/* Hero Section */}
       <div className="text-center mb-16">

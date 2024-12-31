@@ -104,7 +104,7 @@ const Banner: React.FC = () => {
         </Swiper>
       </div>
       {/* Trust Features Section */}
-      <div className="hidden lg:block px-2">
+      <div className="hidden lg:block px-2 container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-4 ">
           {trustFeatures.map((feature, index) => (
             <Card

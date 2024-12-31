@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
-  AppBar,
   Box,
   Badge,
   Button,
@@ -26,13 +25,13 @@ import { useGetAllMyCartsQuery } from '../../redux/features/api/carts/carts.api'
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { TCategory } from '../../types/categories.type';
 import CallIcon from '@mui/icons-material/Call';
-// import { useMyProfileQuery } from '../../redux/features/api/users/user.api';
 
 const Header: React.FC = () => {
   const user: any = useAppSelector(currentUser);
 
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scroll, setScroll] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -69,91 +68,187 @@ const Header: React.FC = () => {
   //   ? profile?.data?.vendor?.profilePhoto
   //   : profile?.data?.admin?.profilePhoto;
 
+  window.addEventListener('scroll', () => {
+    const height = window.scrollY;
+
+    if (height >= 100) {
+      setScroll(true);
+    } else {
+      setScroll(false);
+    }
+  });
+
   return (
-    <AppBar position="sticky" className="bg-white shadow-md">
+    <div className="bg-white shadow-md">
       {/* Large device */}
       <nav className="border-y hidden lg:block bg-secondary-50 text-black">
-        {/* 1st layer */}
-        <div className="flex items-center justify-between mx-auto container px-2 gap-4 py-2">
-          <Link to={'/'}>
-            <img
-              src="/images/bazaar-bridge.png"
-              alt="logo"
-              className="size-24"
-            />
-          </Link>
-          <div className="">
-            <form
-              className="pt-2 flex items-center mx-auto"
-              onSubmit={searchHandler}
-            >
-              <label htmlFor="search" className="sr-only">
-                Search
-              </label>
-              <div className="relative">
-                <TextField
-                  type="text"
-                  id="search"
-                  className="xl:w-[600px] lg:w-[400px] bg-secondary-50 border border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5"
-                  placeholder="Search..."
-                  required
-                />
-              </div>
-              <Button
-                type="submit"
-                variant="outlined"
-                className="inline-flex items-center py-3.5 px-3 ms-2"
+        <div className={``}>
+          {/* 1st layer */}
+          <div className="flex items-center justify-between mx-auto container px-2 gap-4">
+            <Link to={'/'}>
+              <img
+                src="/images/bazaar-bridge.png"
+                alt="logo"
+                className="size-24"
+              />
+            </Link>
+            <div className="">
+              <form
+                className="pt-2 flex items-center mx-auto"
+                onSubmit={searchHandler}
               >
-                <svg
-                  className="w-4 h-4 me-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                <label htmlFor="search" className="sr-only">
+                  Search
+                </label>
+                <div className="relative">
+                  <TextField
+                    type="text"
+                    id="search"
+                    className="xl:w-[600px] lg:w-[400px] bg-secondary-50 border border-secondary-300 text-secondary-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5"
+                    placeholder="Search..."
+                    required
                   />
-                </svg>
-                Search
+                </div>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  className="inline-flex items-center py-3.5 px-3 ms-2"
+                >
+                  <svg
+                    className="w-4 h-4 me-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                  Search
+                </Button>
+              </form>
+            </div>
+            <div className="flex items-center gap-4">
+              <CallIcon className="size-8" />
+              <div>
+                <p>Hotline Number</p>
+                <p>+8801885236058</p>
+              </div>
+            </div>
+            <Link
+              to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
+              target="_blank"
+            >
+              <Button variant="contained" size="small">
+                Become a vendor
               </Button>
-            </form>
-          </div>
-          <div className="flex items-center gap-4">
-            <CallIcon className="size-8" />
-            <div>
-              <p>Hotline Number</p>
-              <p>+8801885236058</p>
+            </Link>
+            <div
+              className="relative inline-block text-left px-2"
+              onMouseLeave={() => setIsOpenCart(false)}
+            >
+              <button onMouseEnter={() => setIsOpenCart(true)}>
+                <Badge badgeContent={data?.data?.length} color="primary">
+                  <ShoppingCartIcon className="size-8" />
+                </Badge>
+              </button>
+              <div className="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
+                <CartDropdown isOpen={isOpenCart} setIsOpen={setIsOpenCart} />
+              </div>
             </div>
           </div>
-          <Link
-            to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
-            target="_blank"
-          >
-            <Button variant="contained" size="small">
-              Become a vendor
-            </Button>
-          </Link>
-          <div
-            className="relative inline-block text-left px-2"
-            onMouseLeave={() => setIsOpenCart(false)}
-          >
-            <button onMouseEnter={() => setIsOpenCart(true)}>
-              <Badge badgeContent={data?.data?.length} color="primary">
-                <ShoppingCartIcon className="size-8" />
-              </Badge>
-            </button>
-            <div className="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white focus:outline-none z-30">
-              <CartDropdown isOpen={isOpenCart} setIsOpen={setIsOpenCart} />
+          {/* 2nd layer */}
+          <div className="bg-primary-500 py-3 px-2">
+            <div className="container mx-auto flex items-center justify-between gap-10">
+              {/* categories list dropdown */}
+              <div
+                className="relative"
+                onMouseLeave={() => setIsCategoryOpen(false)}
+              >
+                <Button
+                  onMouseEnter={() => setIsCategoryOpen(true)}
+                  variant="contained"
+                  type="button"
+                  color="secondary"
+                  className="space-x-20"
+                >
+                  <span>Categories</span>
+                  <svg
+                    className="w-2.5 h-2.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </Button>
+
+                <div
+                  onMouseLeave={() => setIsCategoryOpen(false)}
+                  className="absolute w-full bg-white"
+                >
+                  {/* <!-- Dropdown menu --> */}
+                  <div>{isCategoryOpen && <CategoriesList />}</div>
+                </div>
+              </div>
+              {/* menu items */}
+              <div>
+                <ul className="flex items-center mx-auto gap-5 text-xl font-medium">
+                  {menuItems2?.map((n) => (
+                    <li key={n?.title}>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? ' text-black font-medium'
+                            : 'font-medium text-white'
+                        }
+                        to={n?.path}
+                      >
+                        {n?.title}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* user dropdown */}
+              {user?.email ? (
+                <div className="flex items-center md:order-2 rtl:space-x-reverse ">
+                  <div className="">
+                    <UserDropdown
+                      isOpen={isUserDropdownOpen}
+                      setIsOpen={setIsUserDropdownOpen}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Link to={'/login'}>
+                  <Button variant="contained" color="secondary">
+                    Login
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
-        {/* 2nd layer */}
-        <div className="bg-primary-500 py-3 px-2">
+
+        {/* fixed navbar */}
+        <div
+          className={`bg-primary-500 py-3 px-2 fixed top-0 left-0 right-0 z-30 ${
+            scroll ? 'block' : 'hidden'
+          }`}
+        >
           <div className="container mx-auto flex items-center justify-between gap-10">
             {/* categories list dropdown */}
             <div
@@ -234,7 +329,7 @@ const Header: React.FC = () => {
       </nav>
 
       {/*Navbar for small device */}
-      <nav className="block lg:hidden text-black">
+      <nav className="block lg:hidden text-black fixed top-0 left-0 right-0 z-50">
         {/* top navbar */}
         <div className=" bg-white border">
           <div className="w-full flex items-center py-2 justify-between ">
@@ -464,7 +559,7 @@ const Header: React.FC = () => {
           </Box>
         </Drawer>
       </nav>
-    </AppBar>
+    </div>
   );
 };
 

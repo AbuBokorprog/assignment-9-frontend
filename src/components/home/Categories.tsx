@@ -2,7 +2,6 @@ import React from 'react';
 import { useGetAllCategoriesQuery } from '../../redux/features/api/categories/catgeories.api';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
-// import './categories.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,7 @@ const Categories: React.FC = () => {
       ) : (
         data?.data?.length > 0 && (
           <div className="my-10 lg:my-16 container mx-auto px-2">
-            <h3 className="my-10 lg:my-16 text-center uppercase text-xl lg:text-3xl font-semibold">
+            <h3 className="my-10 lg:my-16 uppercase text-xl lg:text-3xl font-semibold">
               Top Categories
             </h3>
 

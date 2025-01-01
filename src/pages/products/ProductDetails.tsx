@@ -358,7 +358,11 @@ const ProductDetails = () => {
                       Product Description
                     </Typography>
                     <Typography variant="body1" paragraph>
-                      {product?.description}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: product?.description,
+                        }}
+                      />
                     </Typography>
                   </Grid>
                 </Grid>

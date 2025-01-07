@@ -29,7 +29,7 @@ const HomeProducts: React.FC<THomeProductProps> = ({
                 </Typography>
               </div>
               <Grid container spacing={2} className="mb-5 lg:mb-10">
-                {product?.slice(0, 12)?.map((p: Product, index: number) => (
+                {product?.map((p: Product, index: number) => (
                   <Grid item xl={2} lg={3} md={4} sm={4} xs={6} key={index}>
                     <ProductCard product={p} />
                   </Grid>

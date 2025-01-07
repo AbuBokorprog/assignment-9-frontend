@@ -140,14 +140,17 @@ const Header: React.FC = () => {
                 <p>+8801885236058</p>
               </div>
             </div>
-            <Link
-              to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
-              target="_blank"
-            >
-              <Button variant="contained" size="small">
-                Become a vendor
-              </Button>
-            </Link>
+            {user?.role == 'CUSTOMER' && (
+              <Link
+                to={'https://bazaar-bridge-dashboard.vercel.app/become-vendor'}
+                target="_blank"
+              >
+                <Button variant="contained" size="small">
+                  Become a vendor
+                </Button>
+              </Link>
+            )}
+
             <div
               className="relative inline-block text-left px-2"
               onMouseLeave={() => setIsOpenCart(false)}

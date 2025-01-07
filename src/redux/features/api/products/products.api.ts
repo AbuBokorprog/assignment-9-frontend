@@ -70,7 +70,7 @@ export const productsApi = baseApi.injectEndpoints({
     }),
     getAllHomeProducts: builder.query({
       query: () => ({
-        url: '/products/all-products/home-products',
+        url: '/products/all-products/home/home-products',
         method: 'GET',
       }),
       providesTags: ['products'],

@@ -9,9 +9,9 @@ import {
 import { RootState } from '../../store';
 
 // Define a service using a base URL and expected endpoints
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api',
+  baseUrl: `${baseUrl}/api`,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;

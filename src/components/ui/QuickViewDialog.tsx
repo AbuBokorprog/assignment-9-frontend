@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import QuickOrder from '../products/QuickOrder';
-import { Link } from 'react-router-dom';
 import ReactImageGallery from 'react-image-gallery';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -99,12 +98,9 @@ const QuickViewDialog: React.FC<QuickViewDialogProps> = ({ children, id }) => {
   const avgRating = reviewCount > 0 ? totalRating / reviewCount : 0;
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        {children}
-      </Button>
+      <button onClick={handleClickOpen}>{children}</button>
       <Dialog
-        fullScreen
-        maxWidth="xl"
+        maxWidth="lg"
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
@@ -243,23 +239,6 @@ const QuickViewDialog: React.FC<QuickViewDialogProps> = ({ children, id }) => {
                 </Stack>
 
                 <Divider sx={{ my: 3 }} />
-
-                <div>
-                  <p>
-                    Shop Name:{' '}
-                    <Link to={`/shop-details/${product?.shop?.shopName}`}>
-                      {product?.shop?.shopName}
-                    </Link>{' '}
-                  </p>
-                  <p>
-                    Categories:{' '}
-                    <Link
-                      to={`/all-products/?category=${product?.category?.name}`}
-                    >
-                      {product?.category?.name}
-                    </Link>{' '}
-                  </p>
-                </div>
               </Box>
             </Grid>
           </Grid>

@@ -22,6 +22,7 @@ import {
 import { Product } from '../../types/product.type';
 import { LuGitCompare } from 'react-icons/lu';
 import { useCreateCompareMutation } from '../../redux/features/api/compare/compare.api';
+import QuickViewDialog from './QuickViewDialog';
 
 interface ProductCardProps {
   product: Product;
@@ -109,17 +110,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Quick action buttons */}
         <div className="absolute right-2 top-2 flex flex-col gap-2 transform translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-300 transition-all">
-          <Tooltip title="Quick view" placement="left">
-            <IconButton
-              size="small"
-              className="bg-white hover:bg-primary-500 hover:text-white"
-              onClick={() => {
-                /* Handle quick view */
-              }}
-            >
-              <VisibilityIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+          <QuickViewDialog id={product?.id}>
+            <Tooltip title="Quick view" placement="left">
+              <IconButton
+                size="small"
+                className="bg-white hover:bg-primary-500 hover:text-white"
+              >
+                <VisibilityIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </QuickViewDialog>
 
           <Tooltip
             title={

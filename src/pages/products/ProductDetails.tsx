@@ -468,7 +468,7 @@ const ProductDetails = () => {
               </Grid>
             </Box>
           )}
-          {/* Related products */}
+          {/* Viewed products */}
           {RecentProducts?.data?.length > 0 && user?.role === 'CUSTOMER' && (
             <Box>
               <Typography
